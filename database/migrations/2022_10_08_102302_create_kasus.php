@@ -14,13 +14,14 @@ class CreateKasus extends Migration
     public function up()
     {
         Schema::create('kasus', function (Blueprint $table) {
-            $table->id();
+            $table->id_kasus();
             $table->timestamps();
             $table->string('nama_kasus');
             $table->string('deskripsi_kasus');
             $table->string('status_kasus');
             $table->string('Level_kasus');
-            $table->string('id_peawai_pic');
+            $table->string('id_pegawai_pic');
+            $table->timestamp('created_at')->nullable();
         });
     }
 

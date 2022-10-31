@@ -19,6 +19,7 @@ class CreatePegawai extends Migration
             $table->string('nrp');
             $table->integer('id_pangkat');
             $table->string('id_jabatan');
+            $table->timestamp('created_at')->nullable();
         });
     }
 

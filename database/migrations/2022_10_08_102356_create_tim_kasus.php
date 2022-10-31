@@ -17,6 +17,7 @@ class CreateTimKasus extends Migration
             $table->id();
             $table->integer('id_kasus');
             $table->integer('id_pegawai_anggota');
+            $table->timestamp('created_at')->nullable();
         });
     }
 

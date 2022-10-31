@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatStatusKasus extends Migration
+class CreatePelaporFile extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreatStatusKasus extends Migration
      */
     public function up()
     {
-        Schema::create('status_kasus', function (Blueprint $table) {
+        Schema::create('pelapor_file', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
-            $table->string('level_Urgensi');
-
+            $table->integer('id_kasus');
+            $table->string('parth_file');
+            $table->timestamp('created_at')->nullable();
         });
+
     }
 
     /**
