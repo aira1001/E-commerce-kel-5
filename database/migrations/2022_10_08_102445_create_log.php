@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddTimestampToLogTable extends Migration
+class CreateLog extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,14 @@ class AddTimestampToLogTable extends Migration
      */
     public function up()
     {
-        Schema::table('log', function (Blueprint $table) {
+        Schema::create('log', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('id_kasus')->nullable();
+            $table->unsignedBigInteger('id_aktifitas')->nullable();
+            $table->unsignedBigInteger('id_user')->nullable();
             $table->timestamps();
         });
+
     }
 
     /**
@@ -25,8 +30,6 @@ class AddTimestampToLogTable extends Migration
      */
     public function down()
     {
-        Schema::table('log', function (Blueprint $table) {
-            $table->timestamps();
-        });
+        //
     }
 }

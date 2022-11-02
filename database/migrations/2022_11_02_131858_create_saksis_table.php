@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddIdUserToLogTable extends Migration
+class CreateSaksisTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class AddIdUserToLogTable extends Migration
      */
     public function up()
     {
-        Schema::table('log', function (Blueprint $table) {
-            $table->integer('id_user');
+        Schema::create('saksis', function (Blueprint $table) {
+            $table->bigIncrements("id_saksi")->unsigned();
+            $table->string("nama");
+            $table->integer("umur");
+            $table->string("asal");
         });
     }
 
@@ -25,8 +28,6 @@ class AddIdUserToLogTable extends Migration
      */
     public function down()
     {
-        Schema::table('log', function (Blueprint $table) {
-            $table->integer('id_user');
-        });
+        Schema::dropIfExists('saksis');
     }
 }

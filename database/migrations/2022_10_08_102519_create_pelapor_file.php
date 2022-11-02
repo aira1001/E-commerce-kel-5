@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatLog extends Migration
+class CreatePelaporFile extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreatLog extends Migration
      */
     public function up()
     {
-        Schema::create('log', function (Blueprint $table) {
+        Schema::create('pelapor_file', function (Blueprint $table) {
             $table->id();
             $table->integer('id_kasus');
-            $table->string('id_aktivitas');
+            $table->string('path_file');
         });
 
     }
