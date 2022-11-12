@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLetterReservationsTable extends Migration
+class CreateKasusReservationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,19 +13,19 @@ class CreateLetterReservationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('letter_reservations', function (Blueprint $table) {
+        Schema::create('kasus_reservations', function (Blueprint $table) {
             $table->bigIncrements("id_reservasi")->unsigned();
-            $table->unsignedBigInteger("id_pelapor");
+            $table->unsignedBigInteger("id_pelapor")->default(1);
+            $table->string("judul_kasus");
             $table->timestamp("waktu_kejadian");
             $table->text("tempat_kejadian");
             $table->string("terlapor");
             $table->string("korban");
             $table->text("bagaimana_terjadi");
-            $table->timestamp("tgl_lapor")->nullable();
-            $table->string("barang_bukti");
-            $table->unsignedBigInteger("id_saksi");
-            $table->text("uraian_singkat_kejadian");
-            $table->boolean("status");
+            $table->string("barang_bukti")->default("barang bukti 1");
+            // $table->unsignedBigInteger("id_saksi")->default(1);
+            $table->text("uraian_singkat_kejadian")->nullable();
+            $table->boolean("status")->default(false);
             $table->timestamps();
         });
     }
@@ -37,6 +37,6 @@ class CreateLetterReservationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('template_reservations');
+        Schema::dropIfExists('kasus_reservations');
     }
 }

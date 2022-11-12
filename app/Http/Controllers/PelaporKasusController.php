@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\PelaporKasus;
 
-class PelaporKasusControllers extends Controller
+class PelaporKasusController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -23,6 +23,12 @@ class PelaporKasusControllers extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    // public function show($id_pelapor)
+    // {
+    //     $pelapor_kasus = PelaporKasus::all();
+    // 	return view('pelapor_kasus', ['pelapor_kasus' => $pelapor_kasus]);
+    // }
+
     public function create()
     {
         return view('pelapor_kasus_create');
@@ -40,12 +46,14 @@ class PelaporKasusControllers extends Controller
     		'perihal' => 'required',
     		'deskripsi' => 'required',
     	]);
- 
-        PelaporKasus::create([
+
+        $pelapor_kasus = PelaporKasus::create([
+            'nama' => $request->nama,
     		'perihal' => $request->perihal,
     		'deskripsi' => $request->deskripsi,
     	]);
- 
+
+        $pelapor_kasus -> save();
     	return redirect('/pelapor_kasus');
     }
 
@@ -55,7 +63,7 @@ class PelaporKasusControllers extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    
+
      // public function show($id)
     // {
     //     //
@@ -67,9 +75,9 @@ class PelaporKasusControllers extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id_pelapor)
     {
-        $pelapor_kasus = PelaporKasus::find($id);
+        $pelapor_kasus = PelaporKasus::find($id_pelapor);
         return view('pelapor_kasus_edit', ['pelapor_kasus' => $pelapor_kasus]);
     }
 
@@ -80,14 +88,14 @@ class PelaporKasusControllers extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id_pelapor)
     {
         $this->validate($request,[
             'perihal' => 'required',
             'deskripsi' => 'required',
          ]);
-      
-         $pelapor_kasus = PelaporKasus::find($id);
+
+         $pelapor_kasus = PelaporKasus::find($id_pelapor);
          $pelapor_kasus->perihal = $request->perihal;
          $pelapor_kasus->deskripsi = $request->deskripsi;
          $pelapor_kasus->save();
@@ -100,10 +108,10 @@ class PelaporKasusControllers extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function delete($id)
+    public function destroy($id_pelapor)
     {
-        $pelapor_kasus = PelaporKasus::find($id);
+        $pelapor_kasus = PelaporKasus::find($id_pelapor);
         $pelapor_kasus->delete();
-        return redirect('/pelapor_kasus');
+        return redirect()->route('pelapor_kasus.index')->withSuccess(__('kasus delete successfully.'));
     }
 }

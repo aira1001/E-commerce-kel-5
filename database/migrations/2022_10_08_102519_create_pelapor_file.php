@@ -15,7 +15,7 @@ class CreatePelaporFile extends Migration
     {
         Schema::create('pelapor_file', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_kasus');
+            $table->unsignedBigInteger('id_kasus');
             $table->string('path_file');
         });
 

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePelaporKasus extends Migration
+class UpdateAndAddForeignKeyToPelaporFileTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class CreatePelaporKasus extends Migration
      */
     public function up()
     {
-        Schema::create('pelapor_kasus', function (Blueprint $table) {
-            $table->bigIncrements('id_pelapor')->unsigned();
-            $table->string('nama');
-            $table->string('perihal')->nullable();
-            $table->string('deskripsi')->nullable();
+        Schema::table('pelapor_file', function (Blueprint $table) {
+            $table->foreign("id_kasus")->references("id_reservasi")->on("kasus_reservations");
         });
     }
 
@@ -28,6 +25,8 @@ class CreatePelaporKasus extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pelapor_kasues');
+        Schema::table('pelapor_file', function (Blueprint $table) {
+            //
+        });
     }
 }

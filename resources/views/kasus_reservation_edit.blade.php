@@ -15,16 +15,16 @@
                     <a href="/pelapor_kasus" class="btn btn-primary">Kembali</a>
                     <br/>
                     <br/>
-                    
- 
-                    <form method="post" action="/pelapor_kasus/update/{{ $pelapor_kasus->id }}">
- 
+
+
+                    <form method="post" action="/pelapor_kasus/update/{{ $pelapor_kasus->id_pelapor}}">
+
                         {{ csrf_field() }}
                         {{ method_field('PUT') }}
- 
+
                         <div class="form-group">
                           <label>Perihal</label>
-                          <input type="text" name="perihal" class="form-control" placeholder="Tuliskan perihal kasus">
+                          <input type="text" name="perihal" class="form-control" placeholder="Tuliskan perihal kasus" value="{{$pelapor_kasus->perihal}}">
 
                           @if($errors->has('perihal'))
                               <div class="text-danger">
@@ -36,7 +36,7 @@
 
                         <div class="form-group">
                           <label>Deskripsi</label>
-                          <textarea name="deskripsi" class="form-control" placeholder="Jabarkan detail deskripsi kasus tersebut"></textarea>
+                          <textarea name="deskripsi"  class="form-control" placeholder="Jabarkan detail deskripsi kasus tersebut">{{$pelapor_kasus->deskripsi}}</textarea>
 
                            @if($errors->has('deskripsi'))
                               <div class="text-danger">
@@ -45,13 +45,13 @@
                           @endif
 
                         </div>
- 
+
                         <div class="form-group">
                             <input type="submit" class="btn btn-success" value="Simpan">
                         </div>
- 
+
                     </form>
- 
+
                 </div>
             </div>
         </div>

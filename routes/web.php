@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\KasusReservationController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PelaporKasusController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,9 +26,17 @@ Route::get('/kasus/edit/{id}', 'KasusController@edit');
 Route::put('/kasus/update/{id}', 'KasusController@update');
 Route::put('/kasus/delete/{id}', 'KasusController@delete');
 
-Route::get('/pelapor_kasus', 'PelaporKasusController@index');
-Route::get('/pelapor_kasus/create', 'PelaporKasusController@create');
-Route::post('/pelapor_kasus/store', 'PelaporKasusController@store');
-Route::get('/pelapor_kasus/edit/{id}', 'PelaporKasusController@edit');
-Route::put('/pelapor_kasus/update/{id}', 'PelaporKasusController@update');
-Route::put('/pelapor_kasus/delete/{id}', 'PelaporKasusController@delete');
+Route::controller(KasusReservationController::class)->group(function(){
+    Route::get('/kasus_reservation', [KasusReservationController::class, 'index']);
+    Route::get('/kasus_reservation/create', [KasusReservationController::class, 'create']);
+    Route::post('/kasus_reservation/store', [KasusReservationController::class, 'store']);
+    Route::get('/pelapor_kasus/edit/{id_pelapor}', [PelaporKasusController::class, 'edit']);
+    Route::put('/pelapor_kasus/update/{id_pelapor}', [PelaporKasusController::class, 'update']);
+    // Route::delete('/pelapor_kasus/delete/{id_pelapor}', [PelaporKasusController::class, 'destroy']);
+    Route::resource('kasus_reservation', KasusReservationController::class);
+});
+
+
+
+
+

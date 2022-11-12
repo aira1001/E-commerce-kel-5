@@ -15,6 +15,7 @@ class CreateSaksisTable extends Migration
     {
         Schema::create('saksis', function (Blueprint $table) {
             $table->bigIncrements("id_saksi")->unsigned();
+            $table->unsignedBigInteger("id_reservasi")->default(1);
             $table->string("nama");
             $table->integer("umur");
             $table->string("asal");
