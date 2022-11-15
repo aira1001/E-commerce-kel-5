@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTimKasus extends Migration
+class PerintahDisposisiTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class CreateTimKasus extends Migration
      */
     public function up()
     {
-        Schema::create('tim_kasus', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('id_kasus');
-            $table->unsignedBigInteger('id_pegawai_anggota');
+        Schema::create('perintah_disposisi', function (Blueprint $table) {
+            $table->bigIncrements('id_perintah');
+            $table->string('perintah');
         });
     }
 
@@ -27,6 +26,6 @@ class CreateTimKasus extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tim_kasus');
+        Schema::dropIfExists('perintah_disposisi');
     }
 }

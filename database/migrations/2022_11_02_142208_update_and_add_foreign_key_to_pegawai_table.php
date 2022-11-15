@@ -14,7 +14,9 @@ class UpdateAndAddForeignKeyToPegawaiTable extends Migration
     public function up()
     {
         Schema::table('pegawai', function (Blueprint $table) {
-            $table->foreign("id_lembaga")->references("id_lembaga")->on("lembaga_kepolisians");
+            $table->foreign("id_lembaga")->references("id_lembaga")->on("lembaga_kepolisian");
+            $table->foreign('id_jabatan')->references('id_jabatan')->on('jabatan');
+            $table->foreign('id_pangkat')->references('id_pangkat')->on('pangkat');
         });
     }
 

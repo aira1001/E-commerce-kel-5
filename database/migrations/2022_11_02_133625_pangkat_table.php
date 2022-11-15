@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLembagaKepolisiansTable extends Migration
+class PangkatTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class CreateLembagaKepolisiansTable extends Migration
      */
     public function up()
     {
-        Schema::create('lembaga_kepolisians', function (Blueprint $table) {
-            $table->bigIncrements("id_lembaga")->unsigned();
-            $table->string("nama_lembaga");
-            $table->string("kepala_lembaga");
+        Schema::create('pangkat', function (Blueprint $table) {
+            $table->bigIncrements('id_pangkat');
+            $table->string('nama_pangkat');
         });
     }
 
@@ -27,6 +26,6 @@ class CreateLembagaKepolisiansTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('lembaga_kepolisians');
+        Schema::dropIfExists('pangkat');
     }
 }

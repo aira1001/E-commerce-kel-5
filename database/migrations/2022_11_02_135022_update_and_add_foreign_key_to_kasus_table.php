@@ -16,7 +16,7 @@ class UpdateAndAddForeignKeyToKasusTable extends Migration
         Schema::table('kasus', function (Blueprint $table) {
             $table->foreign("id_status_kasus")->references("id")->on("status_kasus");
             $table->foreign("id_pegawai_pic")->references("id")->on("pegawai");
-            $table->foreign("lembaga_pic")->references("id_lembaga")->on("lembaga_kepolisians");
+            $table->foreign("lembaga_pic")->references("id_lembaga")->on("lembaga_kepolisian");
             $table->foreign("id_pra_kasus")->references("id_pra_kasus")->on("pra_kasus");
         });
     }

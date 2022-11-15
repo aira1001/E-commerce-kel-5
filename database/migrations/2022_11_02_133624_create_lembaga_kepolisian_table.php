@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTimKasus extends Migration
+class CreateLembagaKepolisianTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateTimKasus extends Migration
      */
     public function up()
     {
-        Schema::create('tim_kasus', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('id_kasus');
-            $table->unsignedBigInteger('id_pegawai_anggota');
+        Schema::create('lembaga_kepolisian', function (Blueprint $table) {
+            $table->bigIncrements("id_lembaga")->unsigned();
+            $table->string("nama_lembaga");
+            $table->string("kepala_lembaga");
         });
     }
 
@@ -27,6 +27,6 @@ class CreateTimKasus extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tim_kasus');
+        Schema::dropIfExists('lembaga_kepolisians');
     }
 }

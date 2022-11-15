@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UpdateAndAddForeignKeyToSaksiTable extends Migration
+class UpdateAndAddForeignKeyToDisposisiKasusTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class UpdateAndAddForeignKeyToSaksiTable extends Migration
      */
     public function up()
     {
-        Schema::table('saksi', function (Blueprint $table) {
-            $table->foreign("id_pra_kasus")->references("id_pra_kasus")->on("pra_kasus");
+        Schema::table('disposisi_kasus', function (Blueprint $table) {
+            $table->foreign('id_pegawai')->references('id')->on("pegawai");
+            $table->foreign('id_perintah_disposisi')->references('id_perintah')->on('perintah_disposisi');
         });
     }
 
@@ -25,7 +26,7 @@ class UpdateAndAddForeignKeyToSaksiTable extends Migration
      */
     public function down()
     {
-        Schema::table('saksis', function (Blueprint $table) {
+        Schema::table('disposisi_kasus', function (Blueprint $table) {
             //
         });
     }
