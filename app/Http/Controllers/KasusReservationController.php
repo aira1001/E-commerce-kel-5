@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\KasusReservation;
 use App\Models\PelaporKasus;
+use App\Models\Saksi;
 use Illuminate\Support\Facades\DB;
 
 class KasusReservationController extends Controller
@@ -29,6 +30,8 @@ class KasusReservationController extends Controller
             'terlapor' => 'required',
             'korban' => 'required',
             'bagaimana_terjadi' => 'required',
+            // 'username_1' =>'required',
+            // 'umur_1' => 'required'
         ]);
 
         $combinedDT = date('Y-m-d H:i:s', strtotime("$request->tgl_kejadian, $request->time_kejadian"));
@@ -52,12 +55,20 @@ class KasusReservationController extends Controller
             $kasus_reservation->uraian_singkat_kejadian = $request->uraian_singkat_kejadian;
             $kasus_reservation->save();
 
+            //step 3 : saksi
+            $saksi = new Saksi();
+            $saksi->id_reservasi = $kasus_reservation->id_reservasi;
+            $saksi->nama = $request->nama_1;
+            $saksi->umur= $request->umur_1;
+            $saksi->save();
+
             DB::commit();
 
             return redirect()->route('kasus_reservation.index')->with('success','Thank You for your report!');
 
         }catch(\Exception $e){
             DB::rollback();
+            error_log($e);
             return redirect()->route('kasus_reservation.index')
                         ->with('warning','Something Went Wrong!');
         }

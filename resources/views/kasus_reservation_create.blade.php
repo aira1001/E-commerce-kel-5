@@ -5,7 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet">
-    <script src=""></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
 </head>
 
 <body>
@@ -126,21 +127,37 @@
                             @endif
 
                         </div> --}}
-
+                        <script>
+                            $(document).ready(function() {
+                                let jmlSaksi = 1
+                                $("#btn-tambah").click(function() {
+                                    jmlSaksi++;
+                                    $("#label-nama").clone().appendTo("#body-saksi")
+                                    $("#nama_1").clone().attr({
+                                        name: `nama_${jmlSaksi}`
+                                    }).appendTo("#body-saksi")
+                                    $("#label-umur").clone().appendTo("#body-saksi")
+                                    $("#umur_1").clone().attr({
+                                        name: `umur_${jmlSaksi}`
+                                    }).appendTo("#body-saksi")
+                                    console.log($("#umur_2").val());
+                                })
+                            })
+                        </script>
                     <div class="form-group">
                         <h4>Biodata saksi</h4>
-                        <label>saksi 1</label>
-                        <div class="form-inline" id="body-saksi">
-                            <div id="saksi-1">
-                                <input name="nama" class="form-control mr-2" placeholder="tuliskan nama saksi" />
-                                <input name="umur" type="number" class="form-control" placeholder="umur saksi" />
-                            </div>
+                        <div class="form-inline" id="body-saksi" style="width: 550px">
+                            <label id="label-nama">nama:&nbsp;&nbsp; </label>
+                            <input name="nama_1" id="nama_1" class="form-control mr-2 mb-2"
+                                placeholder="tuliskan nama saksi" />
+                            <label id="label-umur">umur:&nbsp;&nbsp; </label>
+                            <input name="umur_1" id="umur_1" type="number" class="form-control mb-2"
+                                placeholder="umur saksi" />
                         </div>
-                        <button type="button" class="btn btn-primary" onclick="TambahBarang()">
-                            {{-- <span class="glyphicon glyphicon-plus"></span> --}}
+                        <button type="button" id="btn-tambah" class="btn btn-primary mt-2">
+                            {{-- <span class="glyphicon glyphicon-"></span> --}}
                             tambah
                         </button>
-
                         {{-- @if ($errors->has('bagaimana_terjadi'))
                                 <div class="text-danger">
                                     {{ $errors->first('bagaimana_terjadi')}}
