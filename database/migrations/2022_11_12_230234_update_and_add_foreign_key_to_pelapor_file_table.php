@@ -14,7 +14,7 @@ class UpdateAndAddForeignKeyToPelaporFileTable extends Migration
     public function up()
     {
         Schema::table('pelapor_file', function (Blueprint $table) {
-            $table->foreign("id_kasus")->references("id_reservasi")->on("kasus_reservations");
+            $table->foreign("id_kasus")->references("id_pra_kasus")->on("pra_kasus");
         });
     }
 

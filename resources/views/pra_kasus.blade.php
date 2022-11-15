@@ -24,13 +24,28 @@
                     {{ $data }}
                 </div>
             @endif
+        @elseif (Session::get('warning', false))
+            <?php $data = Session::get('warning'); ?>
+            @if (is_array($data))
+                @foreach ($data as $msg)
+                    <div class="alert alert-warning" role="alert">
+                        <i class="fa fa-check"></i>
+                        {{ $msg }}
+                    </div>
+                @endforeach
+            @else
+                <div class="alert alert-warning" role="alert">
+                    <i class="fa fa-check"></i>
+                    {{ $data }}
+                </div>
+            @endif
         @endif
         <div class="card mt-5" style="width: 75rem;  margin: auto">
             <div class="card-header text-center">
-                Data reservasi kasus
+                Data Pra kasus
             </div>
             <div class="card-body">
-                <a href="/kasus_reservation/create" class="btn btn-primary">Input reservasi kasus Baru</a>
+                <a href="/pra_kasus/create" class="btn btn-primary">Input reservasi kasus Baru</a>
                 <br />
                 <br />
                 <table class="table table-bordered table-hover table-striped">
@@ -50,26 +65,26 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($kasus_reservation as $kr)
+                        @foreach ($pra_kasus as $pk)
                             <tr>
-                                <td>{{ $kr->waktu_kejadian }}</td>
-                                <td>{{ $kr->tempat_kejadian }}</td>
-                                <td>{{ $kr->judul_kasus }}</td>
-                                {{-- <td>{{ $kr->terlapor }}</td>
-                                <td>{{ $kr->korban }}</td> --}}
-                                {{-- <td>{{ $kr->bagaimana_terjadi }}</td>
-                                <td>{{ $kr->barang_bukti }}</td> --}}
-                                {{-- <td>{{ $kr->saksi }}</td> --}}
-                                <td>{{ $kr->uraian_singkat_kejadian }}</td>
-                                <td>{{ $kr->created_at }}</td>
-                                <td>{{ $kr->status }}</td>
+                                <td>{{ $pk->waktu_kejadian }}</td>
+                                <td>{{ $pk->tempat_kejadian }}</td>
+                                <td>{{ $pk->judul_kasus }}</td>
+                                {{-- <td>{{ $pk->terlapor }}</td>
+                                <td>{{ $pk->korban }}</td> --}}
+                                {{-- <td>{{ $pk->bagaimana_terjadi }}</td>
+                                <td>{{ $pk->barang_bukti }}</td> --}}
+                                {{-- <td>{{ $pk->saksi }}</td> --}}
+                                <td>{{ $pk->uraian_singkat_kejadian }}</td>
+                                <td>{{ $pk->created_at }}</td>
+                                <td>{{ $pk->status }}</td>
                                 <td>
                                     <div class="form-inline">
-                                        <a href="/pelapor_kasus/edit/{{ $kr->id_reservasi }}"
+                                        <a href="/pelapor_kasus/edit/{{ $pk->id_pra_kasus }}"
                                             class="btn btn-warning mr-2">Edit</a>
                                         {{-- <a href="{{route('pelapor_kasus.destroy',$pk->id_pelapor)}}" class="btn btn-danger">Delete</a> --}}
                                         <form class="form-inline" method="post"
-                                            action="{{ route('kasus_reservation.destroy', $kr->id_reservasi) }}">
+                                            action="{{ route('pra_kasus.destroy', $pk->id_pra_kasus) }}">
                                             @method('delete')
                                             @csrf
                                             <button type="submit" class="btn btn-danger">Delete</button>

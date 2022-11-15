@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateKasusReservationsTable extends Migration
+class CreatePraKasusTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class CreateKasusReservationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('kasus_reservations', function (Blueprint $table) {
-            $table->bigIncrements("id_reservasi")->unsigned();
+        Schema::create('pra_kasus', function (Blueprint $table) {
+            $table->bigIncrements("id_pra_kasus")->unsigned();
             $table->unsignedBigInteger("id_pelapor")->default(1);
             $table->string("judul_kasus");
             $table->timestamp("waktu_kejadian");

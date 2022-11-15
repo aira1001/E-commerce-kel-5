@@ -19,7 +19,7 @@ class CreateKasus extends Migration
             $table->string('nama_kasus');
             $table->string('deskripsi_kasus');
             $table->text("tindak_pidana");
-            $table->unsignedBigInteger("id_reservasi");
+            $table->unsignedBigInteger("id_pra_kasus");
             $table->unsignedBigInteger('id_status_kasus')->nullable();
             $table->unsignedBigInteger('id_pegawai_pic')->nullable();
             $table->unsignedBigInteger("lembaga_pic")->nullable();

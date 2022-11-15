@@ -13,14 +13,14 @@
     <div class="container">
         <div class="card mt-5">
             <div class="card-header text-center">
-                Data Pelapor Kasus - <strong>TAMBAH DATA</strong>
+                Data Pra Kasus - <strong>TAMBAH DATA</strong>
             </div>
             <div class="card-body">
-                <a href="/kasus_reservation" class="btn btn-primary">Kembali</a>
+                <a href="/pra_kasus" class="btn btn-primary">Kembali</a>
                 <br />
                 <br />
 
-                <form method="post" action="/kasus_reservation/store">
+                <form method="post" action="/pra_kasus/store">
 
                     {{ csrf_field() }}
 
