@@ -41,4 +41,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // public function pra_kasus(){
+    //     return $this->hasMany('App\Models\PraKasus', 'id' );
+    // }
 }

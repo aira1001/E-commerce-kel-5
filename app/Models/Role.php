@@ -5,12 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Saksi extends Model
+class Role extends Model
 {
     use HasFactory;
-    protected $table = 'saksi';
-    protected $primaryKey = 'id_saksi';
+    protected $primaryKey = 'id_role';
     public $timestamps = false;
-    protected $fillable = ['id_pra_kasus', 'nama', 'umur', 'asal'];
-
 }

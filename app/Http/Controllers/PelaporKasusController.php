@@ -78,7 +78,7 @@ class PelaporKasusController extends Controller
     public function edit($id_pelapor)
     {
         $pelapor_kasus = PelaporKasus::find($id_pelapor);
-        return view('pelapor_kasus_edit', ['pelapor_kasus' => $pelapor_kasus]);
+        return view('kasus_edit', ['pelapor_kasus' => $pelapor_kasus]);
     }
 
     /**

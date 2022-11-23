@@ -1,10 +1,10 @@
 <?php
 
-use App\Http\Controllers\PraKasusControllerController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PelaporKasusController;
 use App\Http\Controllers\PraKasusController;
 use App\Models\PraKasus;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,12 +28,13 @@ Route::get('/kasus/edit/{id}', 'KasusController@edit');
 Route::put('/kasus/update/{id}', 'KasusController@update');
 Route::put('/kasus/delete/{id}', 'KasusController@delete');
 
-Route::controller(PraKasusController::class)->group(function(){
+
+Route::middleware(['auth', 'checkRoleMasyarakat'])->group(function () {
     Route::get('/pra_kasus', [PraKasusController::class, 'index']);
     Route::get('/pra_kasus/create', [PraKasusController::class, 'create']);
     Route::post('/pra_kasus/store', [PraKasusController::class, 'store']);
-    Route::get('/pelapor_kasus/edit/{id_pelapor}', [PelaporKasusController::class, 'edit']);
-    Route::put('/pelapor_kasus/update/{id_pelapor}', [PelaporKasusController::class, 'update']);
+    Route::get('/pra_kasus/edit/{id_pra_kasus}', [PraKasusController::class, 'edit']);
+    Route::put('/pra_kasus/update/{id_pra_kasus}', [PraKasusController::class, 'update']);
     // Route::delete('/pelapor_kasus/delete/{id_pelapor}', [PelaporKasusController::class, 'destroy']);
     Route::resource('pra_kasus', PraKasusController::class);
 });
@@ -42,11 +43,10 @@ Route::controller(PraKasusController::class)->group(function(){
 
 
 
-
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Auth::routes();
+// Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

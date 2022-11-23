@@ -1,4 +1,5 @@
 <!doctype html>
+@extends('layouts.app')
 <html>
 
 <head>
@@ -7,6 +8,7 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
+@section('content')
 <body>
     <div class="container">
         @if (Session::get('success', false))
@@ -80,7 +82,7 @@
                                 <td>{{ $pk->status }}</td>
                                 <td>
                                     <div class="form-inline">
-                                        <a href="/pelapor_kasus/edit/{{ $pk->id_pra_kasus }}"
+                                        <a href="/pra_kasus/edit/{{ $pk->id_pra_kasus }}"
                                             class="btn btn-warning mr-2">Edit</a>
                                         {{-- <a href="{{route('pelapor_kasus.destroy',$pk->id_pelapor)}}" class="btn btn-danger">Delete</a> --}}
                                         <form class="form-inline" method="post"
@@ -99,5 +101,6 @@
         </div>
     </div>
 </body>
+@endsection
 
 </html>
