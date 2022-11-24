@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\KasusController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PelaporKasusController;
 use App\Http\Controllers\PraKasusController;
@@ -21,7 +22,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/kasus', 'KasusController@index');
+Route::get('/kasus', [KasusController::class, 'index']);
 Route::get('/kasus/create', 'KasusController@create');
 Route::post('/kasus/store', 'KasusController@store');
 Route::get('/kasus/edit/{id}', 'KasusController@edit');

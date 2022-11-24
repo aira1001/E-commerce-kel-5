@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 // use App\Kasus;
 use App\Models\Kasus;
+use Error;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
-class KasusControllers extends Controller
+class KasusController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +17,9 @@ class KasusControllers extends Controller
      */
     public function index()
     {
-        $kasus = Kasus::all();
-    	return view('kasus', ['kasus' => $kasus]);
+        $kasus = Kasus::with(['PraKasus', 'PegawaiKasus', 'StatusKasus', 'PerintahDisposisi', 'LembagaKepolisian'])->get();
+        return json_decode($kasus);
+        // return view('kasus', ['kasus' => $kasus]);
     }
 
     /**
@@ -38,19 +40,19 @@ class KasusControllers extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
-    		'nama_kasus' => 'required',
-    		'deskripsi_kasus' => 'required',
+        $this->validate($request, [
+            'nama_kasus' => 'required',
+            'deskripsi_kasus' => 'required',
             'tindak_pidana' => 'required',
-    	]);
- 
+        ]);
+
         Kasus::create([
-    		'nama_kasus' => $request->nama_kasus,
-    		'deskripsi_kasus' => $request->deskripsi_kasus,
+            'nama_kasus' => $request->nama_kasus,
+            'deskripsi_kasus' => $request->deskripsi_kasus,
             'tindak_pidana' => $request->tindak_pidana,
-    	]);
- 
-    	return redirect('/kasus');
+        ]);
+
+        return redirect('/kasus');
     }
 
     /**
@@ -73,7 +75,7 @@ class KasusControllers extends Controller
     public function edit($id)
     {
         $kasus = Kasus::find($id);
-   return view('kasus_edit', ['kasus' => $kasus]);
+        return view('kasus_edit', ['kasus' => $kasus]);
     }
 
     /**
@@ -85,18 +87,18 @@ class KasusControllers extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             'nama_kasus' => 'required',
             'deskripsi_kasus' => 'required',
             'tindak_pidana' => 'required',
-         ]);
-      
-         $kasus = Kasus::find($id);
-         $kasus->nama_kasus = $request->nama_kasus;
-         $kasus->deskripsi_kasus = $request->deskripsi_kasus;
-         $kasus->tindak_pidana = $request->tindak_pidana;
-         $kasus->save();
-         return redirect('/kasus');
+        ]);
+
+        $kasus = Kasus::find($id);
+        $kasus->nama_kasus = $request->nama_kasus;
+        $kasus->deskripsi_kasus = $request->deskripsi_kasus;
+        $kasus->tindak_pidana = $request->tindak_pidana;
+        $kasus->save();
+        return redirect('/kasus');
     }
 
     /**

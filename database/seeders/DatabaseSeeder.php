@@ -4,6 +4,9 @@ namespace Database\Seeders;
 
 use App\Models\Activity;
 use App\Models\Kasus;
+use App\Models\lembaga_kepolisian;
+use App\Models\LembagaKepolisian;
+use App\Models\Pegawai;
 use App\Models\PraKasus;
 use App\Models\PelaporKasus;
 use App\Models\PerintahDisposisi;
@@ -61,9 +64,6 @@ class DatabaseSeeder extends Seeder
             'updated_at' => null
         ]);
 
-        //kasus seeder
-        Kasus::factory(10)->create();
-
         //perintah disposisi seeder
         PerintahDisposisi::create([
             'perintah' => 'diperlukan penyelidikan'
@@ -71,13 +71,32 @@ class DatabaseSeeder extends Seeder
         PerintahDisposisi::create([
             'perintah' => 'review ulang kasus'
         ]);
+        PerintahDisposisi::create([
+            'perintah' => 'pembentukkan tim'
+        ]);
 
         //status kasus seeder
         StatusKasus::create([
             'nama' => 'pembunahan',
             'level_urgensi' => 'tingkat 1'
         ]);
+        StatusKasus::create([
+            'nama' => 'pencurian',
+            'level_urgensi' => 'tingkat 2'
+        ]);
+        StatusKasus::create([
+            'nama' => 'pembegalan',
+            'level_urgensi' => 'tingkat 3'
+        ]);
 
+        //pegawai seeder
+        Pegawai::factory(10)->create();
+
+        //Lambaga kepolisian
+        LembagaKepolisian::factory(10)->create();
+
+        //kasus seeder
+        Kasus::factory(10)->create();
 
     }
 }
