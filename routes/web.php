@@ -35,6 +35,7 @@ Route::middleware(['auth', 'checkRoleMasyarakat'])->group(function () {
     Route::post('/pra_kasus/store', [PraKasusController::class, 'store']);
     Route::get('/pra_kasus/edit/{id_pra_kasus}', [PraKasusController::class, 'edit']);
     Route::put('/pra_kasus/update/{id_pra_kasus}', [PraKasusController::class, 'update']);
+    Route::get('/pra_kasus/show', [PraKasusController::class, 'show']);
     // Route::delete('/pelapor_kasus/delete/{id_pelapor}', [PelaporKasusController::class, 'destroy']);
     Route::resource('pra_kasus', PraKasusController::class);
 });

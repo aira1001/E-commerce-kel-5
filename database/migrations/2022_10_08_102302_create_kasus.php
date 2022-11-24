@@ -16,13 +16,14 @@ class CreateKasus extends Migration
         Schema::create('kasus', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('nama_kasus');
-            $table->string('deskripsi_kasus');
-            $table->text("tindak_pidana");
+            $table->string('nama_kasus')->nullable();
+            $table->string('deskripsi_kasus')->nullable();
+            $table->text("tindak_pidana")->nullable();
             $table->unsignedBigInteger("id_pra_kasus");
             $table->unsignedBigInteger('id_status_kasus')->nullable();
             $table->unsignedBigInteger('id_pegawai_pic')->nullable();
             $table->unsignedBigInteger("lembaga_pic")->nullable();
+            $table->unsignedBigInteger("id_perintah")->nullable();
         });
     }
 

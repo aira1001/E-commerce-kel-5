@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kasus;
 use App\Models\PelaporFile;
 use Illuminate\Http\Request;
 use App\Models\PraKasus;
@@ -18,6 +19,12 @@ class PraKasusController extends Controller
         $userId = Auth::id();
         $pra_kasus = PraKasus::where('id_pelapor', $userId)->get();
         return view('pra_kasus', ['pra_kasus' => $pra_kasus]);
+    }
+    public function show()
+    {
+        // $userId = Auth::id();
+        // $pra_kasus = PraKasus::where('id_pelapor', $userId)->get();
+        return view('pra_kasus_show');
     }
     public function create()
     {
@@ -48,7 +55,7 @@ class PraKasusController extends Controller
             $pelapor_kasus->nama = $request->username;
             $pelapor_kasus->save();
 
-            //Step 2 : kasus reservation
+            //Step 2 : pra kasus
             $pra_kasus = new PraKasus();
             $pra_kasus->id_pelapor = $userId;
             $pra_kasus->judul_kasus = $request->judul_kasus;
@@ -73,7 +80,7 @@ class PraKasusController extends Controller
                 // error_log(print_r($value['nama'],true));
                 $saksi->save();
             }
-            //step 4: add image file
+            //step 4: add image file to pelapor file
             if($request->hasFile("filename")){
                 foreach ($request->file('filename') as $image) {
                     $name = $image->getClientOriginalName();
@@ -86,6 +93,11 @@ class PraKasusController extends Controller
             $pelapor_file->id_pra_kasus = $pra_kasus->id_pra_kasus;
             $pelapor_file->path_file = $path;
             $pelapor_file->save();
+
+            //step 5 : add to table kasus
+            $kasus = new Kasus();
+            $kasus->id_pra_kasus = $pra_kasus->id_pra_kasus;
+            $kasus->save();
 
             DB::commit();
             return redirect()->route('pra_kasus.index')->with('success', 'Thank You for your report!');

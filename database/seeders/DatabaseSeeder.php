@@ -3,9 +3,12 @@
 namespace Database\Seeders;
 
 use App\Models\Activity;
+use App\Models\Kasus;
 use App\Models\PraKasus;
 use App\Models\PelaporKasus;
+use App\Models\PerintahDisposisi;
 use App\Models\Role;
+use App\Models\StatusKasus;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 class DatabaseSeeder extends Seeder
@@ -58,6 +61,22 @@ class DatabaseSeeder extends Seeder
             'updated_at' => null
         ]);
 
+        //kasus seeder
+        Kasus::factory(10)->create();
+
+        //perintah disposisi seeder
+        PerintahDisposisi::create([
+            'perintah' => 'diperlukan penyelidikan'
+        ]);
+        PerintahDisposisi::create([
+            'perintah' => 'review ulang kasus'
+        ]);
+
+        //status kasus seeder
+        StatusKasus::create([
+            'nama' => 'pembunahan',
+            'level_urgensi' => 'tingkat 1'
+        ]);
 
 
     }

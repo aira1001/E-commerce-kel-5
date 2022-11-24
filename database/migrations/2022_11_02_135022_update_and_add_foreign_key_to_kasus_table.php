@@ -18,6 +18,7 @@ class UpdateAndAddForeignKeyToKasusTable extends Migration
             $table->foreign("id_pegawai_pic")->references("id")->on("pegawai");
             $table->foreign("lembaga_pic")->references("id_lembaga")->on("lembaga_kepolisian");
             $table->foreign("id_pra_kasus")->references("id_pra_kasus")->on("pra_kasus");
+            $table->foreign("id_perintah")->references("id_perintah")->on("perintah_disposisi");
         });
     }
 
