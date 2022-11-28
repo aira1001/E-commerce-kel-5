@@ -18,7 +18,8 @@ class KasusController extends Controller
     public function index()
     {
         $kasus = Kasus::with(['PraKasus', 'PegawaiKasus', 'StatusKasus', 'PerintahDisposisi', 'LembagaKepolisian'])->get();
-        return json_decode($kasus);
+        // return json_decode($kasus);
+        return view("user");
         // return view('kasus', ['kasus' => $kasus]);
     }
 

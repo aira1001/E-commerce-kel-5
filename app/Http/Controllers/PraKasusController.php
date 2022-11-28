@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use App\Models\PraKasus;
 use App\Models\PelaporKasus;
 use App\Models\Saksi;
-use Error;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
@@ -18,17 +17,18 @@ class PraKasusController extends Controller
     {
         $userId = Auth::id();
         $pra_kasus = PraKasus::where('id_pelapor', $userId)->get();
-        return view('pra_kasus', ['pra_kasus' => $pra_kasus]);
+        return view('pages.pra_kasus', ['pra_kasus' => $pra_kasus]);
     }
-    public function show()
+    public function show($id_pra_kasus)
     {
-        // $userId = Auth::id();
+        // $praKasusGetById = PraKasus::find($id_pra_kasus);
+        $praKasusGetById = PraKasus::with(['user', 'saksi', 'pelaporFile'])->where('id_pra_kasus', $id_pra_kasus)->first();
         // $pra_kasus = PraKasus::where('id_pelapor', $userId)->get();
-        return view('pra_kasus_show');
+        return view('pages.pra_kasus_show', ['pra_kasus' => $praKasusGetById]);
     }
     public function create()
     {
-        return view('pra_kasus_create');
+        return view('pages.pra_kasus_create');
     }
     public function store(Request $request)
     {
@@ -80,19 +80,21 @@ class PraKasusController extends Controller
                 // error_log(print_r($value['nama'],true));
                 $saksi->save();
             }
+
             //step 4: add image file to pelapor file
-            if($request->hasFile("filename")){
+            if ($request->hasFile("filename")) {
                 foreach ($request->file('filename') as $image) {
                     $name = $image->getClientOriginalName();
                     // $path = $image->store('/images/', ['links' => public_path('storage')]);
-                    $path = $image->move(public_path(). '/image/', $name);
+                    $path =  $image->move(public_path() . '/image/', $name);
                     error_log('path :' . $path);
+                    $pelapor_file = new PelaporFile();
+                    $pelapor_file->id_pra_kasus = $pra_kasus->id_pra_kasus;
+                    $pelapor_file->path_file = $name;
+                    $pelapor_file->save();
+
                 }
             }
-            $pelapor_file = new PelaporFile();
-            $pelapor_file->id_pra_kasus = $pra_kasus->id_pra_kasus;
-            $pelapor_file->path_file = $path;
-            $pelapor_file->save();
 
             //step 5 : add to table kasus
             $kasus = new Kasus();
@@ -107,40 +109,7 @@ class PraKasusController extends Controller
             return redirect()->route('pra_kasus.index')
                 ->with('warning', 'Something Went Wrong!');
         }
-        // try {
-        //     DB::insert('insert into pelapor_kasus (nama) values (?) returning ', ["$request->nama"]);
-        //     $pelapor_kasus = PelaporKasus::create([
-        //         'nama' => $request->nama
-        //     ]);
-        //     PraKasus::create([
-        //     'id_pelapor' => $pelapor_kasus->id_pelapor,
-        //     'judul_kasus' => $request->judul_kasus,
-        //     'waktu_kejadian' => $combinedDT,
-        //     'tempat_kejadian' => $request->tempat_kejadian,
-        // 	'terlapor' => $request->terlapor,
-        // 	'korban' => $request->korban,
-        //     'bagaimana_terjadi' => $request->bagaimana_terjadi,
-        //     'uraian_singkat_kejadian' => $request->uraian_singkat_kejadian,
-        // ]);
-        //     DB::insert('insert into pra_kasuss (id_pelapor,judul_kasus,waktu_kejadian,tempat_kejadian, terlapor, korban, bagaimana_terjadi, uraian_singkat_kejadian values(?,?,?,?,?,?,?,?)', ["$pelapor_kasus->id_pelapor", "$request->judul_kasus", "$combinedDT", "$request->tempat_kejadian", "$request->terlapor", "$request->korban", "$request->bagaimana_terjadi", "$request->uraian_singkat_kejadian"]);
-        //     DB::commit();
-        // } catch (\Exception $e) {
-        //     DB::rollback();
-        //     return redirect()->route('pra_kasus.index')
-        //                 ->with('warning','Something Went Wrong!');
-        // }
-        // $pra_kasus = PraKasus::create([
-        //     'judul_kasus' => $request->judul_kasus,
-        //     'waktu_kejadian' => $combinedDT,
-        //     'tempat_kejadian' => $request->tempat_kejadian,
-        // 	'terlapor' => $request->terlapor,
-        // 	'korban' => $request->korban,
-        //     'bagaimana_terjadi' => $request->bagaimana_terjadi,
-        //     'uraian_singkat_kejadian' => $request->uraian_singkat_kejadian,
-        // ]);
 
-        // $pra_kasus -> save();
-        // return redirect('/pra_kasus');
     }
 
     public function destroy($id_pra_kasus)
@@ -154,6 +123,10 @@ class PraKasusController extends Controller
             //delete pelapor_file
             $pelapor_file = PelaporFile::where('id_pra_kasus', $id_pra_kasus);
             $pelapor_file->delete();
+
+            //delete kasus
+            $kasus = Kasus::where('id_pra_kasus', $id_pra_kasus);
+            $kasus->delete();
 
             //delete pra_kasus
             $pra_kasus = PraKasus::where('id_pra_kasus', $id_pra_kasus);
@@ -171,7 +144,7 @@ class PraKasusController extends Controller
     {
         $pra_kasus = PraKasus::with(['user', 'saksi'])->where('id_pra_kasus', '=', $id_pra_kasus)->first();
         // error_log($pra_kasus);
-        return view('pra_kasus_edit', ['pra_kasus' => $pra_kasus]);
+        return view('pages.pra_kasus_edit', ['pra_kasus' => $pra_kasus]);
     }
     public function update(Request $request, $id_pra_kasus)
     {
@@ -209,7 +182,7 @@ class PraKasusController extends Controller
 
             error_log(print_r($request->addMoreInputFields, true));
 
-            //  //step 4 : add saksi
+            //step 4 : add saksi
             foreach ($request->addMoreInputFields as $key => $value) {
                 $saksiNew = new Saksi();
                 $saksiNew->id_pra_kasus = $id_pra_kasus;
@@ -218,6 +191,22 @@ class PraKasusController extends Controller
                 $saksiNew->save();
             }
 
+            //step 5 : update file
+            $pelapor_file = PelaporFile::where('id_pra_kasus', $id_pra_kasus);
+            $pelapor_file->delete();
+
+            if ($request->hasFile("filename")) {
+                foreach ($request->file('filename') as $image) {
+                    $name = $image->getClientOriginalName();
+                    // $path = $image->store('/images/', ['links' => public_path('storage')]);
+                    $path =  $image->move(public_path() . '/image/', $name);
+                    error_log('path :' . $path);
+                    $pelapor_file = new PelaporFile();
+                    $pelapor_file->id_pra_kasus = $id_pra_kasus;
+                    $pelapor_file->path_file = $name;
+                    $pelapor_file->save();
+                }
+            }
             DB::commit();
 
             return redirect()->route('pra_kasus.index')->with('success', 'data telah diedit!');

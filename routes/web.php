@@ -2,9 +2,7 @@
 
 use App\Http\Controllers\KasusController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PelaporKasusController;
 use App\Http\Controllers\PraKasusController;
-use App\Models\PraKasus;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -45,9 +43,9 @@ Route::middleware(['auth', 'checkRoleMasyarakat'])->group(function () {
     Route::get('/pra_kasus', [PraKasusController::class, 'index']);
     Route::get('/pra_kasus/create', [PraKasusController::class, 'create']);
     Route::post('/pra_kasus/store', [PraKasusController::class, 'store']);
-    Route::get('/pra_kasus/edit/{id_pra_kasus}', [PraKasusController::class, 'edit']);
+    // Route::get('/pra_kasus/{id_pra_kasus}/edit', [PraKasusController::class, 'edit']);
     Route::put('/pra_kasus/update/{id_pra_kasus}', [PraKasusController::class, 'update']);
-    Route::get('/pra_kasus/show', [PraKasusController::class, 'show']);
+    // Route::get('/pra_kasus/{id_pra_kasus}', [PraKasusController::class, 'show']);
     // Route::delete('/pelapor_kasus/delete/{id_pelapor}', [PelaporKasusController::class, 'destroy']);
     Route::resource('pra_kasus', PraKasusController::class);
 });
