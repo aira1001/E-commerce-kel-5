@@ -22,12 +22,23 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/kasus', [KasusController::class, 'index']);
-Route::get('/kasus/create', 'KasusController@create');
-Route::post('/kasus/store', 'KasusController@store');
-Route::get('/kasus/edit/{id}', 'KasusController@edit');
-Route::put('/kasus/update/{id}', 'KasusController@update');
-Route::put('/kasus/delete/{id}', 'KasusController@delete');
+Route::middleware(['auth', 'checkRoleAdmin'])->group(function () {
+    Route::get('/kasus', [KasusController::class, 'index']);
+    Route::get('/kasus/create', [KasusController::class, 'create']);
+    Route::post('/kasus/store', [KasusController::class, 'store']);
+    Route::get('/kasus/edit/{id_kasus}', [KasusController::class, 'edit']);
+    Route::put('/kasus/update/{id_kasus}', [KasusController::class, 'update']);
+    Route::get('/kasus/show', [KasusController::class, 'show']);
+    // Route::delete('/pelapor_kasus/delete/{id_pelapor}', [PelaporKasusController::class, 'destroy']);
+    Route::resource('kasus', KasusController::class);
+});
+
+// Route::get('/kasus', [KasusController::class, 'index']);
+// Route::get('/kasus/create', 'KasusController@create');
+// Route::post('/kasus/store', 'KasusController@store');
+// Route::get('/kasus/edit/{id}', 'KasusController@edit');
+// Route::put('/kasus/update/{id}', 'KasusController@update');
+// Route::put('/kasus/delete/{id}', 'KasusController@delete');
 
 
 Route::middleware(['auth', 'checkRoleMasyarakat'])->group(function () {

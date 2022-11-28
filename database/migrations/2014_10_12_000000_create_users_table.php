@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
+            // 1 = User; 2 = Staff FO; 3 = Pejabat; 4 = Tim Creator; 5 = Tim members
             $table->unsignedBigInteger("id_role")->default(1);
             $table->timestamps();
         });

@@ -41,15 +41,17 @@ class KasusController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'nama_kasus' => 'required',
-            'deskripsi_kasus' => 'required',
-            'tindak_pidana' => 'required',
+            'status_kasus' => 'required',
+            'pegawai_pic' => 'required',
+            'lembaga_pic' => 'required',
+            'perintah' => 'required',
         ]);
 
         Kasus::create([
-            'nama_kasus' => $request->nama_kasus,
-            'deskripsi_kasus' => $request->deskripsi_kasus,
-            'tindak_pidana' => $request->tindak_pidana,
+            'status_kasus' => $request->id_status_kasus,
+            'pegawai_pic' => $request->id_pegawai_pic,
+            'lembaga_pic' => $request->lembaga_pic,
+            'perintah' => $request->id_perintah,
         ]);
 
         return redirect('/kasus');
@@ -63,7 +65,7 @@ class KasusController extends Controller
      */
     public function show($id)
     {
-        //
+        return view('kasus_show');
     }
 
     /**
@@ -72,9 +74,9 @@ class KasusController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id_kasus)
     {
-        $kasus = Kasus::find($id);
+        $kasus = Kasus::find($id_kasus);
         return view('kasus_edit', ['kasus' => $kasus]);
     }
 
@@ -85,18 +87,20 @@ class KasusController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id_kasus)
     {
         $this->validate($request, [
-            'nama_kasus' => 'required',
-            'deskripsi_kasus' => 'required',
-            'tindak_pidana' => 'required',
+            'status_kasus' => 'required',
+            'pegawai_pic' => 'required',
+            'lembaga_pic' => 'required',
+            'perintah' => 'required',
         ]);
 
-        $kasus = Kasus::find($id);
-        $kasus->nama_kasus = $request->nama_kasus;
-        $kasus->deskripsi_kasus = $request->deskripsi_kasus;
-        $kasus->tindak_pidana = $request->tindak_pidana;
+        $kasus = Kasus::find($id_kasus);
+        $kasus->id_status_kasus = $request->id_status_kasus;
+        $kasus->id_pegawai_pic = $request->id_pegawai_pic;
+        $kasus->lembaga_pic = $request->lembaga_pic;
+        $kasus->id_perintah = $request->id_perintah;
         $kasus->save();
         return redirect('/kasus');
     }
