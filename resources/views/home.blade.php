@@ -15,6 +15,8 @@
                     @endif
 
                     {{ __('You are logged in!') }}
+                    <br>
+                    <a href="{{route('pra_kasus.index')}}">go to pra kasus dashboard</a>
                 </div>
             </div>
         </div>
