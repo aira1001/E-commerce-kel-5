@@ -44,13 +44,13 @@ class DatabaseSeeder extends Seeder
         //user seeder
         User::factory(10)->create();
 
-        //admin seeder
-        // User::create([
-        //     'name'=>'testAdmin',
-        //     'email'=>'tesadmin@example.com',
-        //     // 'password'=>'admintest123',
-        //     'id_role'=>2
-        // ]);
+        // admin seeder
+        User::create([
+            'name'=>'testAdmin',
+            'email'=>'tesadmin@example.com',
+            'password'=>'admintest123',
+            'id_role'=>2
+        ]);
 
         //pelapor kasus seeder
         PelaporKasus::factory(5)->create();

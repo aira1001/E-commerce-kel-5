@@ -18,8 +18,8 @@ class KasusController extends Controller
     public function index()
     {
         $kasus = Kasus::with(['PraKasus', 'PegawaiKasus', 'StatusKasus', 'PerintahDisposisi', 'LembagaKepolisian'])->get();
-        // return json_decode($kasus);
-        return view("user");
+        return json_decode($kasus);
+        // return view("pages.kasus", ['kasus' => $kasus]);
         // return view('kasus', ['kasus' => $kasus]);
     }
 
@@ -55,7 +55,7 @@ class KasusController extends Controller
             'perintah' => $request->id_perintah,
         ]);
 
-        return redirect('/kasus');
+        // return redirect('/kasus');
     }
 
     /**
@@ -64,10 +64,10 @@ class KasusController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        return view('kasus_show');
-    }
+    // public function show()
+    // {
+    //     return view('pages.kasus');
+    // }
 
     /**
      * Show the form for editing the specified resource.

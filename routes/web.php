@@ -26,7 +26,7 @@ Route::middleware(['auth', 'checkRoleAdmin'])->group(function () {
     Route::post('/kasus/store', [KasusController::class, 'store']);
     Route::get('/kasus/edit/{id_kasus}', [KasusController::class, 'edit']);
     Route::put('/kasus/update/{id_kasus}', [KasusController::class, 'update']);
-    Route::get('/kasus/show', [KasusController::class, 'show']);
+    // Route::get('/kasus/show', [KasusController::class, 'show']);
     // Route::delete('/pelapor_kasus/delete/{id_pelapor}', [PelaporKasusController::class, 'destroy']);
     Route::resource('kasus', KasusController::class);
 });
