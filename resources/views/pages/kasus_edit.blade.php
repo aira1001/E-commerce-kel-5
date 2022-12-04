@@ -1,17 +1,18 @@
-<!doctype html>
-@extends('layouts.app')
-<html>
-
+{{-- <!doctype html> --}}
+@extends('template')
+{{-- <html> --}}
+{{--
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-</head>
+</head> --}}
 
 {{-- @extends("layouts.sidebar.sidebar") --}}
 @section('content')
+
     <body>
         <div class="container">
             <div class="card mt-5">
@@ -22,17 +23,14 @@
                     <a href="/kasus" class="btn btn-primary">Kembali</a>
                     <br />
                     <br />
-
-
-                    <form method="post" action="/kasus/update/{{ $pra_kasus->id_pra_kasus }}" enctype="multipart/form-data">
-
-                        {{ csrf_field() }}
-                        {{ method_field('PUT') }}
+                    <form method="post" action="/kasus/update/{{ $kasus->id }}" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
 
                         <div class="form-group">
                             <label>Nama Pelapor</label>
                             <input type="text" name="username" class="form-control" readonly
-                                value="{{ $pra_kasus->user->name }}">
+                                value="{{ $kasus->prakasus->user->name }}">
 
                             @if ($errors->has('username'))
                                 <div class="text-danger">
@@ -46,7 +44,7 @@
                         <div class="form-group">
                             <label>Judul Kasus</label>
                             <input type="text" name="nama_kasus" class="form-control" readonly
-                                value="{{ $pra_kasus->judul_kasus }}">
+                                value="{{ $kasus->prakasus->judul_kasus }}">
 
                             @if ($errors->has('judul_kasus'))
                                 <div class="text-danger">
@@ -117,54 +115,114 @@
 
                         <div class="form-group">
                             <label>Deskripsi Kasus</label>
-                            <textarea name="deskripsi_kasus" class="form-control" readonly>{{ $pra_kasus->bagaimana_terjadi }}</textarea>
+                            <textarea name="deskripsi_kasus" class="form-control" readonly>{{ $kasus->prakasus->bagaimana_terjadi }}</textarea>
 
                             @if ($errors->has('deskripsi_kasus'))
                                 <div class="text-danger">
                                     {{ $errors->first('deskripsi_kasus') }}
                                 </div>
                             @endif
+                        </div>
 
                         <div class="form-group">
-                            <label>Tindak Pidana</label>
-                            <select class="block w-full mt-1" name="tindak_pidana">
-                                <option value="pembunuhan" {{ $kasus->tindak_pidana == 'pembunuhan' ? 'selected' : '' }}>
+                            <label>Status kasus</label>
+                            <select class="custom-select w-100{{ $errors->has('status_kasus') ? ' is-invalid' : '' }}"
+                                name="status_kasus">
+                                <option value="" {{ is_null($kasus->statuskasus) ? 'selected' : '' }} selected hidden disabled>select option</option>
+                                @foreach ($liststatus as $statuskasus)
+                                    <option value="{{ $statuskasus->id }}" {{ $kasus->statuskasus?->id == $statuskasus->id ? 'selected' : '' }}>{{ $statuskasus->nama }}</option>
+                                @endforeach
+                                {{-- <option value="pembunuhan"
+                                    {{ $kasus->statuskasus->nama == 'pembunuhan' ? 'selected' : '' }}>
                                     Pembunuhan
                                 </option>
-                                <option value="pencurian" {{ $kasus->tindak_pidana == 'pencurian' ? 'selected' : '' }}>
+                                <option value="pencurian" {{ $kasus->statuskasus->nama == 'pencurian' ? 'selected' : '' }}>
                                     Pencurian
                                 </option>
-                                <option value="pembegalan" {{ $kasus->tindak_pidana == 'pembegalan' ? 'selected' : '' }}>
+                                <option value="pembegalan"
+                                    {{ $kasus->statuskasus->nama == 'pembegalan' ? 'selected' : '' }}>
                                     Pembegalan
-                                </option>
+                                </option> --}}
                             </select>
 
-                            @if ($errors->has('tindak_pidana'))
-                                <div class="text-danger">
-                                    {{ $errors->first('tindak_pidana') }}
-                                </div>
+                            @error('status_kasus')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label>Pegawai PIC</label>
+                            <select class="custom-select w-100{{ $errors->has('pegawai_pic') ? ' is-invalid' : '' }}"
+                                name="pegawai_pic">
+                                <option value="" {{ is_null($kasus->pegawaikasus) ? 'selected' : '' }} hidden
+                                    disabled>select option</option>
+                                @foreach ($listpegawai as $pegawai)
+                                    <option value="{{ $pegawai->id }}"
+                                        {{ $kasus->pegawaikasus?->id == $pegawai->id ? 'selected' : '' }}>
+                                        {{ $pegawai->nama }}</option>
+                                @endforeach
+                            </select>
+                            @if ($errors->has('pegawai_pic'))
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $errors->first('pegawai_pic') }}</strong>
+                                </span>
                             @endif
                         </div>
-                            
-                        <select class="form-control{{ $errors->has('pegawai_pic') ? ' is-invalid' : '' }}" name="pegawai_pic">
-                            @foreach($my_collection as $pegawai)
-                            <option value="{{ $kasus->id_pegawai_pic }}">{{ $pegawai->nama }}</option>
+
+                        <div class="form-group">
+                            <label>Lembaga PIC</label>
+                            <select class="custom-select w-100{{ $errors->has('lembaga_pic') ? ' is-invalid' : '' }}"
+                                name="lembaga_pic">
+                                <option value="" {{ is_null($kasus->lembagakepolisian) ? 'selected' : '' }} hidden
+                                    disabled>select option</option>
+                                @foreach ($listlembaga as $lembagapic)
+                                    <option value="{{ $lembagapic->id_lembaga }}" {{ $kasus->lembagakepolisian?->id_lembaga == $lembagapic->id_lembaga ? 'selected' : '' }}>{{ $lembagapic->nama_lembaga }}</option>
+                                @endforeach
+                            </select>
+                            @if ($errors->has('lembaga_pic'))
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $errors->first('lembaga_pic') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+
+                        <div class="form-group">
+                            <label>Perintah Disposisi</label>
+                            <select class="custom-select w-100{{ $errors->has('perintah_disposisi') ? ' is-invalid' : '' }}"
+                                name="perintah_disposisi">
+                                <option value="" {{ is_null($kasus->perintahdisposisi) ? 'selected' : '' }} hidden
+                                    disabled>select option</option>
+                                @foreach ($listperintah as $itemperintah)
+                                    <option value="{{ $itemperintah->id_perintah }}" {{ $kasus->perintahdisposisi?->id_perintah == $itemperintah->id_perintah ? 'selected' : '' }}>{{ $itemperintah->perintah }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @if ($errors->has('perintah_disposisi'))
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $errors->first('perintah_disposisi') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                        <div class="list-group-item flex-column align-items-start">
+                            <h5 class="mb-2 font-weight-bold">Barang Bukti : </h5>
+                            @foreach ($kasus->prakasus->pelaporFile as $file)
+                                <div class="d-flex w-25 justify-content-between">
+                                    <a href="{{ asset('/image/' . $file->path_file) }}" target="_blank">
+                                        <img src="{{ asset('/image/' . $file->path_file) }}" alt="image"
+                                            class="img-thumbnail">
+                                    </a>
+                                </div>
                             @endforeach
-                          </select>
-              
-                          @if ($errors->has('pegawai_pic'))
-                              <span class="invalid-feedback" role="alert">
-                                  <strong>{{ $errors->first('pegawai_pic') }}</strong>
-                              </span>
-                          @endif
+                        </div>
+
 
                         {{-- <select class="form-control" name="pegawai_pic">
                             <option>Pegawai PIC (Person In Charge)</option>
                             @foreach ($items as $kasus => $id_pegawai_pic)
-                                <option value="{{ $id_pegawai_pic }}" {{ ( $pegawai == $selectedID) ? 'selected' : '' }}> 
-                                    {{ $value }} 
+                                <option value="{{ $id_pegawai_pic }}" {{ ( $pegawai == $selectedID) ? 'selected' : '' }}>
+                                    {{ $value }}
                                 </option>
-                            @endforeach    
+                            @endforeach
                         </select> --}}
 
                         {{-- <div class="dropdown-divider"></div>
@@ -209,9 +267,9 @@
                                 @endforeach
                             </div> --}}
 
-                        <div class="form-group">
-                            <input type="submit" class="btn btn-success" value="Simpan">
-                        </div>
+                            <div class="form-group">
+                                <input type="submit" class="btn btn-success" value="Simpan">
+                            </div>
 
                     </form>
 
@@ -221,4 +279,4 @@
     </body>
 @endsection
 
-</html>
+{{-- </html> --}}

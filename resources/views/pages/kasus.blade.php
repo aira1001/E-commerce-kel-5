@@ -1,15 +1,14 @@
 <!doctype html>
 @extends('template')
 <html>
-
+{{--
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet">
-</head>
+</head> --}}
 
 @section('content')
-
     <body>
         <div class="container">
             @if (Session::get('success', false))
@@ -51,49 +50,48 @@
                     <a href="/pra_kasus/create" class="btn btn-primary">Input Kasus Baru</a>
                     <br />
                     <br />
-                    <table class="table table-bordered table-hover table-striped">
+                    <table class="table table-hover table-striped">
                         <thead>
                             <tr>
                                 <th scope="col">No</th>
                                 <th scope="col">Nama Kasus</th>
-                                <th scope="col">Deskripsi Kasus</th>
-                                <th scope="col">Tindak Pidana</th>
+                                {{-- <th scope="col">Deskripsi Kasus</th>
+                                <th scope="col">Tindak Pidana</th> --}}
                                 <th scope="col">Status Kasus</th>
-                                <th scope="col">Person In Charge</th>
+                                <th scope="col">pegawai PIC</th>
                                 <th scope="col">Lembaga PIC</th>
                                 <th scope="col">Perintah Disposisi</th>
-                                <th scope="col" class="border-right-0">Created At</th>
-                                {{-- <th scope="col" class="border-right-0">Aksi</th> --}}
+                                <th scope="col">Created At</th>
+                                <th scope="col" class="border-right-0">Aksi</th>
                             </tr>
                         </thead>
 
                         <tbody>
                             @foreach ($kasus as $k)
-                                <tr>
-                                    <th scope="row">
-                                        <td>{{ $k->nama_kasus }}</td>
-                                        <td>{{ $k->deskripsi_kasus }}</td>
-                                        <td>{{ $k->tindak_pidana }}</td>
-                                        <td>{{ $k->id_status_kasus }}</td>
-                                        <td>{{ $k->pegawai_kasus->nama }}</td>
-                                        <td>{{ $k->lembaga_pic }}</td>
-                                        <td>{{ $k->id_perintah }}</td>
+                                <tr onclick="window.location.href='{{route('kasus.show', $k->id)}}'">
+                                    <th scope="row">{{ $loop->iteration }} </th>
+                                        <td>{{ $k->prakasus->judul_kasus }}</td>
+                                        {{-- <td>{{ $k->deskripsi_kasus }}</td>
+                                        <td>{{ $k->tindak_pidana }}</td> --}}
+                                        <td>{{ $k->statuskasus->nama ?? ' ' }}</td>
+                                        <td>{{ $k->pegawaikasus->nama ?? ' ' }}</td>
+                                        <td>{{ $k->lembagakepolisian->nama_lembaga ?? ' ' }}</td>
+                                        <td>{{ $k->perintahdisposisi->perintah ?? ' ' }}</td>
                                         <td>{{ $k->created_at }}</td>
                                         {{-- <td>{{ $k->status }}</td> --}}
-                                        {{-- <td>
+                                        <td>
                                             <div class="form-inline">
-                                                <a href="{{ route('kasus.edit', $k->id_kasus) }}"
+                                                <a href="{{ route('kasus.edit', $k->id) }}"
                                                     class="btn btn-warning mr-2">Edit</a>
-                                                <a href="{{route('pelapor_kasus.destroy',$pk->id_pelapor)}}" class="btn btn-danger">Delete</a>
+                                                {{-- <a href="{{route('kasus.destroy',$k->id)}}" class="btn btn-danger">Delete</a> --}}
                                                 <form class="form-inline" method="post"
-                                                    action="{{ route('kasus.destroy', $k->id_kasus) }}">
+                                                    action="{{ route('kasus.destroy', $k->id) }}">
                                                     @method('delete')
                                                     @csrf
                                                     <button type="submit" class="btn btn-danger">Delete</button>
                                                 </form>
                                             </div>
-                                        </td> --}}
-                                    </th>
+                                        </td>
                                 </tr>
                             @endforeach
                     </table>
@@ -102,5 +100,4 @@
         </div>
     </body>
 @endsection
-
 </html>

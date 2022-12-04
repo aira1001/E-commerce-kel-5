@@ -12,7 +12,7 @@ class Pegawai extends Model
     public $timestamps = false;
 
     protected $fillable = ['nama', 'nrp', 'id_pangkat', 'id_jabatan', 'id_lembaga'];
-    protected function pegawaiKasus(){
+    protected function pegawaikasus(){
         return $this->hasOne("App\Models\Kasus", "id_pegawai_pic");
     }
 }

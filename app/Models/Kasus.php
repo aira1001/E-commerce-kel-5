@@ -12,19 +12,19 @@ class Kasus extends Model
 
     protected $fillable = ['nama_kasus','deskripsi_kasus','tindak_pidana', 'id_pra_kasus', 'id_status_kasus', 'id_pegawai_pic', 'lembaga_pic', 'id_perintah'];
 
-    public function PraKasus(){
-        return $this->belongsTo('App\Models\PraKasus', 'id_pra_kasus');
+    public function prakasus(){
+        return $this->belongsTo(PraKasus::class, 'id_pra_kasus');
     }
-    public function PegawaiKasus(){
-        return $this->belongsTo("App\Models\Pegawai", 'id_pegawai_pic');
+    public function pegawaikasus(){
+        return $this->belongsTo(Pegawai::class, 'id_pegawai_pic');
     }
-    public function StatusKasus(){
-        return $this->belongsTo("App\Models\StatusKasus", 'id_status_kasus');
+    public function statuskasus(){
+        return $this->belongsTo(StatusKasus::class, 'id_status_kasus');
     }
-    public function PerintahDisposisi(){
-        return $this->belongsTo("App\Models\PerintahDisposisi", 'id_perintah');
+    public function perintahdisposisi(){
+        return $this->belongsTo(PerintahDisposisi::class, 'id_perintah');
     }
-    public function LembagaKepolisian(){
-        return $this->belongsTo("App\Models\LembagaKepolisian", 'lembaga_pic');
+    public function lembagakepolisian(){
+        return $this->belongsTo(LembagaKepolisian::class, 'lembaga_pic');
     }
 }

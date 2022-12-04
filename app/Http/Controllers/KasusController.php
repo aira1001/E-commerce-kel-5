@@ -4,9 +4,13 @@ namespace App\Http\Controllers;
 
 // use App\Kasus;
 use App\Models\Kasus;
-use Error;
+use App\Models\LembagaKepolisian;
+use App\Models\Pegawai;
+use App\Models\PerintahDisposisi;
+use App\Models\PraKasus;
+use App\Models\StatusKasus;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
 class KasusController extends Controller
 {
@@ -17,10 +21,9 @@ class KasusController extends Controller
      */
     public function index()
     {
-        $kasus = Kasus::with(['PraKasus', 'PegawaiKasus', 'StatusKasus', 'PerintahDisposisi', 'LembagaKepolisian'])->get();
-        return json_decode($kasus);
-        // return view("pages.kasus", ['kasus' => $kasus]);
-        // return view('kasus', ['kasus' => $kasus]);
+        $kasus = Kasus::with(['prakasus', 'pegawaikasus', 'statuskasus', 'perintahdisposisi', 'lembagakepolisian'])->get();
+        // return json_encode($kasus);
+        return view("pages.kasus", ['kasus' => $kasus]);
     }
 
     /**
@@ -30,7 +33,6 @@ class KasusController extends Controller
      */
     public function create()
     {
-        return view('kasus_create');
     }
 
     /**
@@ -64,10 +66,12 @@ class KasusController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    // public function show()
-    // {
-    //     return view('pages.kasus');
-    // }
+    public function show($id_kasus)
+    {
+        $kasus = Kasus::with(['prakasus.user', 'prakasus.pelaporFile', 'pegawaikasus', 'statuskasus', 'perintahdisposisi', 'lembagakepolisian'])->findOrFail($id_kasus);
+        return json_decode($kasus);
+        // return view('pages.kasus_show', ['kasus' => $kasus]);
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -77,8 +81,13 @@ class KasusController extends Controller
      */
     public function edit($id_kasus)
     {
-        $kasus = Kasus::find($id_kasus);
-        return view('kasus_edit', ['kasus' => $kasus]);
+        $kasus = Kasus::with(['prakasus.user', 'prakasus.pelaporFile', 'pegawaikasus', 'statuskasus', 'perintahdisposisi', 'lembagakepolisian'])->findOrFail($id_kasus);
+        $listpegawai = Pegawai::all();
+        $listlembaga = LembagaKepolisian::all();
+        $liststatus = StatusKasus::all();
+        $listperintah = PerintahDisposisi::all();
+        // dd(Kasus::with('prakasus')->findOrFail($id_kasus));
+        return view('pages.kasus_edit', ['kasus' => $kasus,  'listpegawai' => $listpegawai, 'listlembaga' => $listlembaga, 'liststatus' => $liststatus, 'listperintah' => $listperintah]);
     }
 
     /**
@@ -90,20 +99,36 @@ class KasusController extends Controller
      */
     public function update(Request $request, $id_kasus)
     {
+        // dd($request->all());
         $this->validate($request, [
             'status_kasus' => 'required',
             'pegawai_pic' => 'required',
             'lembaga_pic' => 'required',
-            'perintah' => 'required',
+            'perintah_disposisi' => 'required',
         ]);
 
-        $kasus = Kasus::find($id_kasus);
-        $kasus->id_status_kasus = $request->id_status_kasus;
-        $kasus->id_pegawai_pic = $request->id_pegawai_pic;
-        $kasus->lembaga_pic = $request->lembaga_pic;
-        $kasus->id_perintah = $request->id_perintah;
-        $kasus->save();
-        return redirect('/kasus');
+        DB::beginTransaction();
+        try {
+            //step 1 : update kasus
+            $kasus = Kasus::with('prakasus')->find($id_kasus);
+            $kasus->id_status_kasus = $request->status_kasus;
+            $kasus->id_pegawai_pic = $request->pegawai_pic;
+            $kasus->lembaga_pic = $request->lembaga_pic;
+            $kasus->id_perintah = $request->perintah_disposisi;
+            $kasus->save();
+
+            //step 2 : update pra kasus
+            $pra_kasus = $kasus->prakasus;
+            $pra_kasus->status = 1;
+            $pra_kasus->save();
+            DB::commit();
+            return redirect()->route('kasus.index')->with('success', 'kasus telah diedit!');
+        } catch (\Throwable $e) {
+            DB::rollback();
+            error_log($e);
+            return redirect()->route('kasus.index')
+                ->with('warning', 'Something Went Wrong!');
+        }
     }
 
     /**
@@ -112,10 +137,15 @@ class KasusController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function delete($id)
+    public function destroy($id)
     {
-        $kasus = Kasus::find($id);
-        $kasus->delete();
-        return redirect('/kasus');
+        try {
+            $kasus = Kasus::find($id);
+            $kasus->delete();
+            return redirect('/kasus')->withSuccess(__('kasus delete successfully.'));
+        } catch (\Throwable $e) {
+            error_log($e);
+            return redirect()->route('kasus.index')->with('warning', 'Something Went Wrong!');
+        }
     }
 }
