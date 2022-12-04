@@ -19,9 +19,9 @@
 </head>
 
 <body>
-    <div class="container" style=" border: 1px solid; width:70%; ">
+    <div class="container" style=" border: 1px solid; width:100%; ">
         <!-- <div style=></div> -->
-        <table align="center" border="0" cellpadding="1" style="width: 700px;">
+        <table align="center" border="0" cellpadding="1" style="width: 900px;">
             <tbody>
                 <tr>
                     <td colspan="3">
@@ -30,10 +30,10 @@
 
                             <img src="{{ asset('/assets/img/polisi.png')}}" alt="polisi" style="width:10%;">
                             <br>
-                            <span style="font-family: Verdana; font-size: x-small;"><b>Laporan Polisi</b></span>
+                            <span style="font-family: Verdana; font-size: small;"><b>Laporan Polisi</b></span>
                             <hr class="new4">
                             <span
-                                style="font-family: Verdana; font-size: x-small; float: left ; padding-left: 250px ;"><b>
+                                style="font-family: Verdana; font-size: small; float: left ; padding-left: 250px ;"><b>
                                     Nomor : </b></span>
                         </div>
                         </br>
@@ -51,34 +51,34 @@
                         <table border="0" cellpadding="1">
                             <tbody>
                                 <tr>
-                                    <td width="93"><span style="font-size: x-small;">nama</span></td>
-                                    <td width="8"><span style="font-size: x-small;">:</span></td>
-                                    <td width="200"><span style="font-size: x-small;">
+                                    <td width="93"><span style="font-size: small;">nama</span></td>
+                                    <td width="8"><span style="font-size: small;">:</span></td>
+                                    <td width="200"><span style="font-size: small;">
                                             <?php foreach ($surat as $value) {?> {{$value->name}} <?php }?> </span></td>
                                 </tr>
                                 <tr>
-                                    <td><span style="font-size: x-small;">umur</span></td>
-                                    <td><span style="font-size: x-small;">:</span></td>
-                                    <td><span style="font-size: x-small;"></span></td>
+                                    <td><span style="font-size: small;">umur</span></td>
+                                    <td><span style="font-size: small;">:</span></td>
+                                    <td><span style="font-size: small;"></span></td>
                                 </tr>
                                 <tr>
-                                    <td><span style="font-size: x-small;">pekerjaan</span></td>
-                                    <td><span style="font-size: x-small;">:</span></td>
-                                    <td><span style="font-size: x-small;"></span></td>
+                                    <td><span style="font-size: small;">pekerjaan</span></td>
+                                    <td><span style="font-size: small;">:</span></td>
+                                    <td><span style="font-size: small;"></span></td>
                                 </tr>
-                                <td><span style="font-size: x-small;">kewarganegaraan</span></td>
-                                <td><span style="font-size: x-small;">:</span></td>
-                                <td><span style="font-size: x-small;"></span></td>
+                                <td><span style="font-size: small;">kewarganegaraan</span></td>
+                                <td><span style="font-size: small;">:</span></td>
+                                <td><span style="font-size: small;"></span></td>
                                 <tr>
-                                    <td><span style="font-size: x-small;">alamat</span></td>
-                                    <td><span style="font-size: x-small;">:</span></td>
-                                    <td><span style="font-size: x-small;"></span></td>
+                                    <td><span style="font-size: small;">alamat</span></td>
+                                    <td><span style="font-size: small;">:</span></td>
+                                    <td><span style="font-size: small;"></span></td>
                                 </tr>
                                 <tr>
 
-                                    <td><span style="font-size: x-small;">pekerjaan</span></td>
-                                    <td><span style="font-size: x-small;">:</span></td>
-                                    <td><span style="font-size: x-small;"></span></td>
+                                    <td><span style="font-size: small;">pekerjaan</span></td>
+                                    <td><span style="font-size: small;">:</span></td>
+                                    <td><span style="font-size: small;"></span></td>
                                 </tr>
 
                             </tbody>
@@ -94,35 +94,35 @@
                         <table border="0" cellpadding="1" style="width: 400px;">
                             <tbody>
                                 <tr>
-                                    <td width="93"><span style="font-size: x-small;">waktu kejadian</span></td>
-                                    <td width="8"><span style="font-size: x-small;">:</span></td>
+                                    <td width="93"><span style="font-size: small;">waktu kejadian</span></td>
+                                    <td width="8"><span style="font-size: small;">:</span></td>
                                     <td width="200"><span
-                                            style="font-size: x-small;"><?php foreach ($surat as $value) {?>
+                                            style="font-size: small;"><?php foreach ($surat as $value) {?>
                                             {{$value->waktu_kejadian}} <?php }?></span></td>
                                 </tr>
                                 <tr>
-                                    <td><span style="font-size: x-small;">tempat kejadian</span></td>
-                                    <td><span style="font-size: x-small;">:</span></td>
-                                    <td><span style="font-size: x-small;"><?php foreach ($surat as $value) {?>
+                                    <td><span style="font-size: small;">tempat kejadian</span></td>
+                                    <td><span style="font-size: small;">:</span></td>
+                                    <td><span style="font-size: small;"><?php foreach ($surat as $value) {?>
                                             {{$value->tempat_kejadian}} <?php }?></span></td>
                                 </tr>
                                 <tr>
-                                    <td><span style="font-size: x-small;">apa yang terjadi</span></td>
-                                    <td><span style="font-size: x-small;">:</span></td>
-                                    <td><span style="font-size: x-small;"><?php foreach ($surat as $value) {?>
+                                    <td><span style="font-size: small;">apa yang terjadi</span></td>
+                                    <td><span style="font-size: small;">:</span></td>
+                                    <td><span style="font-size: small;"><?php foreach ($surat as $value) {?>
                                             {{$value->judul_kasus}} <?php }?></span></td>
                                 </tr>
                                 <tr>
-                                    <td><span style="font-size: x-small;">siapa yang terlapor</span></td>
-                                    <td><span style="font-size: x-small;">:</span></td>
-                                    <td><span style="font-size: x-small;"><?php foreach ($surat as $value) {?>
+                                    <td><span style="font-size: small;">siapa yang terlapor</span></td>
+                                    <td><span style="font-size: small;">:</span></td>
+                                    <td><span style="font-size: small;"><?php foreach ($surat as $value) {?>
                                             {{$value->terlapor}}
                                             <?php }?></span></td>
                                 </tr>
                                 <tr>
-                                    <td><span style="font-size: x-small;">siapa korban</span></td>
-                                    <td><span style="font-size: x-small;">:</span></td>
-                                    <td><span style="font-size: x-small;"><?php foreach ($surat as $value) {?>
+                                    <td><span style="font-size: small;">siapa korban</span></td>
+                                    <td><span style="font-size: small;">:</span></td>
+                                    <td><span style="font-size: small;"><?php foreach ($surat as $value) {?>
                                             {{$value->korban}}
                                             <?php }?></span>
                                     </td>
@@ -130,27 +130,27 @@
                                 <tr>
                                     <div class="row">
                                         <div class="col-6">
-                                            <td><div style="font-size: x-small; padding-top : 0 px">bagaimana terjadi</div></td>
-                                            <td><div style="font-size: x-small;">:</div></td>
+                                            <td><div style="font-size: small; padding-top : 0 px">bagaimana terjadi</div></td>
+                                            <td><div style="font-size: small;">:</div></td>
                                         </div>
                                         <div class="col6">
                                             <td><br>
-                                                <div style="font-size: x-small;"><?php foreach ($surat as $value) {?>
+                                                <div style="font-size: small;"><?php foreach ($surat as $value) {?>
                                                     {{$value->bagaimana_terjadi}}
                                                     <?php }?> </div>
                                             </td>
                                         </div>
                                     </div>
                                 </tr>
-                                <td><span style="font-size: x-small;">dilaporkan pada hari</span></td>
-                                <td><span style="font-size: x-small;">:</span></td>
-                                <td><span style="font-size: x-small;"></span></td>
+                                <td><span style="font-size: small;">dilaporkan pada hari</span></td>
+                                <td><span style="font-size: small;">:</span></td>
+                                <td><span style="font-size: small;"></span></td>
 
 
                             </tbody>
                         </table>
 
-                        <hr class="new5">
+                        <hr class="new5" >
                         <table>
                     </td>
                 </tr>
@@ -166,20 +166,20 @@
                                         </span></td>
                                 </tr>
                                 <tr>
-                                    <td width="93"><span style="font-size: x-small;">
+                                    <td width="93"><span style="font-size: small;">
                                             <b><?php foreach ($surat as $value) {?>
                                                 {{$value->judul_kasus}}
                                                 <?php }?> <b></span></td>
-                                    <td width="93"><span style="font-size: x-small; "> Nama saksi </span></td>
+                                    <td width="93"><span style="font-size: small; "> Nama saksi </span></td>
                                 </tr>
                                 <tr>
-                                    <td width="93"><span style="font-size: x-small;"> <b> pasal <b></span></td>
-                                    <td width="93"><span style="font-size: x-small; "> </span></td>
+                                    <td width="93"><span style="font-size: small;"> <b> pasal <b></span></td>
+                                    <td width="93"><span style="font-size: small; "> </span></td>
                                 </tr>
 
                             </tbody>
                         </table>
-                        <hr class="new5" style="width: 175%;"> <br>
+                        <hr class="new5" style="width: 225%;"> <br>
                     </td>
                 </tr>
 
@@ -194,9 +194,9 @@
                                         </span></td>
                                 </tr>
                                 <tr>
-                                    <td width="93"><span style="font-size: x-small;"> <b> <?php foreach ($surat as $value) {?>
+                                    <td width="93"><span style="font-size: small;"> <b> <?php foreach ($surat as $value) {?>
                                             {{$value->uraian_singkat_kejadian}} <?php }?> <b></span></td>
-                                    <td width="93"><span style="font-size: x-small; ">
+                                    <td width="93"><span style="font-size: small; ">
                                             <?php foreach ($surat as $value) {?>
                                             {{$value->uraian_singkat_kejadian}} <?php }?> </span></td>
                                 </tr>
@@ -204,7 +204,7 @@
                             </tbody>
                         </table>
 
-                        <hr class="new5" style="width: 175%;">
+                        <hr class="new5" style="width: 225%;">
                         <br>
                     </td>
                 </tr>
@@ -212,14 +212,14 @@
 
                 <table>
                     <tbody>
-                        <pre><span style="font-size: x-small;">Pengadu/pelapor membenarkan semua keterangan dan membubuhka tanda tanganya dibawah ini.</span></pre>
+                        <pre><span style="font-size: small;">Pengadu/pelapor membenarkan semua keterangan dan membubuhka tanda tanganya dibawah ini.</span></pre>
 
                         <div style="padding-right: 100px;" align="right"><br> <br>
-                            <span style="font-size: x-small;">Mengetahui</span>
+                            <span style="font-size: small;">Mengetahui</span>
                         </div>
                     </tbody> <br><br>
                     <div style="padding-right: 100px;" align="right">
-                        <span style="font-size: x-small;"><?php foreach ($surat as $value) {?> {{$value->name}}
+                        <span style="font-size: small;"><?php foreach ($surat as $value) {?> {{$value->name}}
                             <?php }?></span>
                     </div>
                 </table>
@@ -234,10 +234,10 @@
                 <tr>
                     <td colspan="2" valign="top">
                         <div align="justify">
-                            <pre><span style="font-size: x-small;"> - <span style="font-size: x-small;"><?php foreach ($surat as $value) {?> {{$value->perintah}}
+                            <pre><span style="font-size: small;"> - <span style="font-size: small;"><?php foreach ($surat as $value) {?> {{$value->perintah}}
                             <?php }?> </span></pre>
 
-                            <hr class="new5 ">
+                            <hr class="new5" >
                     </td>
                 </tr>
                 <table>
@@ -245,26 +245,26 @@
                         <div class="col-6">
 
                             <div style="padding-left: 100px;" align="center">
-                                <span style="font-size: x-small;"><B>Mengetahui</B></span>
+                                <span style="font-size: small;"><B>Mengetahui</B></span>
                             </div>
                             <div style="padding-left: 100px;" align="center">
-                                <span style="font-size: x-small;"><B>Kepala Kepolisian Sektor Solo</B></span>
+                                <span style="font-size: small;"><B>Kepala Kepolisian Sektor Solo</B></span>
                             </div>
                             <br><br>
                             <div style="padding-left: 100px;" align="center">
-                                <span style="font-size: x-small;"><B>nama</B></span>
+                                <span style="font-size: small;"><B>nama</B></span>
                             </div>
                         </div>
                         <div class="col-6">
                             <div style="padding-right: 100px;" align="center">
-                                <span style="font-size: x-small;"><?php echo "<b >Solo, <b>". date("d F Y") ; ?> </span>
+                                <span style="font-size: small;"><?php echo "<b >Solo, <b>". date("d F Y") ; ?> </span>
                             </div>
                             <div style="padding-right: 100px; text-align: center;" align="center">
-                                <span style="font-size: x-small; "><B>Yang Menerima Laporan,</B></span>
+                                <span style="font-size: small; "><B>Yang Menerima Laporan,</B></span>
                             </div>
                             <br><br>
                             <div style="padding-right: 100px; " align="center">
-                                <span style="font-size: x-small;"><B>nama</B></span>
+                                <span style="font-size: small;"><B>nama</B></span>
                             </div>
                         </div>
                     </div>
