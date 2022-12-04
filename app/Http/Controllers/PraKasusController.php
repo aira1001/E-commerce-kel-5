@@ -217,4 +217,40 @@ class PraKasusController extends Controller
                 ->with('warning', 'Something Went Wrong!');
         }
     }
+    public function lembar_disporsisi()
+    {
+        $data ['surat'] = DB::table('kasus')
+        ->join('pra_kasus', 'pra_kasus.id_pra_kasus', 'kasus.id_pra_kasus')
+        ->join('pelapor_kasus', 'pelapor_kasus.id_pelapor', 'pra_kasus.id_pelapor')
+        ->select('*')
+        ->get();
+   
+        return view('disporsisi',$data);
+
+    }
+    public function daftar()
+    {
+        $data ['daftar'] = DB::table('kasus')
+        ->join('pra_kasus', 'pra_kasus.id_pra_kasus', 'kasus.id_pra_kasus')
+        ->join('users', 'users.id', 'kasus.id')
+        ->select('*')
+        ->get();
+        return view('daftar_disporsisi',$data);
+
+    }
+    public function open_data($id_open)
+    {
+        $data ['surat'] = DB::table('kasus')
+        ->join('pra_kasus', 'pra_kasus.id_pra_kasus', 'kasus.id_pra_kasus')
+        ->join('perintah_disposisi', 'kasus.id_perintah', 'perintah_disposisi.id_perintah')
+        ->join('users', 'users.id', 'pra_kasus.id_pelapor')
+        ->where('kasus.id', $id_open)
+        ->select('pra_kasus.*','kasus.*','users.name','perintah_disposisi.perintah')
+        ->get();
+        // dd($data);
+   
+        return view('disporsisi',$data);
+
+    }
+
 }
