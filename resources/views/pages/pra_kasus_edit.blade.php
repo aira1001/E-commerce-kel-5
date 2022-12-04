@@ -1,5 +1,5 @@
 <!doctype html>
-@extends('layouts.app')
+@extends('template')
 <html>
 
 <head>
@@ -167,8 +167,6 @@
                                     </div>
                                 @endforeach
                             </div>
-
-
                             <button type="button" id="btn-tambah" class="btn btn-primary mt-2">
                                 {{-- <span class="glyphicon glyphicon-"></span> --}}
                                 tambah

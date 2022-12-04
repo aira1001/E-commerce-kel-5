@@ -14,7 +14,7 @@ class LembagaKepolisianFactory extends Factory
     public function definition()
     {
         return [
-            'nama_lembaga' => $this->faker->word(),
+            'nama_lembaga' => 'kepolisian '. $this->faker->sentence(mt_rand(1, 2)),
             'kepala_lembaga' => $this->faker->name()
         ];
     }

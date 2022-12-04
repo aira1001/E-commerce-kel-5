@@ -73,32 +73,32 @@
                         <tbody>
                             @foreach ($pra_kasus as $pk)
                                 <tr onclick="window.location.href = '{{ route('pra_kasus.show', $pk->id_pra_kasus) }}';">
-                                    <th scope="row">
-                                        <td>{{ $pk->waktu_kejadian }}</td>
-                                        <td>{{ $pk->tempat_kejadian }}</td>
-                                        <td>{{ $pk->judul_kasus }}</td>
-                                        {{-- <td>{{ $pk->terlapor }}</td>
+                                    <th scope="row">{{$loop->iteration}}</th>
+                                    <td>{{ $pk->waktu_kejadian }}</td>
+                                    <td>{{ $pk->tempat_kejadian }}</td>
+                                    <td>{{ $pk->judul_kasus }}</td>
+                                    {{-- <td>{{ $pk->terlapor }}</td>
                                         <td>{{ $pk->korban }}</td> --}}
-                                        {{-- <td>{{ $pk->bagaimana_terjadi }}</td>
+                                    {{-- <td>{{ $pk->bagaimana_terjadi }}</td>
                                         <td>{{ $pk->barang_bukti }}</td> --}}
-                                        {{-- <td>{{ $pk->saksi }}</td> --}}
-                                        <td>{{ $pk->uraian_singkat_kejadian }}</td>
-                                        <td>{{ $pk->created_at }}</td>
-                                        <td>{{ $pk->status }}</td>
-                                        <td>
-                                            <div class="form-inline">
-                                                <a href="{{ route('pra_kasus.edit', $pk->id_pra_kasus) }}"
-                                                    class="btn btn-warning mr-2">Edit</a>
-                                                {{-- <a href="{{route('pelapor_kasus.destroy',$pk->id_pelapor)}}" class="btn btn-danger">Delete</a> --}}
-                                                <form class="form-inline" method="post"
-                                                    action="{{ route('pra_kasus.destroy', $pk->id_pra_kasus) }}">
-                                                    @method('delete')
-                                                    @csrf
-                                                    <button type="submit" class="btn btn-danger">Delete</button>
-                                                </form>
-                                            </div>
-                                        </td>
-                                    </th>
+                                    {{-- <td>{{ $pk->saksi }}</td> --}}
+                                    <td>{{ $pk->uraian_singkat_kejadian }}</td>
+                                    <td>{{ $pk->created_at }}</td>
+                                    <td>{{ $pk->status }}</td>
+                                    <td>
+                                        <div class="form-inline">
+                                            <a href="{{ route('pra_kasus.edit', $pk->id_pra_kasus) }}"
+                                                class="btn btn-warning mr-2">Edit</a>
+                                            {{-- <a href="{{route('pelapor_kasus.destroy',$pk->id_pelapor)}}" class="btn btn-danger">Delete</a> --}}
+                                            <form class="form-inline" method="post"
+                                                action="{{ route('pra_kasus.destroy', $pk->id_pra_kasus) }}">
+                                                @method('delete')
+                                                @csrf
+                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                            </form>
+                                        </div>
+                                    </td>
+
                                 </tr>
                             @endforeach
                     </table>

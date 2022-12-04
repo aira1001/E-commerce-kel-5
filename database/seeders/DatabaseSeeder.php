@@ -8,7 +8,7 @@ use App\Models\lembaga_kepolisian;
 use App\Models\LembagaKepolisian;
 use App\Models\Pegawai;
 use App\Models\PraKasus;
-use App\Models\PelaporKasus;
+use App\Models\PelaporanKasus;
 use App\Models\PerintahDisposisi;
 use App\Models\Role;
 use App\Models\StatusKasus;
@@ -44,8 +44,13 @@ class DatabaseSeeder extends Seeder
         //user seeder
         User::factory(10)->create();
 
-        //pelapor kasus seeder
-        PelaporKasus::factory(5)->create();
+        // admin seeder
+        User::create([
+            'name'=>'testAdmin',
+            'email'=>'tesadmin@example.com',
+            'password'=>'admintest123',
+            'id_role'=>2
+        ]);
 
         //pra kasus seeder
         PraKasus::factory(10)->create();
@@ -97,6 +102,10 @@ class DatabaseSeeder extends Seeder
 
         //kasus seeder
         Kasus::factory(10)->create();
+
+
+        //pelaporan kasus seeder
+        PelaporanKasus::factory(5)->create();
 
     }
 }

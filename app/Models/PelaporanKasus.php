@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PelaporKasus extends Model
+class PelaporanKasus extends Model
 {
     /**
      * The table associated with the model.
@@ -13,8 +13,8 @@ class PelaporKasus extends Model
      * @var string
      */
     use HasFactory;
-    protected $table = 'pelapor_kasus';
+    protected $table = 'pelaporan_kasus';
     protected $primaryKey = 'id_pelapor';
     public $timestamps = false;
-    protected $fillable = ['nama', 'perihal','deskripsi'];
+    protected $fillable = ['id_kasus', 'perihal','deskripsi'];
 }
