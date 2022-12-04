@@ -45,7 +45,7 @@
             @endif
             <div class="card mt-5" style="width: 75rem;  margin: auto">
                 <div class="card-header text-center">
-                   Daftar Disporsisi
+                   Daftar Kasus
                 </div>
                 <div class="card-body">
                     <table class="table table-bordered table-hover table-striped">
