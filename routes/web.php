@@ -20,6 +20,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/kasus', [KasusController::class, 'index']);
+Route::get('/kasus/create', 'KasusController@create');
+Route::post('/kasus/store', 'KasusController@store');
+Route::get('/kasus/edit/{id}', 'KasusController@edit');
+Route::put('/kasus/update/{id}', 'KasusController@update');
+Route::put('/kasus/delete/{id}', 'KasusController@delete');
+Route::get('/disporsisi', [PraKasusController::class, 'lembar_disporsisi']);
+Route::get('/daftar_disporsisi', [PraKasusController::class, 'daftar']);
+Route::get('/disporsisi/{id}', [PraKasusController::class, 'open_data']);
+
 Route::middleware(['auth', 'checkRoleAdmin'])->group(function () {
     Route::get('/kasus', [KasusController::class, 'index']);
     Route::get('/kasus/create', [KasusController::class, 'create']);
@@ -45,6 +55,7 @@ Route::middleware(['auth', 'checkRoleMasyarakat'])->group(function () {
     // Route::get('/pra_kasus/{id_pra_kasus}', [PraKasusController::class, 'show']);
     // Route::delete('/pelapor_kasus/delete/{id_pelapor}', [PelaporKasusController::class, 'destroy']);
     Route::resource('pra_kasus', PraKasusController::class);
+    
 });
 
 // Route::get('/kasus', [KasusController::class, 'index']);
