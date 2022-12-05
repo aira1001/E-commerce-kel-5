@@ -50,12 +50,7 @@ class PraKasusController extends Controller
         // error_log(print_r($userId, true));
         DB::beginTransaction();
         try {
-            // Step 1 : pelapor kasus
-            $pelapor_kasus = new PelaporKasus();
-            $pelapor_kasus->nama = $request->username;
-            $pelapor_kasus->save();
-
-            //Step 2 : pra kasus
+            //Step 1 : pra kasus
             $pra_kasus = new PraKasus();
             $pra_kasus->id_pelapor = $userId;
             $pra_kasus->judul_kasus = $request->judul_kasus;
@@ -67,7 +62,7 @@ class PraKasusController extends Controller
             $pra_kasus->uraian_singkat_kejadian = $request->uraian_singkat_kejadian;
             $pra_kasus->save();
 
-            //step 3 : saksi
+            //step 2 : saksi
             foreach ($request->addMoreInputFields as $key => $value) {
                 // Saksi::create([
                 //     'id_pra_kasus'=>$pra_kasus->id_pra_kasus,
@@ -81,7 +76,7 @@ class PraKasusController extends Controller
                 $saksi->save();
             }
 
-            //step 4: add image file to pelapor file
+            //step 3: add image file to pelapor file
             if ($request->hasFile("filename")) {
                 foreach ($request->file('filename') as $image) {
                     $name = $image->getClientOriginalName();
@@ -96,7 +91,7 @@ class PraKasusController extends Controller
                 }
             }
 
-            //step 5 : add to table kasus
+            //step 4 : add to table kasus
             $kasus = new Kasus();
             $kasus->id_pra_kasus = $pra_kasus->id_pra_kasus;
             $kasus->save();
@@ -165,8 +160,7 @@ class PraKasusController extends Controller
         $combinedDT = date('Y-m-d H:i:s', strtotime("$request->tgl_kejadian, $request->time_kejadian"));
         DB::beginTransaction();
         try {
-
-            //Step 2 : kasus reservation
+            //Step 1 : kasus reservation
             $pra_kasus->judul_kasus = $request->judul_kasus;
             $pra_kasus->waktu_kejadian = $combinedDT;
             $pra_kasus->tempat_kejadian = $request->tempat_kejadian;
@@ -176,13 +170,13 @@ class PraKasusController extends Controller
             $pra_kasus->uraian_singkat_kejadian = $request->uraian_singkat_kejadian;
             $pra_kasus->save();
 
-            //step 3 : update saksi
+            //step 2 : update saksi
             $saksi = Saksi::where('id_pra_kasus', $id_pra_kasus);
             $saksi->delete();
 
             error_log(print_r($request->addMoreInputFields, true));
 
-            //step 4 : add saksi
+            //step 3 : add saksi
             foreach ($request->addMoreInputFields as $key => $value) {
                 $saksiNew = new Saksi();
                 $saksiNew->id_pra_kasus = $id_pra_kasus;
@@ -191,7 +185,7 @@ class PraKasusController extends Controller
                 $saksiNew->save();
             }
 
-            //step 5 : update file
+            //step 4 : update file
             $pelapor_file = PelaporFile::where('id_pra_kasus', $id_pra_kasus);
             $pelapor_file->delete();
 
