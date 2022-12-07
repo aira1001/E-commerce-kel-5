@@ -16,6 +16,7 @@ class PegawaiFactory extends Factory
         return [
             'nama' => $this->faker->name(),
             'nrp' => $this->faker->randomNumber(8, true),
+            'id_user' => mt_rand(1,10)
         ];
     }
 }

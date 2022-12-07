@@ -11,8 +11,13 @@ class Pegawai extends Model
     protected $table = 'pegawai';
     public $timestamps = false;
 
-    protected $fillable = ['nama', 'nrp', 'id_pangkat', 'id_jabatan', 'id_lembaga'];
-    protected function pegawaikasus(){
-        return $this->hasOne("App\Models\Kasus", "id_pegawai_pic");
+    protected $fillable = ['nama', 'nrp', 'id_user', 'id_pangkat', 'id_jabatan', 'id_lembaga'];
+    public function kasus()
+    {
+        return $this->hasMany(Kasus::class, "id_pegawai_pic");
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class, "id_user");
     }
 }

@@ -43,7 +43,7 @@
                     </div>
                 @endif
             @endif
-            <div class="card mt-5" style="width: 75rem;  margin: auto">
+            <div class="card mt-5" style="margin: auto">
                 <div class="card-header text-center">
                     Data Pra kasus
                 </div>

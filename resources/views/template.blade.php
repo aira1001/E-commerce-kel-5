@@ -36,18 +36,35 @@
                     </a>
                 </div>
                 <ul class="nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('pra_kasus.index')}}">
-                            <i class="nc-icon nc-icon nc-paper-2"></i>
-                            <p>Pra Kasus</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{url('/daftar_disporsisi')}}">
-                            <i class="nc-icon nc-icon nc-paper-2"></i>
-                            <p>Disporsisi</p>
-                        </a>
-                    </li>
+                    @if (Auth::user()->id_role == 2)
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url('/daftar_disporsisi') }}">
+                                <i class="nc-icon nc-icon nc-paper-2"></i>
+                                <p>Disporsisi</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url('/kasus') }}">
+                                <i class="nc-icon nc-icon nc-paper-2"></i>
+                                <p>Kasus</p>
+                            </a>
+                        </li>
+                    @elseif (Auth::user()->id_role == 1)
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('pra_kasus.index') }}">
+                                <i class="nc-icon nc-icon nc-paper-2"></i>
+                                <p>Pra Kasus</p>
+                            </a>
+                        </li>
+                    @elseif (Auth::user()->id_role == 4)
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('pelaporanKasus.index') }}">
+                                <i class="nc-icon nc-icon nc-paper-2"></i>
+                                <p>pelaporan kasus</p>
+                            </a>
+                        </li>
+                    @endif
+
                     <li>
                         <a class="nav-link" href="/kasus">
                             <i class="nc-icon nc-bell-55"></i>
@@ -128,7 +145,8 @@
                             </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" id="navbarDropdown"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button" >
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                    role="button">
                                     {{ Auth::user()->name }}
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenu">

@@ -24,6 +24,7 @@ class PraKasusController extends Controller
         // $praKasusGetById = PraKasus::find($id_pra_kasus);
         $praKasusGetById = PraKasus::with(['user', 'saksi', 'pelaporFile'])->where('id_pra_kasus', $id_pra_kasus)->first();
         // $pra_kasus = PraKasus::where('id_pelapor', $userId)->get();
+        return json_decode($praKasusGetById);
         return view('pages.pra_kasus_show', ['pra_kasus' => $praKasusGetById]);
     }
     public function create()
@@ -33,16 +34,8 @@ class PraKasusController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'username' => 'required',
-            'judul_kasus' => 'required',
-            'tgl_kejadian' => 'required',
-            'time_kejadian' => 'required',
-            'tempat_kejadian' => 'required',
-            'terlapor' => 'required',
-            'korban' => 'required',
-            'bagaimana_terjadi' => 'required',
-            'addMoreInputFields.*.nama' => 'required',
-            'addMoreInputFields.*.umur' => 'required',
+            'perihal' => 'required',
+            'deskripsi' => 'required',
         ]);
 
         $combinedDT = date('Y-m-d H:i:s', strtotime("$request->tgl_kejadian, $request->time_kejadian"));
@@ -218,8 +211,8 @@ class PraKasusController extends Controller
         ->join('pelapor_kasus', 'pelapor_kasus.id_pelapor', 'pra_kasus.id_pelapor')
         ->select('*')
         ->get();
-   
-        return view('disporsisi',$data);
+
+        return view('pages.disporsisi',$data);
 
     }
     public function daftar()
@@ -229,7 +222,7 @@ class PraKasusController extends Controller
         ->join('users', 'users.id', 'kasus.id')
         ->select('*')
         ->get();
-        return view('daftar_disporsisi',$data);
+        return view('pages.daftar_disporsisi',$data);
 
     }
     public function open_data($id_open)
@@ -242,8 +235,8 @@ class PraKasusController extends Controller
         ->select('pra_kasus.*','kasus.*','users.name','perintah_disposisi.perintah')
         ->get();
         // dd($data);
-   
-        return view('disporsisi',$data);
+
+        return view('pages.disporsisi',$data);
 
     }
 

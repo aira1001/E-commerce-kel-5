@@ -18,6 +18,7 @@ class CreatePelaporanKasus extends Migration
             $table->unsignedBigInteger('id_kasus');
             $table->string('perihal')->nullable();
             $table->string('deskripsi')->nullable();
+            $table->timestamps();
         });
     }
 

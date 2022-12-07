@@ -1,16 +1,10 @@
 <!doctype html>
 @extends('template')
-<html>
-{{--
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet">
-</head> --}}
 
 @section('content')
+
     <body>
-        <div class="container">
+        <div class="container-fluid">
             @if (Session::get('success', false))
                 <?php $data = Session::get('success'); ?>
                 @if (is_array($data))
@@ -54,11 +48,7 @@
                             <tr>
                                 <th scope="col">No</th>
                                 <th scope="col">Judul Kasus</th>
-                                {{-- <th scope="col">Deskripsi Kasus</th>
-                                <th scope="col">Tindak Pidana</th> --}}
                                 <th scope="col">Status Kasus</th>
-                                <th scope="col">pegawai PIC</th>
-                                <th scope="col">Lembaga PIC</th>
                                 <th scope="col">Perintah Disposisi</th>
                                 <th scope="col">Created At</th>
                                 <th scope="col" class="border-right-0">Aksi</th>
@@ -66,31 +56,26 @@
                         </thead>
 
                         <tbody>
-                            @foreach ($kasus as $k)
-                                <tr onclick="window.location.href='{{route('kasus.show', $k->id)}}'">
+                            @foreach ($pegawai->kasus as $listkasus)
+                                <tr onclick="window.location.href='{{ route('pelaporanKasus.show', $listkasus->id) }}'">
                                     <th scope="row">{{ $loop->iteration }} </th>
-                                        <td>{{ $k->prakasus->judul_kasus }}</td>
-                                        {{-- <td>{{ $k->deskripsi_kasus }}</td>
-                                        <td>{{ $k->tindak_pidana }}</td> --}}
-                                        <td>{{ $k->statuskasus->nama ?? ' ' }}</td>
-                                        <td>{{ $k->pegawaikasus->nama ?? ' ' }}</td>
-                                        <td>{{ $k->lembagakepolisian->nama_lembaga ?? ' ' }}</td>
-                                        <td>{{ $k->perintahdisposisi->perintah ?? ' ' }}</td>
-                                        <td>{{ $k->created_at }}</td>
-                                        {{-- <td>{{ $k->status }}</td> --}}
-                                        <td>
-                                            <div class="form-inline">
-                                                <a href="{{ route('kasus.edit', $k->id) }}"
-                                                    class="btn btn-warning mr-2">Edit</a>
-                                                {{-- <a href="{{route('kasus.destroy',$k->id)}}" class="btn btn-danger">Delete</a> --}}
-                                                <form class="form-inline" method="post"
-                                                    action="{{ route('kasus.destroy', $k->id) }}">
-                                                    @method('delete')
-                                                    @csrf
-                                                    <button type="submit" class="btn btn-danger">Delete</button>
-                                                </form>
-                                            </div>
-                                        </td>
+                                    <td>{{ $listkasus->prakasus->judul_kasus}}</td>
+                                    <td>{{ $listkasus->statuskasus->nama ?? ' ' }}</td>
+                                    <td>{{ $listkasus->perintahdisposisi->perintah ?? ' ' }}</td>
+                                    <td>{{ $listkasus->created_at }}</td>
+                                    {{-- <td>{{ $k->status }}</td> --}}
+                                    {{-- <td>
+                                        <div class="form-inline">
+                                            <a href="{{ route('kasus.edit', $k->id) }}"
+                                                class="btn btn-warning mr-2">Edit</a>
+                                            <form class="form-inline" method="post"
+                                                action="{{ route('kasus.destroy', $k->id) }}">
+                                                @method('delete')
+                                                @csrf
+                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                            </form>
+                                        </div>
+                                    </td> --}}
                                 </tr>
                             @endforeach
                     </table>
@@ -99,4 +84,3 @@
         </div>
     </body>
 @endsection
-</html>
