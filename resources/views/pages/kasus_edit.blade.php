@@ -128,9 +128,12 @@
                             <label>Status kasus</label>
                             <select class="custom-select w-100{{ $errors->has('status_kasus') ? ' is-invalid' : '' }}"
                                 name="status_kasus">
-                                <option value="" {{ is_null($kasus->statuskasus) ? 'selected' : '' }} selected hidden disabled>select option</option>
+                                <option value="" {{ is_null($kasus->statuskasus) ? 'selected' : '' }} selected hidden
+                                    disabled>select option</option>
                                 @foreach ($liststatus as $statuskasus)
-                                    <option value="{{ $statuskasus->id }}" {{ $kasus->statuskasus?->id == $statuskasus->id ? 'selected' : '' }}>{{ $statuskasus->nama }}</option>
+                                    <option value="{{ $statuskasus->id }}"
+                                        {{ $kasus->statuskasus?->id == $statuskasus->id ? 'selected' : '' }}>
+                                        {{ $statuskasus->nama }}</option>
                                 @endforeach
                                 {{-- <option value="pembunuhan"
                                     {{ $kasus->statuskasus->nama == 'pembunuhan' ? 'selected' : '' }}>
@@ -150,7 +153,7 @@
                             @enderror
                         </div>
 
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label>Pegawai PIC</label>
                             <select class="custom-select w-100{{ $errors->has('pegawai_pic') ? ' is-invalid' : '' }}"
                                 name="pegawai_pic">
@@ -167,33 +170,38 @@
                                     <strong>{{ $errors->first('pegawai_pic') }}</strong>
                                 </span>
                             @endif
-                        </div>
+                        </div> --}}
 
                         <div class="form-group">
                             <label>Lembaga PIC</label>
                             <select class="custom-select w-100{{ $errors->has('lembaga_pic') ? ' is-invalid' : '' }}"
                                 name="lembaga_pic">
                                 <option value="" {{ is_null($kasus->lembagakepolisian) ? 'selected' : '' }} hidden
-                                    disabled>select option</option>
+                                    disabled>
+                                    select option</option>
                                 @foreach ($listlembaga as $lembagapic)
-                                    <option value="{{ $lembagapic->id_lembaga }}" {{ $kasus->lembagakepolisian?->id_lembaga == $lembagapic->id_lembaga ? 'selected' : '' }}>{{ $lembagapic->nama_lembaga }}</option>
+                                    <option value="{{ $lembagapic->id_lembaga }}"
+                                        {{ $kasus->lembagakepolisian?->id_lembaga == $lembagapic->id_lembaga ? 'selected' : '' }}>
+                                        {{ $lembagapic->nama_lembaga }}</option>
                                 @endforeach
                             </select>
-                            @if ($errors->has('lembaga_pic'))
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $errors->first('lembaga_pic') }}</strong>
-                                </span>
-                            @endif
+                            @error('status_kasus')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="form-group">
                             <label>Perintah Disposisi</label>
-                            <select class="custom-select w-100{{ $errors->has('perintah_disposisi') ? ' is-invalid' : '' }}"
+                            <select
+                                class="custom-select w-100{{ $errors->has('perintah_disposisi') ? ' is-invalid' : '' }}"
                                 name="perintah_disposisi">
                                 <option value="" {{ is_null($kasus->perintahdisposisi) ? 'selected' : '' }} hidden
-                                    disabled>select option</option>
+                                    disabled>
+                                    select option</option>
                                 @foreach ($listperintah as $itemperintah)
-                                    <option value="{{ $itemperintah->id_perintah }}" {{ $kasus->perintahdisposisi?->id_perintah == $itemperintah->id_perintah ? 'selected' : '' }}>{{ $itemperintah->perintah }}
+                                    <option value="{{ $itemperintah->id_perintah }}"
+                                        {{ $kasus->perintahdisposisi?->id_perintah == $itemperintah->id_perintah ? 'selected' : '' }}>
+                                        {{ $itemperintah->perintah }}
                                     </option>
                                 @endforeach
                             </select>

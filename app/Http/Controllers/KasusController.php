@@ -45,14 +45,12 @@ class KasusController extends Controller
     {
         $this->validate($request, [
             'status_kasus' => 'required',
-            'pegawai_pic' => 'required',
             'lembaga_pic' => 'required',
             'perintah' => 'required',
         ]);
 
         Kasus::create([
             'status_kasus' => $request->id_status_kasus,
-            'pegawai_pic' => $request->id_pegawai_pic,
             'lembaga_pic' => $request->lembaga_pic,
             'perintah' => $request->id_perintah,
         ]);
@@ -69,8 +67,8 @@ class KasusController extends Controller
     public function show($id_kasus)
     {
         $kasus = Kasus::with(['prakasus.user', 'prakasus.pelaporFile', 'pegawaikasus', 'statuskasus', 'perintahdisposisi', 'lembagakepolisian'])->findOrFail($id_kasus);
-        return json_decode($kasus);
-        // return view('pages.kasus_show', ['kasus' => $kasus]);
+        // return json_decode($kasus);
+        return view('pages.kasus_show', ['kasus' => $kasus]);
     }
 
     /**

@@ -17,6 +17,7 @@ class CreatePegawai extends Migration
             $table->id();
             $table->string('nama');
             $table->string('nrp');
+            $table->unsignedBigInteger('id_user')->default(1);
             $table->unsignedBigInteger('id_pangkat')->nullable();
             $table->unsignedBigInteger('id_jabatan')->nullable();
             $table->unsignedBigInteger("id_lembaga")->nullable();

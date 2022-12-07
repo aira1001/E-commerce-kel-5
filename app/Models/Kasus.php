@@ -27,4 +27,7 @@ class Kasus extends Model
     public function lembagakepolisian(){
         return $this->belongsTo(LembagaKepolisian::class, 'lembaga_pic');
     }
+    public function pelaporankasus(){
+        return $this->hasMany(PelaporanKasus::class, 'id_kasus');
+    }
 }
