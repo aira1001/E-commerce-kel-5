@@ -25,6 +25,8 @@
                             <a href="{{ route('kasus.index') }}">go to kasus dashboard</a>
                         @elseif ($id_role == 4)
                             <a href="{{ route('pelaporanKasus.index') }}">go to pelaporan kasus dashboard</a>
+                        @elseif ($id_role == 3)
+                            <a href="{{ route('pejabatKasus.index') }}">go to kasus role pejabat dashboard</a>
                         @endif
 
                     </div>

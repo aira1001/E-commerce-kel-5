@@ -10,7 +10,7 @@ class Kasus extends Model
     use HasFactory;
     protected $table = "kasus";
 
-    protected $fillable = ['nama_kasus','deskripsi_kasus','tindak_pidana', 'id_pra_kasus', 'id_status_kasus', 'id_pegawai_pic', 'lembaga_pic', 'id_perintah'];
+    protected $fillable = ['id_pra_kasus', 'id_status_kasus', 'id_pegawai_pic', 'lembaga_pic', 'id_perintah'];
 
     public function prakasus(){
         return $this->belongsTo(PraKasus::class, 'id_pra_kasus');

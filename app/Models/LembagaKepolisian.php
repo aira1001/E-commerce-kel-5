@@ -13,4 +13,11 @@ class LembagaKepolisian extends Model
     protected $primaryKey = 'id_lembaga';
 
     protected $fillable = ["nama_lembaga", "kepala_lembaga"];
+
+    public function user(){
+        return $this->belongsTo(User::class, 'id_user');
+    }
+    public function kasus(){
+        return $this->hasMany(Kasus::class, 'lembaga_pic');
+    }
 }

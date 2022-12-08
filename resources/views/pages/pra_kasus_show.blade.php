@@ -90,7 +90,7 @@
                                         </div>
                                         <div>
                                             <h6 class="mb-1">Umur : </h6>
-                                            <p>{{ $saksi->umur }}</p>
+                                            <p>{{ $saksi->umur }} tahun</p>
                                         </div>
                                         <div>
                                             <h6 class="mb-1">Asal : </h6>

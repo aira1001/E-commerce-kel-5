@@ -10,6 +10,7 @@ use App\Models\PelaporKasus;
 use App\Models\Saksi;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use PHPUnit\Util\Json;
 
 class PraKasusController extends Controller
 {
@@ -24,7 +25,7 @@ class PraKasusController extends Controller
         // $praKasusGetById = PraKasus::find($id_pra_kasus);
         $praKasusGetById = PraKasus::with(['user', 'saksi', 'pelaporFile'])->where('id_pra_kasus', $id_pra_kasus)->first();
         // $pra_kasus = PraKasus::where('id_pelapor', $userId)->get();
-        return json_decode($praKasusGetById);
+        // return json_decode($praKasusGetById);
         return view('pages.pra_kasus_show', ['pra_kasus' => $praKasusGetById]);
     }
     public function create()
@@ -34,8 +35,14 @@ class PraKasusController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'perihal' => 'required',
-            'deskripsi' => 'required',
+            'judul_kasus' => 'required',
+            'tempat_kejadian' => 'required',
+            'terlapor' => 'required',
+            'korban' => 'required',
+            'bagaimana_terjadi' => 'required',
+            'addMoreInputFields.*.nama' => 'required',
+            'addMoreInputFields.*.umur' => 'required',
+
         ]);
 
         $combinedDT = date('Y-m-d H:i:s', strtotime("$request->tgl_kejadian, $request->time_kejadian"));
@@ -136,6 +143,7 @@ class PraKasusController extends Controller
     }
     public function update(Request $request, $id_pra_kasus)
     {
+        // dd($request->all());
         $this->validate($request, [
             // 'username' => 'required',
             'judul_kasus' => 'required',

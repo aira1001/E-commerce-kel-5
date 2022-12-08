@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Kasus;
 use App\Models\Pegawai;
 use App\Models\PelaporanKasus;
+use App\Models\PerintahDisposisi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -67,9 +68,11 @@ class PelaporanKasusController extends Controller
      */
     public function show($id_kasus)
     {
-        $kasus = Kasus::with(['prakasus.user', 'prakasus.pelaporFile','prakasus.saksi', 'pegawaikasus', 'statuskasus', 'perintahdisposisi', 'lembagakepolisian', 'pelaporankasus'])->findOrFail($id_kasus);
+        $kasus = Kasus::with(['prakasus.user', 'prakasus.pelaporFile','prakasus.saksi', 'pegawaikasus', 'statuskasus', 'perintahdisposisi', 'lembagakepolisian', 'pelaporankasus', 'perintahdisposisi'])->findOrFail($id_kasus);
+        $listperintah = PerintahDisposisi::all();
+        $listpegawai = Pegawai::all();
         // return json_decode($kasus);
-        return view('pages.pelaporan_kasus_show', ['kasus' => $kasus]);
+        return view('pages.pelaporan_kasus_show', ['kasus' => $kasus, 'listperintah' => $listperintah, 'listpegawai' => $listpegawai]);
     }
 
     /**
@@ -110,7 +113,7 @@ class PelaporanKasusController extends Controller
             return Redirect::back()->with('success', "laporan kasus was deleted successfully");
         } catch (\Throwable $e) {
             error_log($e);
-            return redirect()->route('pelaporanKasus.index')->with('warning', 'Something Went Wrong!');
+            return Redirect::back()->with('warning', 'Something Went Wrong!');
         }
     }
 }

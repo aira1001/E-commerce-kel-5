@@ -7,34 +7,16 @@
         <div class="container-fluid">
             @if (Session::get('success', false))
                 <?php $data = Session::get('success'); ?>
-                @if (is_array($data))
-                    @foreach ($data as $msg)
-                        <div class="alert alert-success" role="alert">
-                            <i class="fa fa-check"></i>
-                            {{ $msg }}
-                        </div>
-                    @endforeach
-                @else
-                    <div class="alert alert-success" role="alert">
-                        <i class="fa fa-check"></i>
-                        {{ $data }}
-                    </div>
-                @endif
+                <div class="alert alert-success" role="alert">
+                    <i class="fa fa-check"></i>
+                    {{ $data }}
+                </div>
             @elseif (Session::get('warning', false))
                 <?php $data = Session::get('warning'); ?>
-                @if (is_array($data))
-                    @foreach ($data as $msg)
-                        <div class="alert alert-warning" role="alert">
-                            <i class="fa fa-times"></i>
-                            {{ $msg }}
-                        </div>
-                    @endforeach
-                @else
-                    <div class="alert alert-warning" role="alert">
-                        <i class="fa fa-check"></i>
-                        {{ $data }}
-                    </div>
-                @endif
+                <div class="alert alert-warning" role="alert">
+                    <i class="fa fa-check"></i>
+                    {{ $data }}
+                </div>
             @endif
             <div class="card mt-5" style="margin: auto">
                 <div class="card-header text-center">
@@ -49,6 +31,7 @@
                                 <th scope="col">No</th>
                                 <th scope="col">Judul Kasus</th>
                                 <th scope="col">Status Kasus</th>
+                                <th scope="col">Pegawai PIC</th>
                                 <th scope="col">Perintah Disposisi</th>
                                 <th scope="col">Created At</th>
                                 {{-- <th scope="col" class="border-right-0">Aksi</th> --}}
@@ -56,11 +39,12 @@
                         </thead>
 
                         <tbody>
-                            @foreach ($pegawai->kasus as $listkasus)
+                            @foreach ($pejabatKasus->kasus as $listkasus)
                                 <tr onclick="window.location.href='{{ route('pelaporanKasus.show', $listkasus->id) }}'">
                                     <th scope="row">{{ $loop->iteration }} </th>
-                                    <td>{{ $listkasus->prakasus->judul_kasus}}</td>
+                                    <td>{{ $listkasus->prakasus->judul_kasus }}</td>
                                     <td>{{ $listkasus->statuskasus->nama ?? ' ' }}</td>
+                                    <td>{{ $listkasus->pegawaikasus->nama ?? ' ' }}</td>
                                     <td>{{ $listkasus->perintahdisposisi->perintah ?? ' ' }}</td>
                                     <td>{{ $listkasus->created_at }}</td>
                                     {{-- <td>{{ $k->status }}</td> --}}

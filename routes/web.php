@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\KasusController;
+use App\Http\Controllers\PejabatController;
 use App\Http\Controllers\PelaporanKasusController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PraKasusController;
@@ -42,9 +43,6 @@ Route::middleware(['auth', 'checkRoleAdmin'])->group(function () {
     Route::resource('kasus', KasusController::class);
 });
 Route::middleware(['auth', 'checkRoleTim'])->group(function () {
-    Route::get('/tim/kasus', [PelaporanKasusController::class, 'index']);
-    Route::get('/tim/kasus/{id_kasus}', [PelaporanKasusController::class, 'show']);
-    Route::get('/tim/kasus/{id_kasus}/PelaporanKasus', [PelaporanKasusController::class, 'create']);
     Route::get('/tim/kasus/{id_kasus}/PelaporanKasus/{id_pelaporan}', [PelaporanKasusController::class, 'edit']);
     Route::resource('pelaporanKasus', PelaporanKasusController::class)->except(['edit']);
 });
@@ -55,18 +53,13 @@ Route::middleware(['auth', 'checkRoleMasyarakat'])->group(function () {
     Route::put('/pra_kasus/update/{id_pra_kasus}', [PraKasusController::class, 'update']);
     Route::resource('pra_kasus', PraKasusController::class);
 });
+Route::middleware(['auth', 'checkRolePejabat'])->group(function () {
+    Route::resource('pelaporanKasus', PelaporanKasusController::class)->except(['edit', 'update', 'create']);
+    Route::put('/pegawaiKasus/{id_kasus}',  [KasusController::class, 'updatePegawai']);
+    Route::put('/perintahKasus/{id_kasus}',  [KasusController::class, 'updatePerintah']);
+    Route::resource('pejabatKasus', PejabatController::class)->except(['create','update','delete','show']);
 
-// Route::get('/kasus', [KasusController::class, 'index']);
-// Route::get('/kasus/create', 'KasusController@create');
-// Route::post('/kasus/store', 'KasusController@store');
-// Route::get('/kasus/edit/{id}', 'KasusController@edit');
-// Route::put('/kasus/update/{id}', 'KasusController@update');
-// Route::put('/kasus/delete/{id}', 'KasusController@delete');
-
-
-
-
-
+});
 
 
 
