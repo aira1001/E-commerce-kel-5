@@ -10,7 +10,7 @@
                     Data pelaporan kasus - <strong>TAMBAH DATA</strong>
                 </div>
                 <div class="card-body">
-                    <a href="/pelaporanKasus" class="btn btn-primary">Kembali</a>
+                <a href="{{ route('pelaporanKasus.show',app('request')->input('id')) }}" class="btn btn-primary">Kembali</a>
                     <br />
                     <br />
 

@@ -23,7 +23,7 @@
                     <a href="/kasus" class="btn btn-primary">Kembali</a>
                     <br />
                     <br />
-                    <form method="post" action="/kasus/update/{{ $kasus->id }}" enctype="multipart/form-data">
+                    <form method="post" action="{{ route('kasus.update', $kasus->id) }}" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
 

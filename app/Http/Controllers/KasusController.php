@@ -11,6 +11,7 @@ use App\Models\PraKasus;
 use App\Models\StatusKasus;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class KasusController extends Controller
 {
@@ -66,7 +67,8 @@ class KasusController extends Controller
      */
     public function show($id_kasus)
     {
-        $kasus = Kasus::with(['prakasus.user', 'prakasus.pelaporFile', 'pegawaikasus', 'statuskasus', 'perintahdisposisi', 'lembagakepolisian'])->findOrFail($id_kasus);
+        $kasus = Kasus::with(['prakasus', 'prakasus.user', 'prakasus.pelaporFile', 'prakasus.saksi', 'pegawaikasus', 'statuskasus', 'perintahdisposisi', 'lembagakepolisian'])->findOrFail($id_kasus);
+        // dd($kasus);
         // return json_decode($kasus);
         return view('pages.kasus_show', ['kasus' => $kasus]);
     }
@@ -80,12 +82,11 @@ class KasusController extends Controller
     public function edit($id_kasus)
     {
         $kasus = Kasus::with(['prakasus.user', 'prakasus.pelaporFile', 'pegawaikasus', 'statuskasus', 'perintahdisposisi', 'lembagakepolisian'])->findOrFail($id_kasus);
-        $listpegawai = Pegawai::all();
         $listlembaga = LembagaKepolisian::all();
         $liststatus = StatusKasus::all();
         $listperintah = PerintahDisposisi::all();
         // dd(Kasus::with('prakasus')->findOrFail($id_kasus));
-        return view('pages.kasus_edit', ['kasus' => $kasus,  'listpegawai' => $listpegawai, 'listlembaga' => $listlembaga, 'liststatus' => $liststatus, 'listperintah' => $listperintah]);
+        return view('pages.kasus_edit', ['kasus' => $kasus, 'listlembaga' => $listlembaga, 'liststatus' => $liststatus, 'listperintah' => $listperintah]);
     }
 
     /**
@@ -97,10 +98,10 @@ class KasusController extends Controller
      */
     public function update(Request $request, $id_kasus)
     {
+        $kasus = Kasus::with('prakasus')->find($id_kasus);
         // dd($request->all());
-        $this->validate($request, [
+         $this->validate($request, [
             'status_kasus' => 'required',
-            'pegawai_pic' => 'required',
             'lembaga_pic' => 'required',
             'perintah_disposisi' => 'required',
         ]);
@@ -108,9 +109,7 @@ class KasusController extends Controller
         DB::beginTransaction();
         try {
             //step 1 : update kasus
-            $kasus = Kasus::with('prakasus')->find($id_kasus);
             $kasus->id_status_kasus = $request->status_kasus;
-            $kasus->id_pegawai_pic = $request->pegawai_pic;
             $kasus->lembaga_pic = $request->lembaga_pic;
             $kasus->id_perintah = $request->perintah_disposisi;
             $kasus->save();
@@ -145,5 +144,27 @@ class KasusController extends Controller
             error_log($e);
             return redirect()->route('kasus.index')->with('warning', 'Something Went Wrong!');
         }
+    }
+
+    public function updatePegawai(Request $request, $id_kasus){
+        $kasus = Kasus::find($id_kasus);
+        $requestValidate = $this->validate($request, [
+            'pegawai_pic' => 'required'
+        ]);
+        $kasus->id_pegawai_pic = $requestValidate['pegawai_pic'];
+        $kasus->save();
+        return Redirect::back()->with('success', "pegawai was edited succcessfully");
+        // dd($requestValidate);
+
+    }
+
+    public function updatePerintah(Request $request, $id_kasus){
+        $kasus = Kasus::find($id_kasus);
+        $requestValidate = $this->validate($request, [
+            'perintah_disposisi' => 'required'
+        ]);
+        $kasus->id_perintah = $requestValidate['perintah_disposisi'];
+        $kasus->save();
+        return Redirect::back()->with('success', "perintah disposisi was edited succcessfully");
     }
 }

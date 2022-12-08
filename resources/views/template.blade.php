@@ -63,6 +63,13 @@
                                 <p>pelaporan kasus</p>
                             </a>
                         </li>
+                    @elseif (Auth::user()->id_role == 3)
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('pejabatKasus.index') }}">
+                                <i class="nc-icon nc-icon nc-paper-2"></i>
+                                <p>Lembaga Kepolisian</p>
+                            </a>
+                        </li>
                     @endif
 
                     <li>

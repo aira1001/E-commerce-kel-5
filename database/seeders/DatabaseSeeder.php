@@ -11,6 +11,7 @@ use App\Models\PraKasus;
 use App\Models\PelaporanKasus;
 use App\Models\PerintahDisposisi;
 use App\Models\Role;
+use App\Models\Saksi;
 use App\Models\StatusKasus;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -103,9 +104,11 @@ class DatabaseSeeder extends Seeder
         //kasus seeder
         Kasus::factory(10)->create();
 
-
         //pelaporan kasus seeder
-        PelaporanKasus::factory(5)->create();
+        PelaporanKasus::factory(10)->create();
+
+        //saksi seeder
+        Saksi::factory(20)->create();
 
     }
 }

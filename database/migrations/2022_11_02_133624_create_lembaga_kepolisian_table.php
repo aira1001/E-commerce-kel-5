@@ -17,6 +17,7 @@ class CreateLembagaKepolisianTable extends Migration
             $table->bigIncrements("id_lembaga")->unsigned();
             $table->string("nama_lembaga");
             $table->string("kepala_lembaga");
+            $table->unsignedBigInteger('id_user')->nullable();
         });
     }
 

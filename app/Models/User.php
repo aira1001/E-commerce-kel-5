@@ -49,6 +49,10 @@ class User extends Authenticatable
     {
         return $this->hasOne(Pegawai::class, 'id_user');
     }
+    public function pejabat()
+    {
+        return $this->hasOne(LembagaKepolisian::class, 'id_user');
+    }
 
     // public function pra_kasus(){
     //     return $this->hasMany('App\Models\PraKasus', 'id' );
