@@ -10,6 +10,7 @@ use App\Models\PelaporKasus;
 use App\Models\Saksi;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use PDF;
 
 class PraKasusController extends Controller
 {
@@ -248,9 +249,40 @@ class PraKasusController extends Controller
         ->select('pra_kasus.*','kasus.*','users.name','perintah_disposisi.perintah')
         ->get();
         // dd($data);
-   
-        return view('disporsisi',$data);
+        $pdf = PDF::loadview('disporsisi',['surat'=>$data['surat']])->setOptions(['defaultFont' => 'sans-serif']) ;
+
+       return $pdf->stream();
 
     }
+    public function cetak_pdf1($id_cetak)
+    {
+        $data ['surat'] = DB::table('kasus')
+        ->join('pra_kasus', 'pra_kasus.id_pra_kasus', 'kasus.id_pra_kasus')
+        ->join('perintah_disposisi', 'kasus.id_perintah', 'perintah_disposisi.id_perintah')
+        ->join('users', 'users.id', 'pra_kasus.id_pelapor')
+        ->where('kasus.id', $id_cetak)
+        ->select('pra_kasus.*','kasus.*','users.name','perintah_disposisi.perintah')
+        ->get();
+        $pdf = PDF::loadview('disporsisi',['surat'=>$data['surat']])->setOptions(['defaultFont' => 'sans-serif']) ;        
+    	return $pdf->download('disporsisi-pdf.pdf');
+
+        //return PDF::setOptions(['defaultFont' => 'sans-serif','isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView('disporsisi',['surat'=>$data['surat']])->stream();
+        //  return view('disporsisi',$data);
+
+    }
+
+
+    // public function cetak_pdf()
+    // {
+    //     $data ['surat'] = DB::table('kasus')
+    //     ->join('pra_kasus', 'pra_kasus.id_pra_kasus', 'kasus.id_pra_kasus')
+    //     ->join('perintah_disposisi', 'kasus.id_perintah', 'perintah_disposisi.id_perintah')
+    //     ->join('users', 'users.id', 'pra_kasus.id_pelapor')
+    //     ->where('kasus.id', $id_open)
+    //     ->select('pra_kasus.*','kasus.*','users.name','perintah_disposisi.perintah')
+    //     ->get();
+    // 	$pdf = PDF::loadview('disporsisi',['surat'=>$surat]);
+    // 	return $pdf->download('disporsisi-pdf');
+    // }
 
 }

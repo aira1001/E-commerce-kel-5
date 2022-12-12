@@ -29,6 +29,8 @@ Route::put('/kasus/delete/{id}', 'KasusController@delete');
 Route::get('/disporsisi', [PraKasusController::class, 'lembar_disporsisi']);
 Route::get('/daftar_disporsisi', [PraKasusController::class, 'daftar']);
 Route::get('/disporsisi/{id}', [PraKasusController::class, 'open_data']);
+Route::get('/disporsisi/cetak_pdf/{id}', [PraKasusController::class, 'cetak_pdf']);
+Route::get('/disporsisi/cetak_pdf/{id}', [PraKasusController::class, 'cetak_pdf1']);
 
 Route::middleware(['auth', 'checkRoleAdmin'])->group(function () {
     Route::get('/kasus', [KasusController::class, 'index']);
