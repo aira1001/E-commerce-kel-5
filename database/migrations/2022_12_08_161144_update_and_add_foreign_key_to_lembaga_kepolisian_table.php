@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UpdateAndAddForeignKeyToPegawaiTable extends Migration
+class UpdateAndAddForeignKeyToLembagaKepolisianTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class UpdateAndAddForeignKeyToPegawaiTable extends Migration
      */
     public function up()
     {
-        Schema::table('pegawai', function (Blueprint $table) {
+        Schema::table('lembaga_kepolisian', function (Blueprint $table) {
             $table->foreign('id_user')->references('id')->on('users');
-            $table->foreign("id_lembaga")->references("id_lembaga")->on("lembaga_kepolisian");
-            $table->foreign('id_jabatan')->references('id_jabatan')->on('jabatan');
-            $table->foreign('id_pangkat')->references('id_pangkat')->on('pangkat');
         });
     }
 
@@ -28,7 +25,7 @@ class UpdateAndAddForeignKeyToPegawaiTable extends Migration
      */
     public function down()
     {
-        Schema::table('pegawai', function (Blueprint $table) {
+        Schema::table('lembaga_kepolisian', function (Blueprint $table) {
             //
         });
     }

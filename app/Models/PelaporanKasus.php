@@ -14,7 +14,6 @@ class PelaporanKasus extends Model
      */
     use HasFactory;
     protected $table = 'pelaporan_kasus';
-    protected $primaryKey = 'id_pelapor';
-    public $timestamps = false;
+    protected $primaryKey = 'id_pelaporan';
     protected $fillable = ['id_kasus', 'perihal','deskripsi'];
 }

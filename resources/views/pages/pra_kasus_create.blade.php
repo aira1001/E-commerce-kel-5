@@ -1,15 +1,7 @@
 <!doctype html>
 @extends('template')
 
-<html>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-</head>
 @section('content')
 
     <body>
@@ -23,7 +15,7 @@
                     <br />
                     <br />
 
-                    <form method="post" action="/pra_kasus/store" enctype="multipart/form-data">
+                    <form method="post" action="{{ route('pra_kasus.store') }}" enctype="multipart/form-data">
 
                         {{ csrf_field() }}
 
@@ -192,5 +184,3 @@
         </div>
     </body>
 @endsection
-
-</html>

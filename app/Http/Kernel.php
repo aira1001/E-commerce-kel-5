@@ -57,6 +57,7 @@ class Kernel extends HttpKernel
         'checkRoleMasyarakat' => \App\Http\Middleware\CheckRoleMasyarakat::class,
         'checkRoleTim' => \App\Http\Middleware\CheckRoleTim::class,
         'checkRoleAdmin' => \App\Http\Middleware\CheckRoleAdmin::class,
+        'checkRolePejabat' => \App\Http\Middleware\CheckRolePejabat::class,
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,

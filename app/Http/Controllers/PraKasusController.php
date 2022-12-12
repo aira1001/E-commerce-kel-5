@@ -10,7 +10,6 @@ use App\Models\PelaporKasus;
 use App\Models\Saksi;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use PDF;
 
 class PraKasusController extends Controller
 {
@@ -25,6 +24,7 @@ class PraKasusController extends Controller
         // $praKasusGetById = PraKasus::find($id_pra_kasus);
         $praKasusGetById = PraKasus::with(['user', 'saksi', 'pelaporFile'])->where('id_pra_kasus', $id_pra_kasus)->first();
         // $pra_kasus = PraKasus::where('id_pelapor', $userId)->get();
+        // return json_decode($praKasusGetById);
         return view('pages.pra_kasus_show', ['pra_kasus' => $praKasusGetById]);
     }
     public function create()
@@ -34,16 +34,14 @@ class PraKasusController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'username' => 'required',
             'judul_kasus' => 'required',
-            'tgl_kejadian' => 'required',
-            'time_kejadian' => 'required',
             'tempat_kejadian' => 'required',
             'terlapor' => 'required',
             'korban' => 'required',
             'bagaimana_terjadi' => 'required',
             'addMoreInputFields.*.nama' => 'required',
             'addMoreInputFields.*.umur' => 'required',
+
         ]);
 
         $combinedDT = date('Y-m-d H:i:s', strtotime("$request->tgl_kejadian, $request->time_kejadian"));
@@ -51,12 +49,7 @@ class PraKasusController extends Controller
         // error_log(print_r($userId, true));
         DB::beginTransaction();
         try {
-            // Step 1 : pelapor kasus
-            $pelapor_kasus = new PelaporKasus();
-            $pelapor_kasus->nama = $request->username;
-            $pelapor_kasus->save();
-
-            //Step 2 : pra kasus
+            //Step 1 : pra kasus
             $pra_kasus = new PraKasus();
             $pra_kasus->id_pelapor = $userId;
             $pra_kasus->judul_kasus = $request->judul_kasus;
@@ -68,7 +61,7 @@ class PraKasusController extends Controller
             $pra_kasus->uraian_singkat_kejadian = $request->uraian_singkat_kejadian;
             $pra_kasus->save();
 
-            //step 3 : saksi
+            //step 2 : saksi
             foreach ($request->addMoreInputFields as $key => $value) {
                 // Saksi::create([
                 //     'id_pra_kasus'=>$pra_kasus->id_pra_kasus,
@@ -82,7 +75,7 @@ class PraKasusController extends Controller
                 $saksi->save();
             }
 
-            //step 4: add image file to pelapor file
+            //step 3: add image file to pelapor file
             if ($request->hasFile("filename")) {
                 foreach ($request->file('filename') as $image) {
                     $name = $image->getClientOriginalName();
@@ -97,7 +90,7 @@ class PraKasusController extends Controller
                 }
             }
 
-            //step 5 : add to table kasus
+            //step 4 : add to table kasus
             $kasus = new Kasus();
             $kasus->id_pra_kasus = $pra_kasus->id_pra_kasus;
             $kasus->save();
@@ -149,6 +142,7 @@ class PraKasusController extends Controller
     }
     public function update(Request $request, $id_pra_kasus)
     {
+        // dd($request->all());
         $this->validate($request, [
             // 'username' => 'required',
             'judul_kasus' => 'required',
@@ -166,8 +160,7 @@ class PraKasusController extends Controller
         $combinedDT = date('Y-m-d H:i:s', strtotime("$request->tgl_kejadian, $request->time_kejadian"));
         DB::beginTransaction();
         try {
-
-            //Step 2 : kasus reservation
+            //Step 1 : kasus reservation
             $pra_kasus->judul_kasus = $request->judul_kasus;
             $pra_kasus->waktu_kejadian = $combinedDT;
             $pra_kasus->tempat_kejadian = $request->tempat_kejadian;
@@ -177,13 +170,13 @@ class PraKasusController extends Controller
             $pra_kasus->uraian_singkat_kejadian = $request->uraian_singkat_kejadian;
             $pra_kasus->save();
 
-            //step 3 : update saksi
+            //step 2 : update saksi
             $saksi = Saksi::where('id_pra_kasus', $id_pra_kasus);
             $saksi->delete();
 
             error_log(print_r($request->addMoreInputFields, true));
 
-            //step 4 : add saksi
+            //step 3 : add saksi
             foreach ($request->addMoreInputFields as $key => $value) {
                 $saksiNew = new Saksi();
                 $saksiNew->id_pra_kasus = $id_pra_kasus;
@@ -192,7 +185,7 @@ class PraKasusController extends Controller
                 $saksiNew->save();
             }
 
-            //step 5 : update file
+            //step 4 : update file
             $pelapor_file = PelaporFile::where('id_pra_kasus', $id_pra_kasus);
             $pelapor_file->delete();
 
@@ -225,8 +218,8 @@ class PraKasusController extends Controller
         ->join('pelapor_kasus', 'pelapor_kasus.id_pelapor', 'pra_kasus.id_pelapor')
         ->select('*')
         ->get();
-   
-        return view('disporsisi',$data);
+
+        return view('pages.disporsisi',$data);
 
     }
     public function daftar()
@@ -236,7 +229,7 @@ class PraKasusController extends Controller
         ->join('users', 'users.id', 'kasus.id')
         ->select('*')
         ->get();
-        return view('daftar_disporsisi',$data);
+        return view('pages.daftar_disporsisi',$data);
 
     }
     public function open_data($id_open)
@@ -249,25 +242,8 @@ class PraKasusController extends Controller
         ->select('pra_kasus.*','kasus.*','users.name','perintah_disposisi.perintah')
         ->get();
         // dd($data);
-        $pdf = PDF::loadview('disporsisi',['surat'=>$data['surat']])->setOptions(['defaultFont' => 'sans-serif']) ;
-
-       return $pdf->stream();
-
-    }
-    public function cetak_pdf1($id_cetak)
-    {
-        $data ['surat'] = DB::table('kasus')
-        ->join('pra_kasus', 'pra_kasus.id_pra_kasus', 'kasus.id_pra_kasus')
-        ->join('perintah_disposisi', 'kasus.id_perintah', 'perintah_disposisi.id_perintah')
-        ->join('users', 'users.id', 'pra_kasus.id_pelapor')
-        ->where('kasus.id', $id_cetak)
-        ->select('pra_kasus.*','kasus.*','users.name','perintah_disposisi.perintah')
-        ->get();
-        $pdf = PDF::loadview('disporsisi',['surat'=>$data['surat']])->setOptions(['defaultFont' => 'sans-serif']) ;        
-    	return $pdf->download('disporsisi-pdf.pdf');
-
-        //return PDF::setOptions(['defaultFont' => 'sans-serif','isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView('disporsisi',['surat'=>$data['surat']])->stream();
-        //  return view('disporsisi',$data);
+   
+        return view('disporsisi',$data);
 
     }
 

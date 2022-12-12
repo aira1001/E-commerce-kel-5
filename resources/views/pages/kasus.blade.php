@@ -42,19 +42,18 @@
                     </div>
                 @endif
             @endif
-            <div class="card mt-5" style="width: 75rem;  margin: auto">
+            <div class="card mt-5" style="margin: auto">
                 <div class="card-header text-center">
                     Data Kasus
                 </div>
                 <div class="card-body">
-                    <a href="/pra_kasus/create" class="btn btn-primary">Input Kasus Baru</a>
-                    <br />
+
                     <br />
                     <table class="table table-hover table-striped">
                         <thead>
                             <tr>
                                 <th scope="col">No</th>
-                                <th scope="col">Nama Kasus</th>
+                                <th scope="col">Judul Kasus</th>
                                 {{-- <th scope="col">Deskripsi Kasus</th>
                                 <th scope="col">Tindak Pidana</th> --}}
                                 <th scope="col">Status Kasus</th>

@@ -15,7 +15,8 @@ class LembagaKepolisianFactory extends Factory
     {
         return [
             'nama_lembaga' => 'kepolisian '. $this->faker->sentence(mt_rand(1, 2)),
-            'kepala_lembaga' => $this->faker->name()
+            'kepala_lembaga' => $this->faker->name(),
+            'id_user' => mt_rand(1, 10)
         ];
     }
 }

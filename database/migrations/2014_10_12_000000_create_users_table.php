@@ -22,6 +22,10 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             // 1 = User; 2 = Staff FO; 3 = Pejabat; 4 = Tim Creator; 5 = Tim members
             $table->unsignedBigInteger("id_role")->default(1);
+            $table->integer('umur')->nullable();
+            $table->string('pekerjaan')->nullable();
+            $table->string('kewarganegaraan')->nullable();
+            $table->text('alamat')->nullable();
             $table->timestamps();
         });
     }

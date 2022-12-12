@@ -44,6 +44,16 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+
+    public function pegawai()
+    {
+        return $this->hasOne(Pegawai::class, 'id_user');
+    }
+    public function pejabat()
+    {
+        return $this->hasOne(LembagaKepolisian::class, 'id_user');
+    }
+
     // public function pra_kasus(){
     //     return $this->hasMany('App\Models\PraKasus', 'id' );
     // }
