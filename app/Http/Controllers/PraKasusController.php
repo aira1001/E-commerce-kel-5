@@ -10,6 +10,7 @@ use App\Models\PelaporKasus;
 use App\Models\Saksi;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use PDF;
 
 class PraKasusController extends Controller
 {
@@ -237,28 +238,29 @@ class PraKasusController extends Controller
         $data ['surat'] = DB::table('kasus')
         ->join('pra_kasus', 'pra_kasus.id_pra_kasus', 'kasus.id_pra_kasus')
         ->join('perintah_disposisi', 'kasus.id_perintah', 'perintah_disposisi.id_perintah')
+        ->join('saksi', 'saksi.id_pra_kasus', 'pra_kasus.id_pra_kasus')
         ->join('users', 'users.id', 'pra_kasus.id_pelapor')
         ->where('kasus.id', $id_open)
-        ->select('pra_kasus.*','kasus.*','users.name','perintah_disposisi.perintah')
+        ->select('pra_kasus.*','kasus.*','users.*','perintah_disposisi.perintah','saksi.*')
         ->get();
         // dd($data);
-   
-        return view('disporsisi',$data);
-
+        $pdf = PDF::loadview('pages.disporsisi',['surat'=> $data ['surat']]);
+        return $pdf->stream('disporsisi.pdf');
     }
 
 
-    // public function cetak_pdf()
-    // {
-    //     $data ['surat'] = DB::table('kasus')
-    //     ->join('pra_kasus', 'pra_kasus.id_pra_kasus', 'kasus.id_pra_kasus')
-    //     ->join('perintah_disposisi', 'kasus.id_perintah', 'perintah_disposisi.id_perintah')
-    //     ->join('users', 'users.id', 'pra_kasus.id_pelapor')
-    //     ->where('kasus.id', $id_open)
-    //     ->select('pra_kasus.*','kasus.*','users.name','perintah_disposisi.perintah')
-    //     ->get();
-    // 	$pdf = PDF::loadview('disporsisi',['surat'=>$surat]);
-    // 	return $pdf->download('disporsisi-pdf');
-    // }
+    public function cetak_pdf($id_cetak)
+    {
+        $data ['surat'] = DB::table('kasus')
+        ->join('pra_kasus', 'pra_kasus.id_pra_kasus', 'kasus.id_pra_kasus')
+        ->join('saksi', 'saksi.id_pra_kasus', 'pra_kasus.id_pra_kasus')
+        ->join('perintah_disposisi', 'kasus.id_perintah', 'perintah_disposisi.id_perintah')
+        ->join('users', 'users.id', 'pra_kasus.id_pelapor')
+        ->where('kasus.id', $id_cetak)
+        ->select('pra_kasus.*','kasus.*','users.*','perintah_disposisi.perintah', 'saksi.*')
+        ->get();
+    	$pdf = PDF::loadview('pages.disporsisi',['surat'=> $data ['surat']]);
+    	return $pdf->download('disporsisi.pdf');
+    }
 
 }

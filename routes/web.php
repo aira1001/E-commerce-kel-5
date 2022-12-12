@@ -40,6 +40,7 @@ Route::middleware(['auth', 'checkRoleAdmin'])->group(function () {
     Route::get('/disporsisi', [PraKasusController::class, 'lembar_disporsisi']);
     Route::get('/daftar_disporsisi', [PraKasusController::class, 'daftar']);
     Route::get('/disporsisi/{id}', [PraKasusController::class, 'open_data']);
+    Route::get('/disporsisi/cetak_pdf/{id}',[PraKasusController::class, 'cetak_pdf']);
     Route::resource('kasus', KasusController::class);
 });
 Route::middleware(['auth', 'checkRoleTim'])->group(function () {
