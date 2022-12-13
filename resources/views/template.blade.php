@@ -70,6 +70,12 @@
                                 <p>Lembaga Kepolisian</p>
                             </a>
                         </li>
+                        <!-- <li class="nav-item">
+                            <a class="nav-link" href="{{ url('/daftar_disporsisi') }}">
+                                <i class="nc-icon nc-icon nc-paper-2"></i>
+                                <p>Disporsisi</p>
+                            </a>
+                        </li> -->
                     @endif
 
                     <li>

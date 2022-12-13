@@ -203,7 +203,6 @@
 
                             </tbody>
                         </table>
-
                         <hr class="new5" style="width: 225%;">
                         <br>
                     </td>

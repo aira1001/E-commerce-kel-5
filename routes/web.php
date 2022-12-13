@@ -59,6 +59,7 @@ Route::middleware(['auth', 'checkRolePejabat'])->group(function () {
     Route::put('/pegawaiKasus/{id_kasus}',  [KasusController::class, 'updatePegawai']);
     Route::put('/perintahKasus/{id_kasus}',  [KasusController::class, 'updatePerintah']);
     Route::resource('pejabatKasus', PejabatController::class)->except(['create','update','delete','show']);
+    Route::get('/daftar_disporsisi', [PraKasusController::class, 'daftar']);
 
 });
 
