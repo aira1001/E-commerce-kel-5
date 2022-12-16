@@ -10,7 +10,7 @@ use App\Models\Log;
 use App\Models\Saksi;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use PHPUnit\Util\Json;
+use PDF;
 
 class PraKasusController extends Controller
 {
@@ -253,15 +253,16 @@ class PraKasusController extends Controller
     }
     public function open_data($id_open)
     {
-        $data['surat'] = DB::table('kasus')
-            ->join('pra_kasus', 'pra_kasus.id_pra_kasus', 'kasus.id_pra_kasus')
-            ->join('perintah_disposisi', 'kasus.id_perintah', 'perintah_disposisi.id_perintah')
-            ->join('users', 'users.id', 'pra_kasus.id_pelapor')
-            ->where('kasus.id', $id_open)
-            ->select('pra_kasus.*', 'kasus.*', 'users.name', 'perintah_disposisi.perintah')
-            ->get();
+        $data ['surat'] = DB::table('kasus')
+        ->join('pra_kasus', 'pra_kasus.id_pra_kasus', 'kasus.id_pra_kasus')
+        ->join('perintah_disposisi', 'kasus.id_perintah', 'perintah_disposisi.id_perintah')
+        ->join('saksi', 'saksi.id_pra_kasus', 'pra_kasus.id_pra_kasus')
+        ->join('users', 'users.id', 'pra_kasus.id_pelapor')
+        ->where('kasus.id', $id_open)
+        ->select('pra_kasus.*','kasus.*','users.*','perintah_disposisi.perintah','saksi.*')
+        ->get();
         // dd($data);
-
-        return view('pages.disporsisi', $data);
+        $pdf = PDF::loadview('pages.disporsisi',['surat'=> $data ['surat']]);
+        return $pdf->stream('disporsisi.pdf');
     }
 }

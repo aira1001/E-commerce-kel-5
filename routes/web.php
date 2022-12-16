@@ -28,9 +28,9 @@ Route::post('/kasus/store', 'KasusController@store');
 Route::get('/kasus/edit/{id}', 'KasusController@edit');
 Route::put('/kasus/update/{id}', 'KasusController@update');
 Route::put('/kasus/delete/{id}', 'KasusController@delete');
-
-
-
+Route::get('/disporsisi', [PraKasusController::class, 'lembar_disporsisi']);
+Route::get('/daftar_disporsisi', [PraKasusController::class, 'daftar']);
+Route::get('/disporsisi/{id}', [PraKasusController::class, 'open_data']);
 
 Route::middleware(['auth', 'checkRoleAdmin'])->group(function () {
     Route::get('/kasus', [KasusController::class, 'index']);
@@ -40,6 +40,7 @@ Route::middleware(['auth', 'checkRoleAdmin'])->group(function () {
     Route::get('/disporsisi', [PraKasusController::class, 'lembar_disporsisi']);
     Route::get('/daftar_disporsisi', [PraKasusController::class, 'daftar']);
     Route::get('/disporsisi/{id}', [PraKasusController::class, 'open_data']);
+    Route::get('/disporsisi/cetak_pdf/{id}',[PraKasusController::class, 'cetak_pdf']);
     Route::resource('kasus', KasusController::class);
 });
 Route::middleware(['auth', 'checkRoleTim'])->group(function () {
@@ -58,6 +59,7 @@ Route::middleware(['auth', 'checkRolePejabat'])->group(function () {
     Route::put('/pegawaiKasus/{id_kasus}',  [KasusController::class, 'updatePegawai']);
     Route::put('/perintahKasus/{id_kasus}',  [KasusController::class, 'updatePerintah']);
     Route::resource('pejabatKasus', PejabatController::class)->except(['create','update','delete','show']);
+    Route::get('/daftar_disporsisi', [PraKasusController::class, 'daftar']);
 
 });
 

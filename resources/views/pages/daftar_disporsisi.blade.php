@@ -62,7 +62,10 @@
                                 <td>{{$value->judul_kasus}} </td>
                                 <td>{{$value->id}}</td>
                                 <td>
-                                    <a href="{{url('disporsisi')}}/{{$value->id}}" class="btn btn btn-info">Open Data</a>
+                                    <a href="{{url('disporsisi')}}/{{$value->id}}" class="btn btn btn-info">View Pdf</a>
+                                </td>
+                                <td>
+                                    <a href="{{url('/disporsisi/cetak_pdf')}}/{{$value->id}}" class="btn btn btn-info"> Unduh Pdf</a>
                                 </td>
                             </tbody>
                         <?php 
