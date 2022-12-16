@@ -16,6 +16,7 @@ class CreateLog extends Migration
         Schema::create('log', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_kasus')->nullable();
+            $table->unsignedBigInteger('id_pra_kasus')->nullable();
             $table->unsignedBigInteger('id_aktifitas')->nullable();
             $table->unsignedBigInteger('id_user')->nullable();
             $table->timestamps();

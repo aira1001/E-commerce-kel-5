@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kasus;
+use App\Models\Log;
 use App\Models\Pegawai;
 use App\Models\PelaporanKasus;
 use App\Models\PerintahDisposisi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\DB;
+
 
 class PelaporanKasusController extends Controller
 {
@@ -54,8 +57,24 @@ class PelaporanKasusController extends Controller
             'id_kasus' => 'required|exists:kasus,id' //id nya harus ada yang di table kasus
         ]);
         // dd($requestPelaporan['id_kasus']);
-        $pelaporanKasus = new PelaporanKasus($requestPelaporan);
-        $pelaporanKasus->save();
+        DB::beginTransaction();
+        try {
+            $pelaporanKasus = new PelaporanKasus($requestPelaporan);
+            $pelaporanKasus->save();
+
+            //add to log
+            $log = new Log();
+            $log->id_kasus = $requestPelaporan['id_kasus'];
+            $log->id_user = Auth::id();
+            $log->id_aktifitas = 9;
+            $log->save();
+
+            DB::commit();
+        } catch (\Throwable $e) {
+            DB::rollback();
+            dd($e);
+        }
+
 
         return redirect()->route('pelaporanKasus.show',$requestPelaporan['id_kasus'])->with('success', 'Success add data!');
     }
@@ -107,8 +126,15 @@ class PelaporanKasusController extends Controller
     public function destroy($id)
     {
         try {
+
             $pelaporanKasus = PelaporanKasus::find($id);
             $pelaporanKasus->delete();
+
+            $log = new Log();
+            $log->id_kasus = $pelaporanKasus->id_kasus;
+            $log->id_user = Auth::id();
+            $log->id_aktifitas = 10;
+            $log->save();
             // return redirect('/tim/kasus')->withSuccess(__('pelaporan kasus delete successfully.'));
             return Redirect::back()->with('success', "laporan kasus was deleted successfully");
         } catch (\Throwable $e) {

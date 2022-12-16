@@ -19,6 +19,9 @@
     <link href={{ asset('/assets/css/demo.css') }} rel="stylesheet" />
     {{-- <link href={{ asset('/assets/css/bootstrap5.min.css') }} rel="stylesheet" > --}}
 
+    {{-- jquery --}}
+    <script src={{ asset('/assets/js/core/jquery.3.2.1.min.js') }} type="text/javascript"></script>
+
 </head>
 
 <body>
@@ -299,7 +302,7 @@
 </body>
 
 <!--   Core JS Files   -->
-<script src={{ asset('/assets/js/core/jquery.3.2.1.min.js') }} type="text/javascript"></script>
+
 <script src={{ asset('/assets/js/core/popper.min.js') }} type="text/javascript"></script>
 <script src={{ asset('/assets/js/core/bootstrap.min.js') }} type="text/javascript"></script>
 <!--  Plugin for Switches, full documentation here: http://www.jque.re/plugins/version3/bootstrap.switch/ -->

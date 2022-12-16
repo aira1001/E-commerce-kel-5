@@ -5,12 +5,15 @@ namespace App\Http\Controllers;
 // use App\Kasus;
 use App\Models\Kasus;
 use App\Models\LembagaKepolisian;
-use App\Models\Pegawai;
+use App\Models\Log;
+use App\Models\Saksi;
+use App\Models\PelaporFile;
 use App\Models\PerintahDisposisi;
 use App\Models\PraKasus;
 use App\Models\StatusKasus;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
 class KasusController extends Controller
@@ -50,11 +53,19 @@ class KasusController extends Controller
             'perintah' => 'required',
         ]);
 
-        Kasus::create([
-            'status_kasus' => $request->id_status_kasus,
-            'lembaga_pic' => $request->lembaga_pic,
-            'perintah' => $request->id_perintah,
-        ]);
+        DB::beginTransaction();
+        try {
+            Kasus::create([
+                'status_kasus' => $request->id_status_kasus,
+                'lembaga_pic' => $request->lembaga_pic,
+                'perintah' => $request->id_perintah,
+            ]);
+            return redirect('/kasus')->with('success', 'success edit kasus');
+        } catch (\Throwable $e) {
+            dd($e);;
+            DB::rollBack();
+            return redirect('/kasus')->with('warning', 'something went wrong');
+        }
 
         // return redirect('/kasus');
     }
@@ -100,7 +111,7 @@ class KasusController extends Controller
     {
         $kasus = Kasus::with('prakasus')->find($id_kasus);
         // dd($request->all());
-         $this->validate($request, [
+        $this->validate($request, [
             'status_kasus' => 'required',
             'lembaga_pic' => 'required',
             'perintah_disposisi' => 'required',
@@ -118,6 +129,14 @@ class KasusController extends Controller
             $pra_kasus = $kasus->prakasus;
             $pra_kasus->status = 1;
             $pra_kasus->save();
+
+            //step 3 : add to table log
+            $log = new Log();
+            $log->id_kasus = $id_kasus;
+            $log->id_user = Auth::id();
+            $log->id_aktifitas = 5;
+            $log->save();
+
             DB::commit();
             return redirect()->route('kasus.index')->with('success', 'kasus telah diedit!');
         } catch (\Throwable $e) {
@@ -136,35 +155,96 @@ class KasusController extends Controller
      */
     public function destroy($id)
     {
+        DB::beginTransaction();
         try {
+
+            //delete log
+            $log = Log::where('id_kasus', $id);
+            $log->delete();
+
+            // delete kasus
             $kasus = Kasus::find($id);
             $kasus->delete();
+
+            // delete pelaporan file
+            $pelaporan_file = PelaporFile::where('id_pra_kasus', $kasus->id_pra_kasus);
+            $pelaporan_file->delete();
+
+            //delete saksi
+            $saksi = Saksi::where('id_pra_kasus', $kasus->id_pra_kasus);
+            $saksi->delete();
+
+            //delete log pra kasus
+            $log = Log::where('id_pra_kasus', $kasus->id_pra_kasus);
+            $log->delete();
+
+            //delete pra kasus
+            $pra_kasus = PraKasus::find($kasus->id_pra_kasus);
+            $pra_kasus->delete();
+
+            DB::commit();
             return redirect('/kasus')->withSuccess(__('kasus delete successfully.'));
         } catch (\Throwable $e) {
-            error_log($e);
+            DB::rollBack();
+            dd($e);
             return redirect()->route('kasus.index')->with('warning', 'Something Went Wrong!');
         }
     }
 
-    public function updatePegawai(Request $request, $id_kasus){
-        $kasus = Kasus::find($id_kasus);
+    public function updatePegawai(Request $request, $id_kasus)
+    {
         $requestValidate = $this->validate($request, [
             'pegawai_pic' => 'required'
         ]);
-        $kasus->id_pegawai_pic = $requestValidate['pegawai_pic'];
-        $kasus->save();
-        return Redirect::back()->with('success', "pegawai was edited succcessfully");
+
+        DB::beginTransaction();
+        try {
+            $kasus = Kasus::find($id_kasus);
+            $kasus->id_pegawai_pic = $requestValidate['pegawai_pic'];
+            $kasus->save();
+
+            // add to log table
+            $log = new Log();
+            $log->id_kasus = $id_kasus;
+            $log->id_user = Auth::id();
+            $log->id_aktifitas = 7;
+            $log->save();
+
+            DB::commit();
+            return Redirect::back()->with('success', "pegawai was edited succcessfully");
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            dd($e);
+            return Redirect::back()->with('warning', "gagal mengedit pegawai");
+        }
+
         // dd($requestValidate);
 
     }
 
-    public function updatePerintah(Request $request, $id_kasus){
-        $kasus = Kasus::find($id_kasus);
+    public function updatePerintah(Request $request, $id_kasus)
+    {
         $requestValidate = $this->validate($request, [
             'perintah_disposisi' => 'required'
         ]);
-        $kasus->id_perintah = $requestValidate['perintah_disposisi'];
-        $kasus->save();
-        return Redirect::back()->with('success', "perintah disposisi was edited succcessfully");
+        DB::beginTransaction();
+        try {
+            $kasus = Kasus::find($id_kasus);
+            $kasus->id_perintah = $requestValidate['perintah_disposisi'];
+            $kasus->save();
+
+            // add to log table
+            $log = new Log();
+            $log->id_kasus = $id_kasus;
+            $log->id_user = Auth::id();
+            $log->id_aktifitas = 8;
+            $log->save();
+            DB::commit();
+            return Redirect::back()->with('success', "perintah disposisi was edited succcessfully");
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            dd($e);
+            return Redirect::back()->with('warning', "gagal menambahkan perintah disposisi");
+        }
     }
 }

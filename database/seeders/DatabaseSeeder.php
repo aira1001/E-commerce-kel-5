@@ -58,6 +58,18 @@ class DatabaseSeeder extends Seeder
 
         //activity seeder
         Activity::create([
+            'aktifitas' => 'menambah pra kasus',
+            'updated_at' => null
+        ]);
+        Activity::create([
+            'aktifitas' => 'mengedit pra kasus',
+            'updated_at' => null
+        ]);
+        Activity::create([
+            'aktifitas' => 'menghapus pra kasus',
+            'updated_at' => null
+        ]);
+        Activity::create([
             'aktifitas' => 'manambahkan kasus',
             'updated_at' => null
         ]);
@@ -67,6 +79,26 @@ class DatabaseSeeder extends Seeder
         ]);
         Activity::create([
             'aktifitas' => 'menghapus kasus',
+            'updated_at' => null
+        ]);
+        Activity::create([
+            'aktifitas' => 'melakukan update pegawai',
+            'updated_at' => null
+        ]);
+        Activity::create([
+            'aktifitas' => 'melakukan update perintah diposisi',
+            'updated_at' => null
+        ]);
+        Activity::create([
+            'aktifitas' => 'menambahkan pelaporan kasus',
+            'updated_at' => null
+        ]);
+        Activity::create([
+            'aktifitas' => 'menghapus pelaporan kasus',
+            'updated_at' => null
+        ]);
+        Activity::create([
+            'aktifitas' => 'mengedit pelaporan kasus',
             'updated_at' => null
         ]);
 

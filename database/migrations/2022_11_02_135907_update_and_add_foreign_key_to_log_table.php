@@ -15,6 +15,7 @@ class UpdateAndAddForeignKeyToLogTable extends Migration
     {
         Schema::table('log', function (Blueprint $table) {
             $table->foreign("id_kasus")->references("id")->on("kasus");
+            $table->foreign("id_pra_kasus")->references("id_pra_kasus")->on("pra_kasus");
             $table->foreign("id_aktifitas")->references("id")->on("activities");
             $table->foreign("id_user")->references("id")->on("users");
         });

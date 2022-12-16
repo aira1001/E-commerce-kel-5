@@ -24,19 +24,19 @@
                             </div>
                             <div class="list-group-item flex-column align-items-start">
                                 <h5 class="mb-2 font-weight-bold">Lembaga PIC : </h5>
-                                <p>{{ $kasus->lembagakepolisian->nama_lembaga }}</p>
+                                <p>{{ $kasus->lembagakepolisian->nama_lembaga ?? ' ' }}</p>
                             </div>
                             <div class="list-group-item flex-column align-items-start">
                                 <h5 class="mb-2 font-weight-bold">Pegawai PIC : </h5>
-                                <p>{{ $kasus->pegawaikasus->nama }}</p>
+                                <p>{{ $kasus->pegawaikasus->nama ?? ' '}}</p>
                             </div>
                             <div class="list-group-item flex-column align-items-start">
                                 <h5 class="mb-2 font-weight-bold">Status Kasus : </h5>
-                                <p>{{ $kasus->statuskasus->nama }}</p>
+                                <p>{{ $kasus->statuskasus->nama ?? ' '}}</p>
                             </div>
                             <div class="list-group-item flex-column align-items-start">
                                 <h5 class="mb-2 font-weight-bold">Perintah Disposisi : </h5>
-                                <p>{{ $kasus->perintahdisposisi->perintah }}</p>
+                                <p>{{ $kasus->perintahdisposisi->perintah ?? ' '}}</p>
                             </div>
                             <div class="list-group-item flex-column align-items-start">
                                 <h5 class="mb-3 font-weight-bold">Waktu Kejadian : </h5>
