@@ -265,4 +265,17 @@ class PraKasusController extends Controller
         $pdf = PDF::loadview('pages.disporsisi',['surat'=> $data ['surat']]);
         return $pdf->stream('disporsisi.pdf');
     }
+    public function cetak_pdf($id_cetak)
+    {
+        $data ['surat'] = DB::table('kasus')
+        ->join('pra_kasus', 'pra_kasus.id_pra_kasus', 'kasus.id_pra_kasus')
+        ->join('saksi', 'saksi.id_pra_kasus', 'pra_kasus.id_pra_kasus')
+        ->join('perintah_disposisi', 'kasus.id_perintah', 'perintah_disposisi.id_perintah')
+        ->join('users', 'users.id', 'pra_kasus.id_pelapor')
+        ->where('kasus.id', $id_cetak)
+        ->select('pra_kasus.*','kasus.*','users.*','perintah_disposisi.perintah', 'saksi.*')
+        ->get();
+    	$pdf = PDF::loadview('pages.disporsisi',['surat'=> $data ['surat']]);
+    	return $pdf->download('disporsisi.pdf');
+    }
 }
