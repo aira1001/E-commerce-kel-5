@@ -157,6 +157,11 @@ class KasusController extends Controller
     {
         DB::beginTransaction();
         try {
+
+            //delete log
+            $log = Log::where('id_kasus', $id);
+            $log->delete();
+
             // delete kasus
             $kasus = Kasus::find($id);
             $kasus->delete();
@@ -164,10 +169,6 @@ class KasusController extends Controller
             // delete pelaporan file
             $pelaporan_file = PelaporFile::where('id_pra_kasus', $kasus->id_pra_kasus);
             $pelaporan_file->delete();
-
-            //delete log
-            $log = Log::where('id_kasus', $id);
-            $log->delete();
 
             //delete saksi
             $saksi = Saksi::where('id_pra_kasus', $kasus->id_pra_kasus);

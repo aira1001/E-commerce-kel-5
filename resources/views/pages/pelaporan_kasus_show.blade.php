@@ -50,7 +50,7 @@
                             <div class="list-group-item flex-column align-items-start">
                                 <h5 class="mb-2 font-weight-bold">pegawai PIC : </h5>
                                 <div class="d-flex justify-content-between">
-                                    <p>{{ $kasus->pegawaikasus->nama }}</p>
+                                    <p>{{ $kasus->pegawaikasus->nama ?? ' '}}</p>
                                     @if ($userRole == 3)
                                         <button class="btn btn-primary btn-sm" data-toggle="modal"
                                             data-target="#exampleModal2" data-whatever="@PIC">Add PIC</button>
