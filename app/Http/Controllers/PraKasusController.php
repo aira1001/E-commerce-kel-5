@@ -6,7 +6,7 @@ use App\Models\Kasus;
 use App\Models\PelaporFile;
 use Illuminate\Http\Request;
 use App\Models\PraKasus;
-use App\Models\PelaporKasus;
+use App\Models\Log;
 use App\Models\Saksi;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -23,7 +23,7 @@ class PraKasusController extends Controller
     public function show($id_pra_kasus)
     {
         // $praKasusGetById = PraKasus::find($id_pra_kasus);
-        $praKasusGetById = PraKasus::with(['user', 'saksi', 'pelaporFile'])->where('id_pra_kasus', $id_pra_kasus)->first();
+        $praKasusGetById = PraKasus::with(['user', 'saksi', 'pelaporFile'])->findOrFail($id_pra_kasus);
         // $pra_kasus = PraKasus::where('id_pelapor', $userId)->get();
         // return json_decode($praKasusGetById);
         return view('pages.pra_kasus_show', ['pra_kasus' => $praKasusGetById]);
@@ -87,7 +87,6 @@ class PraKasusController extends Controller
                     $pelapor_file->id_pra_kasus = $pra_kasus->id_pra_kasus;
                     $pelapor_file->path_file = $name;
                     $pelapor_file->save();
-
                 }
             }
 
@@ -95,6 +94,13 @@ class PraKasusController extends Controller
             $kasus = new Kasus();
             $kasus->id_pra_kasus = $pra_kasus->id_pra_kasus;
             $kasus->save();
+
+            //step 5 : add to table log
+            $log = new Log();
+            $log->id_pra_kasus = $pra_kasus->id_pra_kasus;
+            $log->id_user = $userId;
+            $log->id_aktifitas = 1;
+            $log->save();
 
             DB::commit();
             return redirect()->route('pra_kasus.index')->with('success', 'Thank You for your report!');
@@ -104,11 +110,11 @@ class PraKasusController extends Controller
             return redirect()->route('pra_kasus.index')
                 ->with('warning', 'Something Went Wrong!');
         }
-
     }
 
     public function destroy($id_pra_kasus)
     {
+
         DB::beginTransaction();
         try {
             //delete saksi
@@ -123,14 +129,20 @@ class PraKasusController extends Controller
             $kasus = Kasus::where('id_pra_kasus', $id_pra_kasus);
             $kasus->delete();
 
+            //delete log
+            $log = Log::where('id_pra_kasus', $id_pra_kasus);
+            $log->delete();
+
             //delete pra_kasus
             $pra_kasus = PraKasus::where('id_pra_kasus', $id_pra_kasus);
             $pra_kasus->delete();
+
+
             DB::commit();
             return redirect()->route('pra_kasus.index')->withSuccess(__('kasus delete successfully.'));
         } catch (\Throwable $e) {
             DB::rollback();
-            error_log($e);
+            dd($e);
             return redirect()->route('pra_kasus.index')
                 ->with('warning', 'Something Went Wrong!');
         }
@@ -202,6 +214,14 @@ class PraKasusController extends Controller
                     $pelapor_file->save();
                 }
             }
+
+            //add to table log
+            $log = new Log();
+            $log->id_pra_kasus = $id_pra_kasus;
+            $log->id_user = Auth::id();
+            $log->id_aktifitas = 2;
+            $log->save();
+
             DB::commit();
 
             return redirect()->route('pra_kasus.index')->with('success', 'data telah diedit!');
@@ -214,38 +234,34 @@ class PraKasusController extends Controller
     }
     public function lembar_disporsisi()
     {
-        $data ['surat'] = DB::table('kasus')
-        ->join('pra_kasus', 'pra_kasus.id_pra_kasus', 'kasus.id_pra_kasus')
-        ->join('pelapor_kasus', 'pelapor_kasus.id_pelapor', 'pra_kasus.id_pelapor')
-        ->select('*')
-        ->get();
+        $data['surat'] = DB::table('kasus')
+            ->join('pra_kasus', 'pra_kasus.id_pra_kasus', 'kasus.id_pra_kasus')
+            ->join('pelapor_kasus', 'pelapor_kasus.id_pelapor', 'pra_kasus.id_pelapor')
+            ->select('*')
+            ->get();
 
-        return view('pages.disporsisi',$data);
-
+        return view('pages.disporsisi', $data);
     }
     public function daftar()
     {
-        $data ['daftar'] = DB::table('kasus')
-        ->join('pra_kasus', 'pra_kasus.id_pra_kasus', 'kasus.id_pra_kasus')
-        ->join('users', 'users.id', 'kasus.id')
-        ->select('*')
-        ->get();
-        return view('pages.daftar_disporsisi',$data);
-
+        $data['daftar'] = DB::table('kasus')
+            ->join('pra_kasus', 'pra_kasus.id_pra_kasus', 'kasus.id_pra_kasus')
+            ->join('users', 'users.id', 'kasus.id')
+            ->select('*')
+            ->get();
+        return view('pages.daftar_disporsisi', $data);
     }
     public function open_data($id_open)
     {
-        $data ['surat'] = DB::table('kasus')
-        ->join('pra_kasus', 'pra_kasus.id_pra_kasus', 'kasus.id_pra_kasus')
-        ->join('perintah_disposisi', 'kasus.id_perintah', 'perintah_disposisi.id_perintah')
-        ->join('users', 'users.id', 'pra_kasus.id_pelapor')
-        ->where('kasus.id', $id_open)
-        ->select('pra_kasus.*','kasus.*','users.name','perintah_disposisi.perintah')
-        ->get();
+        $data['surat'] = DB::table('kasus')
+            ->join('pra_kasus', 'pra_kasus.id_pra_kasus', 'kasus.id_pra_kasus')
+            ->join('perintah_disposisi', 'kasus.id_perintah', 'perintah_disposisi.id_perintah')
+            ->join('users', 'users.id', 'pra_kasus.id_pelapor')
+            ->where('kasus.id', $id_open)
+            ->select('pra_kasus.*', 'kasus.*', 'users.name', 'perintah_disposisi.perintah')
+            ->get();
         // dd($data);
 
-        return view('pages.disporsisi',$data);
-
+        return view('pages.disporsisi', $data);
     }
-
 }

@@ -73,10 +73,10 @@
                         <tbody>
                             @foreach ($pra_kasus as $pk)
                                 <tr>
-                                    <th scope="row"  onclick="window.location.href = '{{ route('pra_kasus.show', $pk->id_pra_kasus) }}';">{{ $loop->iteration }}</th>
+                                    <th scope="row">{{ $loop->iteration }}</th>
                                     <td>{{ $pk->waktu_kejadian }}</td>
                                     <td>{{ $pk->tempat_kejadian }}</td>
-                                    <td>{{ $pk->judul_kasus }}</td>
+                                    <td  onclick="window.location.href = '{{ route('pra_kasus.show', $pk->id_pra_kasus) }}';">{{ $pk->judul_kasus }}</td>
                                     {{-- <td>{{ $pk->terlapor }}</td>
                                         <td>{{ $pk->korban }}</td> --}}
                                     {{-- <td>{{ $pk->bagaimana_terjadi }}</td>
@@ -86,43 +86,46 @@
                                     <td>{{ $pk->created_at }}</td>
                                     <td>{{ $pk->status }}</td>
                                     <td>
-                                        <div class="form-inline">
-                                            <a href="{{ route('pra_kasus.edit', $pk->id_pra_kasus) }}"
-                                                class="btn btn-warning mr-2">Edit</a>
-                                            {{-- <a href="{{route('pelapor_kasus.destroy',$pk->id_pelapor)}}" class="btn btn-danger">Delete</a> --}}
-                                            <button class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" >Delete</button>
-                                        </div>
-                                    </td>
-                                    <div class="modal fade" id="exampleModal" tabindex="-1"
-                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                        aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    Apakah anda yakin ingin menghapus laporan ini ?
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        data-dismiss="modal">Close</button>
-                                                    <form class="form-inline" method="post"
-                                                        action="{{ route('pra_kasus.destroy', $pk->id_pra_kasus) }}">
-                                                        @method('delete')
-                                                        @csrf
-                                                        <button type="submit" class="btn btn-danger">Delete</button>
-                                                    </form>
-                                                </div>
+                                        @if ($pk->status == 0)
+                                            <div class="form-inline">
+                                                <a href="{{ route('pra_kasus.edit', $pk->id_pra_kasus) }}"
+                                                    class="btn btn-warning mr-2">Edit</a>
+                                                {{-- <a href="{{route('pelapor_kasus.destroy',$pk->id_pelapor)}}" class="btn btn-danger">Delete</a> --}}
+                                                <button class="btn btn-danger" data-toggle="modal"
+                                                    data-target="#exampleModal">Delete</button>
                                             </div>
-                                        </div>
-                                    </div>
+                                        @else
+                                            <span class="badge badge-pill badge-warning">kasus tidak dapat diedit</span>
+                                        @endif
+                                    </td>
+
                                 </tr>
                             @endforeach
                     </table>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Apakah anda yakin ingin menghapus laporan ini ?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <form class="form-inline" method="post"
+                            action="{{ route('pra_kasus.destroy', $pk->id_pra_kasus) }}">
+                            @method('delete')
+                            @csrf
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

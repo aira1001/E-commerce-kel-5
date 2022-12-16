@@ -51,8 +51,10 @@
                                 <h5 class="mb-2 font-weight-bold">pegawai PIC : </h5>
                                 <div class="d-flex justify-content-between">
                                     <p>{{ $kasus->pegawaikasus->nama }}</p>
-                                    <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal2"
-                                        data-whatever="@PIC">Add PIC</button>
+                                    @if ($userRole == 3)
+                                        <button class="btn btn-primary btn-sm" data-toggle="modal"
+                                            data-target="#exampleModal2" data-whatever="@PIC">Add PIC</button>
+                                    @endif
                                 </div>
                             </div>
                             <div class="list-group-item flex-column align-items-start">
@@ -135,8 +137,10 @@
                                 <h5 class="mb-2 font-weight-bold">Perintah Disposisi : </h5>
                                 <div class="d-flex justify-content-between">
                                     <p>{{ $kasus->perintahdisposisi->perintah }}</p>
-                                    <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal3"
-                                        data-whatever="@perintah">Edit Perintah</button>
+                                    @if ($userRole == 3)
+                                        <button class="btn btn-primary btn-sm" data-toggle="modal"
+                                            data-target="#exampleModal3" data-whatever="@perintah">Edit Perintah</button>
+                                    @endif
                                 </div>
                             </div>
                             <div class="list-group-item flex-column align-items-start">
