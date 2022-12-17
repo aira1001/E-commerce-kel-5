@@ -12,22 +12,32 @@ class Kasus extends Model
 
     protected $fillable = ['id_pra_kasus', 'id_status_kasus', 'id_pegawai_pic', 'lembaga_pic', 'id_perintah'];
 
-    public function prakasus(){
+    public function prakasus()
+    {
         return $this->belongsTo(PraKasus::class, 'id_pra_kasus');
     }
-    public function pegawaikasus(){
+    public function pegawaikasus()
+    {
         return $this->belongsTo(Pegawai::class, 'id_pegawai_pic');
     }
-    public function statuskasus(){
+    public function statuskasus()
+    {
         return $this->belongsTo(StatusKasus::class, 'id_status_kasus');
     }
-    public function perintahdisposisi(){
+    public function perintahdisposisi()
+    {
         return $this->belongsTo(PerintahDisposisi::class, 'id_perintah');
     }
-    public function lembagakepolisian(){
+    public function lembagakepolisian()
+    {
         return $this->belongsTo(LembagaKepolisian::class, 'lembaga_pic');
     }
-    public function pelaporankasus(){
+    public function pelaporankasus()
+    {
         return $this->hasMany(PelaporanKasus::class, 'id_kasus');
+    }
+    public function anggotaTim()
+    {
+        return $this->belongsToMany(Pegawai::class, 'tim_kasus', 'kasus_id', 'pegawai_id');
     }
 }

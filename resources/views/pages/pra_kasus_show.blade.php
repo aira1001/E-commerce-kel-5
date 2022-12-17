@@ -6,15 +6,16 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    {{-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet"> --}}
+    {{--
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet"> --}}
 </head>
 
 @section('content')
 
-    <body>
-        <div class="content">
-            <div class="container-fluid">
-                {{-- <div class="row"> --}}
+<body>
+    <div class="content">
+        <div class="container-fluid">
+            {{-- <div class="row"> --}}
                 {{-- <div class="col-md-4">
                     <div class="card ">
                         <div class="card-header ">
@@ -36,53 +37,67 @@
                     </div>
                 </div> --}}
                 {{-- <div class="col-md-8"> --}}
-                <div class="card ">
-                    <div class="card-header ">
-                        <a href="{{ route('pra_kasus.index') }}" class="btn btn-primary mr-2">Kembali</a>
-                        <h1 class="display-4 mb-1">Detail Kasus </h1>
-                        <div class="stats">
-                            <i class="fa fa-history"></i> Last Updated
-                            {{ date('Y-m-d H:i:s', strtotime($pra_kasus->updated_at)) }}
-                        </div>
-                    </div>
-                    <div class="card-body ">
-                        <div class="list-group list-group-flush">
-                            <div class="list-group-item flex-column align-items-start">
-                                <h5 class="mb-2 font-weight-bold">Judul Kasus : </h5>
-                                <p>{{ $pra_kasus->judul_kasus }}</p>
+                    <div class="card ">
+                        <div class="card-header ">
+                            <a href="{{ route('pra_kasus.index') }}" class="btn btn-primary mr-2">Kembali</a>
+                            <h1 class="display-4 mb-1">Detail Kasus </h1>
+                            @if ($pra_kasus->kasus->anggotaTim()->count() == null)
+                            <a href="{{ route('team.create', ['pra_kasus' => $pra_kasus->id_pra_kasus]) }}"
+                                class="btn btn-success">Buat Tim</a>
+                            @else
+                            <p class="p-1 my-2 text-white rounded" style="background: indigo">
+                                Tim Kasus:
+                                @foreach ($pra_kasus->kasus->anggotaTim as $key => $pegawai)
+                                @if ($key != 0)
+                                <span>, </span>
+                                @endif
+                                <span>{{ $pegawai->nama }}</span>
+                                @endforeach
+                            </p>
+                            @endif
+                            <div class="stats">
+                                <i class="fa fa-history"></i> Last Updated
+                                {{ date('Y-m-d H:i:s', strtotime($pra_kasus->updated_at)) }}
                             </div>
-                            <div class="list-group-item flex-column align-items-start">
-                                <h5 class="mb-3 font-weight-bold">Waktu Kejadian : </h5>
-                                <div class="d-flex w-25 justify-content-between">
-                                    <div>
-                                        <h6 class="mb-1">date : </h6>
-                                        <p>{{ date('Y-m-d', strtotime($pra_kasus->waktu_kejadian)) }}</p>
-                                    </div>
-                                    <div>
-                                        <h6 class="mb-1">time : </h6>
-                                        <p>{{ date('H:i:s', strtotime($pra_kasus->waktu_kejadian)) }}</p>
+                        </div>
+                        <div class="card-body ">
+                            <div class="list-group list-group-flush">
+                                <div class="list-group-item flex-column align-items-start">
+                                    <h5 class="mb-2 font-weight-bold">Judul Kasus : </h5>
+                                    <p>{{ $pra_kasus->judul_kasus }}</p>
+                                </div>
+                                <div class="list-group-item flex-column align-items-start">
+                                    <h5 class="mb-3 font-weight-bold">Waktu Kejadian : </h5>
+                                    <div class="d-flex w-25 justify-content-between">
+                                        <div>
+                                            <h6 class="mb-1">date : </h6>
+                                            <p>{{ date('Y-m-d', strtotime($pra_kasus->waktu_kejadian)) }}</p>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-1">time : </h6>
+                                            <p>{{ date('H:i:s', strtotime($pra_kasus->waktu_kejadian)) }}</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="list-group-item flex-column align-items-start">
-                                <h5 class="mb-2 font-weight-bold">Tempat Kejadian : </h5>
-                                <p>{{ $pra_kasus->tempat_kejadian }}</p>
-                            </div>
-                            <div class="list-group-item flex-column align-items-start">
-                                <h5 class="mb-2 font-weight-bold">Terlapor : </h5>
-                                <p>{{ $pra_kasus->terlapor }}</p>
-                            </div>
-                            <div class="list-group-item flex-column align-items-start">
-                                <h5 class="mb-2 font-weight-bold">Korban : </h5>
-                                <p>{{ $pra_kasus->korban }}</p>
-                            </div>
-                            <div class="list-group-item flex-column align-items-start">
-                                <h5 class="mb-2 font-weight-bold">Bagaimana Terjadi : </h5>
-                                <p>{{ $pra_kasus->bagaimana_terjadi }}</p>
-                            </div>
-                            <div class="list-group-item flex-column align-items-start">
-                                <h5 class="mb-2 font-weight-bold">Saksi : </h5>
-                                @foreach ($pra_kasus->saksi as $saksi)
+                                <div class="list-group-item flex-column align-items-start">
+                                    <h5 class="mb-2 font-weight-bold">Tempat Kejadian : </h5>
+                                    <p>{{ $pra_kasus->tempat_kejadian }}</p>
+                                </div>
+                                <div class="list-group-item flex-column align-items-start">
+                                    <h5 class="mb-2 font-weight-bold">Terlapor : </h5>
+                                    <p>{{ $pra_kasus->terlapor }}</p>
+                                </div>
+                                <div class="list-group-item flex-column align-items-start">
+                                    <h5 class="mb-2 font-weight-bold">Korban : </h5>
+                                    <p>{{ $pra_kasus->korban }}</p>
+                                </div>
+                                <div class="list-group-item flex-column align-items-start">
+                                    <h5 class="mb-2 font-weight-bold">Bagaimana Terjadi : </h5>
+                                    <p>{{ $pra_kasus->bagaimana_terjadi }}</p>
+                                </div>
+                                <div class="list-group-item flex-column align-items-start">
+                                    <h5 class="mb-2 font-weight-bold">Saksi : </h5>
+                                    @foreach ($pra_kasus->saksi as $saksi)
                                     <div class="d-flex w-25 justify-content-between">
                                         <div>
                                             <h6 class="mb-1">Nama : </h6>
@@ -97,55 +112,56 @@
                                             <p>{{ $saksi->asal }}</p>
                                         </div>
                                     </div>
-                                @endforeach
-                            </div>
-                            <div class="list-group-item flex-column align-items-start">
-                                <h5 class="mb-2 font-weight-bold">Uraian singkat Kejadian : </h5>
-                                <p>{{ $pra_kasus->uraian_singkat_kejadian }}</p>
-                            </div>
-                            <div class="list-group-item flex-column align-items-start">
-                                <h5 class="mb-3 font-weight-bold">Dibuat Pada : </h5>
-                                <div class="d-flex w-25 justify-content-between">
-                                    <div>
-                                        <h6 class="mb-1">date : </h6>
-                                        <p>{{ date('Y-m-d', strtotime($pra_kasus->created_at)) }}</p>
-                                    </div>
-                                    <div>
-                                        <h6 class="mb-1">time : </h6>
-                                        <p>{{ date('H:i:s', strtotime($pra_kasus->created_at)) }}</p>
+                                    @endforeach
+                                </div>
+                                <div class="list-group-item flex-column align-items-start">
+                                    <h5 class="mb-2 font-weight-bold">Uraian singkat Kejadian : </h5>
+                                    <p>{{ $pra_kasus->uraian_singkat_kejadian }}</p>
+                                </div>
+                                <div class="list-group-item flex-column align-items-start">
+                                    <h5 class="mb-3 font-weight-bold">Dibuat Pada : </h5>
+                                    <div class="d-flex w-25 justify-content-between">
+                                        <div>
+                                            <h6 class="mb-1">date : </h6>
+                                            <p>{{ date('Y-m-d', strtotime($pra_kasus->created_at)) }}</p>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-1">time : </h6>
+                                            <p>{{ date('H:i:s', strtotime($pra_kasus->created_at)) }}</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="list-group-item flex-column align-items-start">
-                                <h5 class="mb-2 font-weight-bold">Barang Bukti : </h5>
-                                @foreach ($pra_kasus->pelaporFile as $file)
+                                <div class="list-group-item flex-column align-items-start">
+                                    <h5 class="mb-2 font-weight-bold">Barang Bukti : </h5>
+                                    @foreach ($pra_kasus->pelaporFile as $file)
                                     <div class="d-flex w-25 justify-content-between">
                                         <a href="{{ asset('/image/' . $file->path_file) }}" target="_blank">
                                             <img src="{{ asset('/image/' . $file->path_file) }}" alt="image"
                                                 class="img-thumbnail">
                                         </a>
                                     </div>
-                                @endforeach
+                                    @endforeach
+                                </div>
+                                {{-- <li class="list-group-item">Dapibus ac facilisis in</li>
+                                <li class="list-group-item">Morbi leo risus</li>
+                                <li class="list-group-item">Porta ac consectetur ac</li>
+                                <li class="list-group-item">Vestibulum at eros</li> --}}
                             </div>
-                            {{-- <li class="list-group-item">Dapibus ac facilisis in</li>
-                            <li class="list-group-item">Morbi leo risus</li>
-                            <li class="list-group-item">Porta ac consectetur ac</li>
-                            <li class="list-group-item">Vestibulum at eros</li> --}}
+                        </div>
+                        <div class="card-footer ">
+                            <div class="legend">
+                                <i class="fa fa-circle text-info"></i> {{ __('Open') }}
+                                <i class="fa fa-circle text-danger"></i> {{ __('Click') }}
+                                <i class="fa fa-circle text-warning"></i> {{ __('Click Second Time') }}
+                            </div>
+                            <hr>
+                            {{-- <div class="stats">
+                                <i class="fa fa-history"></i> {{ __('Updated 3 minutes ago') }}
+                            </div> --}}
                         </div>
                     </div>
-                    <div class="card-footer ">
-                        <div class="legend">
-                            <i class="fa fa-circle text-info"></i> {{ __('Open') }}
-                            <i class="fa fa-circle text-danger"></i> {{ __('Click') }}
-                            <i class="fa fa-circle text-warning"></i> {{ __('Click Second Time') }}
-                        </div>
-                        <hr>
-                        {{-- <div class="stats">
-                            <i class="fa fa-history"></i> {{ __('Updated 3 minutes ago') }}
-                        </div> --}}
-                    </div>
-                </div>
-                {{-- </div> --}}
+                    {{--
+                </div> --}}
             </div>
             {{-- <div class="row">
                 <div class="col-md-6">
@@ -188,7 +204,8 @@
                                                     </label>
                                                 </div>
                                             </td>
-                                            <td>{{ __('Sign contract for "What are conference organizers afraid of?"') }}
+                                            <td>{{ __('Sign contract for "What are conference organizers afraid of?"')
+                                                }}
                                             </td>
                                             <td class="td-actions text-right">
                                                 <button type="button" rel="tooltip" title="Edit Task"
@@ -211,7 +228,8 @@
                                                     </label>
                                                 </div>
                                             </td>
-                                            <td>{{ __('Lines From Great Russian Literature? Or E-mails From My Boss?') }}
+                                            <td>{{ __('Lines From Great Russian Literature? Or E-mails From My Boss?')
+                                                }}
                                             </td>
                                             <td class="td-actions text-right">
                                                 <button type="button" rel="tooltip" title="Edit Task"
@@ -234,7 +252,8 @@
                                                     </label>
                                                 </div>
                                             </td>
-                                            <td>{{ __('Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit') }}
+                                            <td>{{ __('Flooded: One year later, assessing what was lost and what was
+                                                found when a ravaging rain swept through metro Detroit') }}
                                             </td>
                                             <td class="td-actions text-right">
                                                 <button type="button" rel="tooltip" title="Edit Task"
@@ -256,7 +275,8 @@
                                                     </label>
                                                 </div>
                                             </td>
-                                            <td>{{ __('Create 4 Invisible User Experiences you Never Knew About') }}</td>
+                                            <td>{{ __('Create 4 Invisible User Experiences you Never Knew About') }}
+                                            </td>
                                             <td class="td-actions text-right">
                                                 <button type="button" rel="tooltip" title="Edit Task"
                                                     class="btn btn-info btn-simple btn-link">
@@ -325,20 +345,20 @@
                 </div>
             </div> --}}
         </div>
-        </div>
-    </body>
+    </div>
+</body>
 @endsection
 
 </html>
 
 @push('js')
-    <script type="text/javascript">
-        $(document).ready(function() {
+<script type="text/javascript">
+    $(document).ready(function() {
             // Javascript method's body can be found in assets/js/demos.js
             demo.initDashboardPageCharts();
 
             demo.showNotification();
 
         });
-    </script>
+</script>
 @endpush

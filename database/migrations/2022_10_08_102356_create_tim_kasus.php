@@ -14,9 +14,10 @@ class CreateTimKasus extends Migration
     public function up()
     {
         Schema::create('tim_kasus', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('id_kasus');
-            $table->unsignedBigInteger('id_pegawai_anggota');
+            $table->foreignId('pegawai_id')->constrained('pegawai')->cascadeOnDelete();
+            $table->foreignId('kasus_id')->constrained('kasus')->cascadeOnDelete();
+
+            $table->primary(['pegawai_id', 'kasus_id']);
         });
     }
 

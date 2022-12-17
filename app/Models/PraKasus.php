@@ -21,4 +21,10 @@ class PraKasus extends Model
     public function pelaporFile(){
         return $this->hasMany('App\Models\PelaporFile', 'id_pra_kasus');
     }
+
+
+    public function kasus()
+    {
+        return $this->hasOne(Kasus::class, 'id_pra_kasus');
+    }
 }
