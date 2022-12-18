@@ -40,7 +40,7 @@ Route::middleware(['auth', 'checkRoleAdmin'])->group(function () {
     Route::get('/disporsisi', [PraKasusController::class, 'lembar_disporsisi']);
     Route::get('/daftar_disporsisi', [PraKasusController::class, 'daftar']);
     Route::get('/disporsisi/{id}', [PraKasusController::class, 'open_data']);
-    Route::get('/disporsisi/cetak_pdf/{id}',[PraKasusController::class, 'cetak_pdf']);
+    Route::get('/disporsisi/cetak_pdf/{id}', [PraKasusController::class, 'cetak_pdf']);
     Route::resource('kasus', KasusController::class);
 });
 Route::middleware(['auth', 'checkRoleTim'])->group(function () {
@@ -53,14 +53,18 @@ Route::middleware(['auth', 'checkRoleMasyarakat'])->group(function () {
     Route::post('/pra_kasus/store', [PraKasusController::class, 'store']);
     Route::put('/pra_kasus/update/{id_pra_kasus}', [PraKasusController::class, 'update']);
     Route::resource('pra_kasus', PraKasusController::class);
+
+    Route::get('pra-kasus/{pra_kasus}/set-team', [PraKasusController::class, 'setTeam'])->name('team.create');
+    Route::post('pra-kasus/{pra_kasus}/set-team', [PraKasusController::class, 'storeTeam'])->name('team.store');
+    Route::get('pra-kasus/{pra_kasus}/edit-team', [PraKasusController::class, 'editTeam'])->name('team.edit');
+    Route::post('pra-kasus/{pra_kasus}/update-team', [PraKasusController::class, 'updateTeam'])->name('team.update');
 });
 Route::middleware(['auth', 'checkRolePejabat'])->group(function () {
     Route::resource('pelaporanKasus', PelaporanKasusController::class)->except(['edit', 'update', 'create']);
     Route::put('/pegawaiKasus/{id_kasus}',  [KasusController::class, 'updatePegawai']);
     Route::put('/perintahKasus/{id_kasus}',  [KasusController::class, 'updatePerintah']);
-    Route::resource('pejabatKasus', PejabatController::class)->except(['create','update','delete','show']);
+    Route::resource('pejabatKasus', PejabatController::class)->except(['create', 'update', 'delete', 'show']);
     Route::get('/daftar_disporsisi', [PraKasusController::class, 'daftar']);
-
 });
 
 

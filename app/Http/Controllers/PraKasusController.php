@@ -7,6 +7,7 @@ use App\Models\PelaporFile;
 use Illuminate\Http\Request;
 use App\Models\PraKasus;
 use App\Models\Log;
+use App\Models\Pegawai;
 use App\Models\Saksi;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -253,29 +254,78 @@ class PraKasusController extends Controller
     }
     public function open_data($id_open)
     {
-        $data ['surat'] = DB::table('kasus')
-        ->join('pra_kasus', 'pra_kasus.id_pra_kasus', 'kasus.id_pra_kasus')
-        ->join('perintah_disposisi', 'kasus.id_perintah', 'perintah_disposisi.id_perintah')
-        ->join('saksi', 'saksi.id_pra_kasus', 'pra_kasus.id_pra_kasus')
-        ->join('users', 'users.id', 'pra_kasus.id_pelapor')
-        ->where('kasus.id', $id_open)
-        ->select('pra_kasus.*','kasus.*','users.*','perintah_disposisi.perintah','saksi.*')
-        ->get();
+        $data['surat'] = DB::table('kasus')
+            ->join('pra_kasus', 'pra_kasus.id_pra_kasus', 'kasus.id_pra_kasus')
+            ->join('perintah_disposisi', 'kasus.id_perintah', 'perintah_disposisi.id_perintah')
+            ->join('saksi', 'saksi.id_pra_kasus', 'pra_kasus.id_pra_kasus')
+            ->join('users', 'users.id', 'pra_kasus.id_pelapor')
+            ->where('kasus.id', $id_open)
+            ->select('pra_kasus.*', 'kasus.*', 'users.*', 'perintah_disposisi.perintah', 'saksi.*')
+            ->get();
         // dd($data);
-        $pdf = PDF::loadview('pages.disporsisi',['surat'=> $data ['surat']]);
+        $pdf = PDF::loadview('pages.disporsisi', ['surat' => $data['surat']]);
         return $pdf->stream('disporsisi.pdf');
     }
     public function cetak_pdf($id_cetak)
     {
-        $data ['surat'] = DB::table('kasus')
-        ->join('pra_kasus', 'pra_kasus.id_pra_kasus', 'kasus.id_pra_kasus')
-        ->join('saksi', 'saksi.id_pra_kasus', 'pra_kasus.id_pra_kasus')
-        ->join('perintah_disposisi', 'kasus.id_perintah', 'perintah_disposisi.id_perintah')
-        ->join('users', 'users.id', 'pra_kasus.id_pelapor')
-        ->where('kasus.id', $id_cetak)
-        ->select('pra_kasus.*','kasus.*','users.*','perintah_disposisi.perintah', 'saksi.*')
-        ->get();
-    	$pdf = PDF::loadview('pages.disporsisi',['surat'=> $data ['surat']]);
-    	return $pdf->download('disporsisi.pdf');
+        $data['surat'] = DB::table('kasus')
+            ->join('pra_kasus', 'pra_kasus.id_pra_kasus', 'kasus.id_pra_kasus')
+            ->join('saksi', 'saksi.id_pra_kasus', 'pra_kasus.id_pra_kasus')
+            ->join('perintah_disposisi', 'kasus.id_perintah', 'perintah_disposisi.id_perintah')
+            ->join('users', 'users.id', 'pra_kasus.id_pelapor')
+            ->where('kasus.id', $id_cetak)
+            ->select('pra_kasus.*', 'kasus.*', 'users.*', 'perintah_disposisi.perintah', 'saksi.*')
+            ->get();
+        $pdf = PDF::loadview('pages.disporsisi', ['surat' => $data['surat']]);
+        return $pdf->download('disporsisi.pdf');
+    }
+
+    public function setTeam(PraKasus $pra_kasus)
+    {
+        $anggota = Pegawai::all();
+        return view('team.create', [
+            'pra_kasus' => $pra_kasus,
+            'anggota' => $anggota,
+        ]);
+    }
+
+    public function storeTeam(PraKasus $pra_kasus)
+    {
+        $id = $pra_kasus->id_pra_kasus;
+        $kasus = Kasus::where('id_pra_kasus', $id)->first();
+
+        // dd($kasus);
+
+        $kasus->anggotaTim()->sync(request('pegawai'));
+
+        return redirect()->route('pra_kasus.show', ['pra_kasu' => $id]);
+        // dd(request('pegawai'));
+
+
+    }
+
+    public function editTeam(PraKasus $pra_kasus)
+    {
+        $anggota = Pegawai::all();
+
+        $team = $pra_kasus->kasus->anggotaTim()->pluck('id');
+
+        return view('team.edit', [
+            'pra_kasus' => $pra_kasus,
+            'anggota' => $anggota,
+            'team' => $team,
+        ]);
+    }
+
+    public function updateTeam(PraKasus $pra_kasus)
+    {
+        $id = $pra_kasus->id_pra_kasus;
+        $kasus = Kasus::where('id_pra_kasus', $id)->first();
+
+        // dd($kasus);
+
+        $kasus->anggotaTim()->sync(request('pegawai'));
+
+        return redirect()->route('pra_kasus.show', ['pra_kasu' => $id]);
     }
 }

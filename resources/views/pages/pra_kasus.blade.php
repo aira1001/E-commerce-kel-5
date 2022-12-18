@@ -10,65 +10,65 @@
 
 @section('content')
 
-    <body>
-        <div class="container">
-            @if (Session::get('success', false))
-                <?php $data = Session::get('success'); ?>
-                @if (is_array($data))
-                    @foreach ($data as $msg)
-                        <div class="alert alert-success" role="alert">
-                            <i class="fa fa-check"></i>
-                            {{ $msg }}
-                        </div>
-                    @endforeach
-                @else
-                    <div class="alert alert-success" role="alert">
-                        <i class="fa fa-check"></i>
-                        {{ $data }}
-                    </div>
-                @endif
-            @elseif (Session::get('warning', false))
-                <?php $data = Session::get('warning'); ?>
-                @if (is_array($data))
-                    @foreach ($data as $msg)
-                        <div class="alert alert-warning" role="alert">
-                            <i class="fa fa-times"></i>
-                            {{ $msg }}
-                        </div>
-                    @endforeach
-                @else
-                    <div class="alert alert-warning" role="alert">
-                        <i class="fa fa-check"></i>
-                        {{ $data }}
-                    </div>
-                @endif
-            @endif
-            <div class="card mt-5" style="margin: auto">
-                <div class="card-header text-center">
-                    Data Pra kasus
-                </div>
-                <div class="card-body">
-                    <a href="/pra_kasus/create" class="btn btn-primary">Input reservasi kasus Baru</a>
-                    <br />
-                    <br />
-                    <table class="table table-bordered table-hover table-striped">
-                        <thead>
-                            <tr>
-                                <th scope="col">No</th>
-                                <th scope="col">waktu kejadian</th>
-                                <th scope="col">tempat kejadian</th>
-                                <th scope="col">judul kasus</th>
-                                {{-- <th>terlapor</th>
-                                <th>korban</th> --}}
-                                {{-- <th>bagaimana_terjadi</th>
-                                <th>barang bukti</th> --}}
-                                {{-- <th>saksi</th> --}}
-                                <th scope="col">uraian singkat kejadian</th>
-                                <th scope="col">tanggal lapor</th>
-                                <th scope="col">status</th>
-                                <th scope="col" class="border-right-0">Aksi</th>
-                            </tr>
-                        </thead>
+<body>
+    <div class="container">
+        @if (Session::get('success', false))
+        <?php $data = Session::get('success'); ?>
+        @if (is_array($data))
+        @foreach ($data as $msg)
+        <div class="alert alert-success" role="alert">
+            <i class="fa fa-check"></i>
+            {{ $msg }}
+        </div>
+        @endforeach
+        @else
+        <div class="alert alert-success" role="alert">
+            <i class="fa fa-check"></i>
+            {{ $data }}
+        </div>
+        @endif
+        @elseif (Session::get('warning', false))
+        <?php $data = Session::get('warning'); ?>
+        @if (is_array($data))
+        @foreach ($data as $msg)
+        <div class="alert alert-warning" role="alert">
+            <i class="fa fa-times"></i>
+            {{ $msg }}
+        </div>
+        @endforeach
+        @else
+        <div class="alert alert-warning" role="alert">
+            <i class="fa fa-check"></i>
+            {{ $data }}
+        </div>
+        @endif
+        @endif
+        <div class="card mt-5" style="margin: auto">
+            <div class="card-header text-center">
+                Data Pra kasus
+            </div>
+            <div class="card-body">
+                <a href="/pra_kasus/create" class="btn btn-primary">Input reservasi kasus Baru</a>
+                <br />
+                <br />
+                <table class="table table-bordered table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">waktu kejadian</th>
+                            <th scope="col">tempat kejadian</th>
+                            <th scope="col">judul kasus</th>
+                            {{-- <th>terlapor</th>
+                            <th>korban</th> --}}
+                            {{-- <th>bagaimana_terjadi</th>
+                            <th>barang bukti</th> --}}
+                            {{-- <th>saksi</th> --}}
+                            <th scope="col">uraian singkat kejadian</th>
+                            <th scope="col">tanggal lapor</th>
+                            <th scope="col">status</th>
+                            <th scope="col" class="border-right-0">Aksi</th>
+                        </tr>
+                    </thead>
 
                         <tbody>
                             @foreach ($pra_kasus as $pk)
