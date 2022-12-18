@@ -20,7 +20,7 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
-            'id_role' => mt_rand(1,4),
+            'id_role' => mt_rand(1,5),
             'umur' => mt_rand(20, 30),
             'pekerjaan'  => $this->faker->jobTitle(),
             'kewarganegaraan' => $this->faker->country(),

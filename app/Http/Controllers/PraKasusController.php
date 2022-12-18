@@ -11,6 +11,7 @@ use App\Models\Pegawai;
 use App\Models\Saksi;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use PDF;
 
 class PraKasusController extends Controller
@@ -115,7 +116,7 @@ class PraKasusController extends Controller
 
     public function destroy($id_pra_kasus)
     {
-
+        dd($id_pra_kasus);
         DB::beginTransaction();
         try {
             //delete saksi
@@ -280,11 +281,14 @@ class PraKasusController extends Controller
         return $pdf->download('disporsisi.pdf');
     }
 
-    public function setTeam(PraKasus $pra_kasus)
+    public function setTeam($id_kasus)
     {
+        // dd($id_kasus);
+        $kasus = Kasus::find($id_kasus);
+        // dd($kasus->prakasus);
         $anggota = Pegawai::all();
         return view('team.create', [
-            'pra_kasus' => $pra_kasus,
+            'pra_kasus' => $kasus->prakasus,
             'anggota' => $anggota,
         ]);
     }
@@ -292,13 +296,19 @@ class PraKasusController extends Controller
     public function storeTeam(PraKasus $pra_kasus)
     {
         $id = $pra_kasus->id_pra_kasus;
-        $kasus = Kasus::where('id_pra_kasus', $id)->first();
-
+        $kasus = Kasus::find($id);
         // dd($kasus);
 
+        // dd($id);
+        // dd(request('pegawai'));
         $kasus->anggotaTim()->sync(request('pegawai'));
-
-        return redirect()->route('pra_kasus.show', ['pra_kasu' => $id]);
+        // $kasus->save();
+        // dd($pra_kasus);
+        $pra_kasus->status = 1;
+        $pra_kasus->save();
+        // dd( ['pra_kasu' => $id]);
+        return  redirect()->route('kasus.show', $id);
+        // return Redirect::route('kasus.show')->with('success', "berhadil menambahkan tim kasus");
         // dd(request('pegawai'));
 
 
@@ -326,6 +336,6 @@ class PraKasusController extends Controller
 
         $kasus->anggotaTim()->sync(request('pegawai'));
 
-        return redirect()->route('pra_kasus.show', ['pra_kasu' => $id]);
+        return redirect()->route('pra_kasus.show', ['pra_kasus' => $id]);
     }
 }

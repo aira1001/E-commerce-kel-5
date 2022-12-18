@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Redirect;
 
 class KasusController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -48,6 +49,7 @@ class KasusController extends Controller
      */
     public function store(Request $request)
     {
+        $this->middleware(['auth', 'checkRoleAdmin']);
         $this->validate($request, [
             'status_kasus' => 'required',
             'lembaga_pic' => 'required',
@@ -93,6 +95,8 @@ class KasusController extends Controller
      */
     public function edit($id_kasus)
     {
+        abort_if(Auth::user()->id_role == 5, 403);
+        // $this->middleware(['checkRolePembuatTim']);
         $kasus = Kasus::with(['prakasus.user', 'prakasus.pelaporFile', 'pegawaikasus', 'statuskasus', 'perintahdisposisi', 'lembagakepolisian'])->findOrFail($id_kasus);
         $listlembaga = LembagaKepolisian::all();
         $liststatus = StatusKasus::all();
@@ -110,6 +114,7 @@ class KasusController extends Controller
      */
     public function update(Request $request, $id_kasus)
     {
+        abort_if(Auth::user()->id_role == 5, 403);
         $kasus = Kasus::with('prakasus')->find($id_kasus);
         // dd($request->all());
         $this->validate($request, [
@@ -156,6 +161,7 @@ class KasusController extends Controller
      */
     public function destroy($id)
     {
+        abort_if(Auth::user()->id_role == 5, 403);
         DB::beginTransaction();
         try {
 

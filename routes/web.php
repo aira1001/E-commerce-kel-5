@@ -5,6 +5,7 @@ use App\Http\Controllers\PejabatController;
 use App\Http\Controllers\PelaporanKasusController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PraKasusController;
+use App\Models\Kasus;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -33,16 +34,17 @@ Route::get('/daftar_disporsisi', [PraKasusController::class, 'daftar']);
 Route::get('/disporsisi/{id}', [PraKasusController::class, 'open_data']);
 
 Route::middleware(['auth', 'checkRoleAdmin'])->group(function () {
-    Route::get('/kasus', [KasusController::class, 'index']);
-    Route::get('/kasus/create', [KasusController::class, 'create']);
-    Route::post('/kasus/store', [KasusController::class, 'store']);
-    Route::put('/kasus/update/{id_kasus}', [KasusController::class, 'update']);
+    // Route::get('/kasus', [KasusController::class, 'index']);
+    // Route::get('/kasus/create', [KasusController::class, 'create']);
+    // Route::post('/kasus/store', [KasusController::class, 'store']);
+    // Route::put('/kasus/update/{id_kasus}', [KasusController::class, 'update']);
     Route::get('/disporsisi', [PraKasusController::class, 'lembar_disporsisi']);
     Route::get('/daftar_disporsisi', [PraKasusController::class, 'daftar']);
     Route::get('/disporsisi/{id}', [PraKasusController::class, 'open_data']);
     Route::get('/disporsisi/cetak_pdf/{id}', [PraKasusController::class, 'cetak_pdf']);
-    Route::resource('kasus', KasusController::class);
+    // Route::resource('kasus', KasusController::class);
 });
+Route::resource('kasus', KasusController::class)->middleware(['auth', 'adminOrPembuatTim']);
 Route::middleware(['auth', 'checkRoleTim'])->group(function () {
     Route::get('/tim/kasus/{id_kasus}/PelaporanKasus/{id_pelaporan}', [PelaporanKasusController::class, 'edit']);
     Route::resource('pelaporanKasus', PelaporanKasusController::class)->except(['edit']);
@@ -53,12 +55,8 @@ Route::middleware(['auth', 'checkRoleMasyarakat'])->group(function () {
     Route::post('/pra_kasus/store', [PraKasusController::class, 'store']);
     Route::put('/pra_kasus/update/{id_pra_kasus}', [PraKasusController::class, 'update']);
     Route::resource('pra_kasus', PraKasusController::class);
-
-    Route::get('pra-kasus/{pra_kasus}/set-team', [PraKasusController::class, 'setTeam'])->name('team.create');
-    Route::post('pra-kasus/{pra_kasus}/set-team', [PraKasusController::class, 'storeTeam'])->name('team.store');
-    Route::get('pra-kasus/{pra_kasus}/edit-team', [PraKasusController::class, 'editTeam'])->name('team.edit');
-    Route::post('pra-kasus/{pra_kasus}/update-team', [PraKasusController::class, 'updateTeam'])->name('team.update');
 });
+
 Route::middleware(['auth', 'checkRolePejabat'])->group(function () {
     Route::resource('pelaporanKasus', PelaporanKasusController::class)->except(['edit', 'update', 'create']);
     Route::put('/pegawaiKasus/{id_kasus}',  [KasusController::class, 'updatePegawai']);
@@ -67,6 +65,14 @@ Route::middleware(['auth', 'checkRolePejabat'])->group(function () {
     Route::get('/daftar_disporsisi', [PraKasusController::class, 'daftar']);
 });
 
+Route::middleware(['auth', 'checkRolePembuatTim'])->group(function () {
+    Route::get('pra-kasus/{pra_kasus}/set-team', [PraKasusController::class, 'setTeam'])->name('team.create');
+    Route::post('pra-kasus/{pra_kasus}/set-team', [PraKasusController::class, 'storeTeam'])->name('team.store');
+    Route::get('pra-kasus/{pra_kasus}/edit-team', [PraKasusController::class, 'editTeam'])->name('team.edit');
+    Route::post('pra-kasus/{pra_kasus}/update-team', [PraKasusController::class, 'updateTeam'])->name('team.update');
+    // Route::resource('kasus', KasusController::class)->except(['create', 'edit', 'update', 'destroy']);
+    // Route::get('/kasus', [KasusController::class, 'index'])->except(['create', 'edit', 'update', 'destroy']);
+});
 
 
 Auth::routes();

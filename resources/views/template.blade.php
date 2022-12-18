@@ -39,7 +39,7 @@
                     </a>
                 </div>
                 <ul class="nav">
-                    @if (Auth::user()->id_role == 2)
+                    @if (Auth::user()->id_role == 2 || Auth::user()->id_role == 5 )
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url('/daftar_disporsisi') }}">
                                 <i class="nc-icon nc-icon nc-paper-2"></i>

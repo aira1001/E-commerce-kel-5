@@ -2,7 +2,8 @@
     <div class="content">
         <h3>{{ $pra_kasus->judul_kasus }}</h3>
         <div class="container-fluid">
-            <form method="POST" action="{{ route('team.store', ['pra_kasus' => $pra_kasus->id_pra_kasus ]) }}">
+            {{-- <form method="POST" action="{{ route('team.store', ['pra_kasus' => $pra_kasus->id_pra_kasus ]) }}"> --}}
+                <form method="POST" action="{{ route('team.store', ['pra_kasus' => $pra_kasus->id_pra_kasus ]) }}">
                 @csrf
 
                 <select name="pegawai[]" id="tom-select" multiple class="mb-2" required>

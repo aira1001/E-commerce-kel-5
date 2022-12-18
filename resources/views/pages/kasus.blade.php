@@ -80,14 +80,15 @@
                                     <td>{{ $k->created_at }}</td>
                                     {{-- <td>{{ $k->status }}</td> --}}
                                     <td>
-                                        <div class="form-inline">
-                                            <a href="{{ route('kasus.edit', $k->id) }}"
-                                                class="btn btn-warning mr-2">Edit</a>
-                                            {{-- <a href="{{route('kasus.destroy',$k->id)}}" class="btn btn-danger">Delete</a> --}}
-                                            <button class="btn btn-danger" data-toggle="modal"
-                                                data-target="#exampleModal">Delete</button>
-
-                                        </div>
+                                        @if (Auth::user()->id_role == 2)
+                                            <div class="form-inline">
+                                                <a href="{{ route('kasus.edit', $k->id) }}"
+                                                    class="btn btn-warning mr-2">Edit</a>
+                                                {{-- <a href="{{route('kasus.destroy',$k->id)}}" class="btn btn-danger">Delete</a> --}}
+                                                <button class="btn btn-danger" data-toggle="modal"
+                                                    data-target="#exampleModal">Delete</button>
+                                            </div>
+                                        @endif
                                     </td>
                                     <div class="modal fade" id="exampleModal" tabindex="-1"
                                         aria-labelledby="exampleModalLabel" aria-hidden="true">

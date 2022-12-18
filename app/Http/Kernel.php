@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\checkRolePembuatTiim;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -58,6 +59,8 @@ class Kernel extends HttpKernel
         'checkRoleTim' => \App\Http\Middleware\CheckRoleTim::class,
         'checkRoleAdmin' => \App\Http\Middleware\CheckRoleAdmin::class,
         'checkRolePejabat' => \App\Http\Middleware\CheckRolePejabat::class,
+        'checkRolePembuatTim' => \App\Http\Middleware\CheckRolePembuatTiim::class,
+        'adminOrPembuatTim' => \App\Http\Middleware\AdminOrPembuatTim::class,
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
