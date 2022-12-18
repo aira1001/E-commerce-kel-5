@@ -116,7 +116,7 @@ class PraKasusController extends Controller
 
     public function destroy($id_pra_kasus)
     {
-        dd($id_pra_kasus);
+        // dd($id_pra_kasus);
         DB::beginTransaction();
         try {
             //delete saksi
@@ -289,6 +289,7 @@ class PraKasusController extends Controller
         $anggota = Pegawai::all();
         return view('team.create', [
             'pra_kasus' => $kasus->prakasus,
+            'kasus' => $kasus,
             'anggota' => $anggota,
         ]);
     }

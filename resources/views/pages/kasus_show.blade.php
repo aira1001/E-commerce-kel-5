@@ -52,8 +52,8 @@
                             <div class="list-group-item flex-column align-items-start">
                                 <h5 class="mb-2 font-weight-bold">Perintah Disposisi : </h5>
                                 <p>{{ $kasus->perintahdisposisi->perintah ?? ' ' }}</p>
-                            </div>
-                            <div class="list-group-item flex-column align-items-start">
+? ' '}}</p>
+         <div class="list-group-item flex-column align-items-start">
                                 <h5 class="mb-3 font-weight-bold">Waktu Kejadian : </h5>
                                 <div class="d-flex w-25 justify-content-between">
                                     <div>

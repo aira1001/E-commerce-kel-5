@@ -12,6 +12,7 @@ use App\Models\PelaporFile;
 use App\Models\PerintahDisposisi;
 use App\Models\PraKasus;
 use App\Models\StatusKasus;
+use App\Models\TimKasus;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -81,8 +82,8 @@ class KasusController extends Controller
      */
     public function show($id_kasus)
     {
-        $kasus = Kasus::with(['prakasus', 'prakasus.user', 'prakasus.pelaporFile', 'prakasus.saksi', 'pegawaikasus', 'statuskasus', 'perintahdisposisi', 'lembagakepolisian'])->findOrFail($id_kasus);
-        // dd($kasus);
+        $kasus = Kasus::with(['prakasus', 'prakasus.user', 'prakasus.pelaporFile', 'prakasus.saksi', 'pegawaikasus', 'statuskasus', 'perintahdisposisi', 'lembagakepolisian', 'anggotaTim'])->findOrFail($id_kasus);
+        // dd($kasus->anggotaTim);
         // return json_decode($kasus);
         return view('pages.kasus_show', ['kasus' => $kasus]);
     }
@@ -173,6 +174,10 @@ class KasusController extends Controller
             $pelaporan_kasus = PelaporanKasus::where('id_kasus', $id);
             $pelaporan_kasus->delete();
 
+            //delete tim kasus
+            $tim_kasus = TimKasus::where('kasus_id', $id);
+            $tim_kasus->delete();
+
             // delete kasus
             $kasus = Kasus::find($id);
             $kasus->delete();
@@ -180,7 +185,6 @@ class KasusController extends Controller
             // delete pelaporan file
             $pelaporan_file = PelaporFile::where('id_pra_kasus', $kasus->id_pra_kasus);
             $pelaporan_file->delete();
-
 
             //delete saksi
             $saksi = Saksi::where('id_pra_kasus', $kasus->id_pra_kasus);
