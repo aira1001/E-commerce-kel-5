@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\PraKasus;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class KasusFactory extends Factory
@@ -15,7 +16,7 @@ class KasusFactory extends Factory
     {
         return [
             'tindak_pidana' => $this->faker->paragraph(3),
-            'id_pra_kasus' => mt_rand(1, 10),
+            'id_pra_kasus' =>$this->faker->unique()->numberBetween(1, PraKasus::class::count()),
             'id_status_kasus' => mt_rand(1, 3),
             'id_pegawai_pic' => mt_rand(1,10),
             'lembaga_pic' => mt_rand(1,10),

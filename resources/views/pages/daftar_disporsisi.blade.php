@@ -43,7 +43,7 @@
                     </div>
                 @endif
             @endif
-            <div class="card mt-5" style="width: 75rem;  margin: auto">
+            <div class="card mt-5" style="margin: auto">
                 <div class="card-header text-center">
                    Daftar Kasus
                 </div>
@@ -53,7 +53,7 @@
                             <tr>
                                 <th scope="col">Nama Kasus</th>
                                 <th scope="col">id_kasus</th>
-                                <th scope="col">Action</th>
+                                <th scope="col" class="border-right-0">Action</th>
                             </tr>
                         </thead>
                         <?php $nomer = 1;
@@ -68,9 +68,9 @@
                                     <a href="{{url('/disporsisi/cetak_pdf')}}/{{$value->id}}" class="btn btn btn-info"> Unduh Pdf</a>
                                 </td>
                             </tbody>
-                        <?php 
+                        <?php
                         } ?>
-                            
+
                     </table>
                 </div>
             </div>

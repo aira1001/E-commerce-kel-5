@@ -16,6 +16,7 @@ class PejabatController extends Controller
     {
 
         $pejabatKasus = Auth::user()->pejabat;
+        dd($pejabatKasus->kasus);
         return view("pages.pejabat_kasus", ["pejabatKasus" => $pejabatKasus]);
         // dd($pejabatKasus->kasus);
     }
