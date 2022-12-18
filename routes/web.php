@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('welcome2');
 });
 
 Route::get('/kasus', [KasusController::class, 'index']);

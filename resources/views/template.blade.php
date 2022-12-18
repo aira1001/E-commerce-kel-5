@@ -26,7 +26,7 @@
 
 <body>
     <div class="wrapper">
-        <div class="sidebar" data-image={{ asset('/assets/img/sidebar-5.jpg') }}>
+        <div class="sidebar" data-image={{ asset('/assets/img/sidebar-6.png') }} data-color="purple">
             <!--
         Tip 1: You can change the color of the sidebar using: data-color="purple | blue | green | orange | red"
 
@@ -34,8 +34,9 @@
     -->
             <div class="sidebar-wrapper">
                 <div class="logo">
+
                     <a href="javascript:;" class="simple-text">
-                        Your Logo
+                        SIPTIHAT POLRI
                     </a>
                 </div>
                 <ul class="nav">
@@ -63,7 +64,7 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('pelaporanKasus.index') }}">
                                 <i class="nc-icon nc-icon nc-paper-2"></i>
-                                <p>pelaporan kasus</p>
+                                <p>Pelaporan Kasus</p>
                             </a>
                         </li>
                     @elseif (Auth::user()->id_role == 3)
@@ -84,16 +85,16 @@
                     <li>
                         <a class="nav-link" href="/kasus">
                             <i class="nc-icon nc-bell-55"></i>
-                            <p>user</p>
+                            <p>Kasus</p>
                         </a>
                     </li>
 
-                    <li class="nav-item active active-pro">
+                    {{-- <li class="nav-item active active-pro">
                         <a class="nav-link active" href="javascript:;">
                             <i class="nc-icon nc-alien-33"></i>
                             <p>Upgrade plan</p>
                         </a>
-                    </li>
+                    </li> --}}
                 </ul>
             </div>
         </div>
@@ -101,7 +102,7 @@
             <!-- Navbar -->
             <nav class="navbar navbar-expand-lg " color-on-scroll="500">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="#pablo">Template</a>
+                    {{-- <a class="navbar-brand" href="#pablo">Template</a> --}}
                     <button href="" class="navbar-toggler navbar-toggler-right" type="button"
                         data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false"
                         aria-label="Toggle navigation">
