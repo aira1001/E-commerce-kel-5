@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Models\Kasus;
 use App\Models\LembagaKepolisian;
 use App\Models\Log;
+use App\Models\PelaporanKasus;
 use App\Models\Saksi;
 use App\Models\PelaporFile;
 use App\Models\PerintahDisposisi;
@@ -162,6 +163,10 @@ class KasusController extends Controller
             $log = Log::where('id_kasus', $id);
             $log->delete();
 
+            //delete pelaporan kasus
+            $pelaporan_kasus = PelaporanKasus::where('id_kasus', $id);
+            $pelaporan_kasus->delete();
+
             // delete kasus
             $kasus = Kasus::find($id);
             $kasus->delete();
@@ -169,6 +174,7 @@ class KasusController extends Controller
             // delete pelaporan file
             $pelaporan_file = PelaporFile::where('id_pra_kasus', $kasus->id_pra_kasus);
             $pelaporan_file->delete();
+
 
             //delete saksi
             $saksi = Saksi::where('id_pra_kasus', $kasus->id_pra_kasus);
