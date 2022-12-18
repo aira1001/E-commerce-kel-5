@@ -15,6 +15,7 @@ use App\Models\Saksi;
 use App\Models\StatusKasus;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -42,16 +43,14 @@ class DatabaseSeeder extends Seeder
             'role' => 'Pembuat Tim'
         ]);
 
-        //user seeder
-        User::factory(10)->create();
+         //user seeder
+        // User::factory(20)->create();
 
-        // admin seeder
-        User::create([
-            'name'=>'testAdmin',
-            'email'=>'tesadmin@example.com',
-            'password'=>'admintest123',
-            'id_role'=>2
-        ]);
+        //pegawai seeder
+        Pegawai::factory(10)->create();
+
+        //Lambaga kepolisian
+        LembagaKepolisian::factory(10)->create();
 
         //pra kasus seeder
         PraKasus::factory(10)->create();
@@ -127,12 +126,6 @@ class DatabaseSeeder extends Seeder
             'level_urgensi' => 'tingkat 3'
         ]);
 
-        //pegawai seeder
-        Pegawai::factory(10)->create();
-
-        //Lambaga kepolisian
-        LembagaKepolisian::factory(10)->create();
-
         //kasus seeder
         Kasus::factory(10)->create();
 
@@ -141,6 +134,5 @@ class DatabaseSeeder extends Seeder
 
         //saksi seeder
         Saksi::factory(20)->create();
-
     }
 }

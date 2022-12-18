@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class PegawaiFactory extends Factory
@@ -13,10 +14,14 @@ class PegawaiFactory extends Factory
      */
     public function definition()
     {
+        // dd(User::count());
         return [
             'nama' => $this->faker->name(),
             'nrp' => $this->faker->randomNumber(8, true),
-            'id_user' => mt_rand(1,10)
+            // 'id_user' => $this->faker->unique()->numberBetween(1, 15)
+            // 'id_user' => User::doesntHave('pegawai')->first()->id,
+            'id_user' => User::factory()
         ];
     }
+
 }
