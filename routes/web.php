@@ -5,6 +5,7 @@ use App\Http\Controllers\PejabatController;
 use App\Http\Controllers\PelaporanKasusController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PraKasusController;
+use App\Http\Controllers\ProfileController;
 use App\Models\Kasus;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,7 +21,7 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
 Route::get('/kasus', [KasusController::class, 'index']);
@@ -74,7 +75,7 @@ Route::middleware(['auth', 'checkRolePembuatTim'])->group(function () {
     // Route::get('/kasus', [KasusController::class, 'index'])->except(['create', 'edit', 'update', 'destroy']);
 });
 
-
+Route::resource('profile', ProfileController::class);
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

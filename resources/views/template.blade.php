@@ -40,20 +40,20 @@
                 </div>
                 <ul class="nav">
                     @if (Auth::user()->id_role == 2 || Auth::user()->id_role == 5 )
-                        <li class="nav-item">
+                        <li class="nav-item"{{request()->is('/disporsisi') ? 'active' : ''}}>
                             <a class="nav-link" href="{{ url('/daftar_disporsisi') }}">
                                 <i class="nc-icon nc-icon nc-paper-2"></i>
                                 <p>Disporsisi</p>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item{{request()->is('/kasus') ? 'active' : ''}}">
                             <a class="nav-link" href="{{ url('/kasus') }}">
                                 <i class="nc-icon nc-icon nc-paper-2"></i>
                                 <p>Kasus</p>
                             </a>
                         </li>
                     @elseif (Auth::user()->id_role == 1)
-                        <li class="nav-item">
+                        <li class="nav-item{{request()->is('/pra_kasus') ? 'active' : ''}}">
                             <a class="nav-link" href="{{ route('pra_kasus.index') }}">
                                 <i class="nc-icon nc-icon nc-paper-2"></i>
                                 <p>Pra Kasus</p>

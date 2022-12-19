@@ -99,6 +99,7 @@
                                         @else
                                             <span class="badge badge-pill badge-warning">kasus tidak dapat diedit</span>
                                         @endif
+
                                     </td>
 
                                 </tr>
