@@ -14,8 +14,8 @@ class UpdateAndAddForeignKeyToTimKasusTable extends Migration
     public function up()
     {
         Schema::table('tim_kasus', function (Blueprint $table) {
-            $table->foreign("id_pegawai_anggota")->references("id")->on("pegawai");
-            $table->foreign('id_kasus')->references('id')->on('kasus');
+            $table->foreign("pegawai_id")->references("id")->on("pegawai");
+            $table->foreign('kasus_id')->references('id')->on('kasus');
         });
     }
 

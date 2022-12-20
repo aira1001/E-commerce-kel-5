@@ -59,9 +59,9 @@
                                 <th scope="col">tempat kejadian</th>
                                 <th scope="col">judul kasus</th>
                                 {{-- <th>terlapor</th>
-                                <th>korban</th> --}}
+                            <th>korban</th> --}}
                                 {{-- <th>bagaimana_terjadi</th>
-                                <th>barang bukti</th> --}}
+                            <th>barang bukti</th> --}}
                                 {{-- <th>saksi</th> --}}
                                 <th scope="col">uraian singkat kejadian</th>
                                 <th scope="col">tanggal lapor</th>
@@ -99,6 +99,7 @@
                                         @else
                                             <span class="badge badge-pill badge-warning">kasus tidak dapat diedit</span>
                                         @endif
+
                                     </td>
                                     <div class="modal fade" id="exampleModal"
                                         aria-labelledby="exampleModalLabel" aria-hidden="true">

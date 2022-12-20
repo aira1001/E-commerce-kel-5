@@ -12,6 +12,7 @@ use App\Models\PelaporFile;
 use App\Models\PerintahDisposisi;
 use App\Models\PraKasus;
 use App\Models\StatusKasus;
+use App\Models\TimKasus;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,6 +20,7 @@ use Illuminate\Support\Facades\Redirect;
 
 class KasusController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -48,6 +50,7 @@ class KasusController extends Controller
      */
     public function store(Request $request)
     {
+        $this->middleware(['auth', 'checkRoleAdmin']);
         $this->validate($request, [
             'status_kasus' => 'required',
             'lembaga_pic' => 'required',
@@ -79,8 +82,8 @@ class KasusController extends Controller
      */
     public function show($id_kasus)
     {
-        $kasus = Kasus::with(['prakasus', 'prakasus.user', 'prakasus.pelaporFile', 'prakasus.saksi', 'pegawaikasus', 'statuskasus', 'perintahdisposisi', 'lembagakepolisian'])->findOrFail($id_kasus);
-        // dd($kasus);
+        $kasus = Kasus::with(['prakasus', 'prakasus.user', 'prakasus.pelaporFile', 'prakasus.saksi', 'pegawaikasus', 'statuskasus', 'perintahdisposisi', 'lembagakepolisian', 'anggotaTim'])->findOrFail($id_kasus);
+        // dd($kasus->anggotaTim);
         // return json_decode($kasus);
         return view('pages.kasus_show', ['kasus' => $kasus]);
     }
@@ -93,6 +96,8 @@ class KasusController extends Controller
      */
     public function edit($id_kasus)
     {
+        abort_if(Auth::user()->id_role == 5, 403);
+        // $this->middleware(['checkRolePembuatTim']);
         $kasus = Kasus::with(['prakasus.user', 'prakasus.pelaporFile', 'pegawaikasus', 'statuskasus', 'perintahdisposisi', 'lembagakepolisian'])->findOrFail($id_kasus);
         $listlembaga = LembagaKepolisian::all();
         $liststatus = StatusKasus::all();
@@ -110,6 +115,7 @@ class KasusController extends Controller
      */
     public function update(Request $request, $id_kasus)
     {
+        abort_if(Auth::user()->id_role == 5, 403);
         $kasus = Kasus::with('prakasus')->find($id_kasus);
         // dd($request->all());
         $this->validate($request, [
@@ -156,8 +162,10 @@ class KasusController extends Controller
      */
     public function destroy($id)
     {
+        abort_if(Auth::user()->id_role == 5, 403);
         DB::beginTransaction();
         try {
+            // dd($id);
 
             //delete log
             $log = Log::where('id_kasus', $id);
@@ -167,6 +175,10 @@ class KasusController extends Controller
             $pelaporan_kasus = PelaporanKasus::where('id_kasus', $id);
             $pelaporan_kasus->delete();
 
+            //delete tim kasus
+            $tim_kasus = TimKasus::where('kasus_id', $id);
+            $tim_kasus->delete();
+
             // delete kasus
             $kasus = Kasus::find($id);
             $kasus->delete();
@@ -174,7 +186,6 @@ class KasusController extends Controller
             // delete pelaporan file
             $pelaporan_file = PelaporFile::where('id_pra_kasus', $kasus->id_pra_kasus);
             $pelaporan_file->delete();
-
 
             //delete saksi
             $saksi = Saksi::where('id_pra_kasus', $kasus->id_pra_kasus);

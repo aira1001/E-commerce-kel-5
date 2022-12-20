@@ -146,7 +146,7 @@
                             </div>
                             {{-- <a class="btn btn-danger btn-sm" id="btn-tambah">
                                 <i class="fa fa-plus-square fa-2x" aria-hidden="true"></i> </a> --}}
-                            <button type="button" id="btn-tambah" class="btn btn-primary btn-sm mt-2">
+                            <button type="button" id="btn-tambah" class="btn btn-primary btn-sm mt-2 border-0">
                                 <i class="fa fa-plus-square fa-2x"></i>
                             </button>
                             @if ($errors->has('addMoreInputFields.*.nama'))

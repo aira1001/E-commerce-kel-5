@@ -27,7 +27,7 @@ class PelaporanKasusController extends Controller
 
         $pegawai = Auth::user()->pegawai;
 
-        dd($pegawai->kasus);
+        // dd($pegawai->kasus);
         // error_log($pegawai->kasus);
         // return json_decode($pegawai);
         return view('pages.pelaporan_kasus', ['pegawai' => $pegawai]);

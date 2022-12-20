@@ -1,8 +1,8 @@
-@extends('layouts.app')
+@extends('template')
 
 @section('content')
     <div class="container">
-        <div class="row justify-content-center">
+        <div class="row justify-content-center my-5">
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">{{ __('Dashboard') }}</div>
@@ -27,6 +27,8 @@
                             <a href="{{ route('pelaporanKasus.index') }}">go to pelaporan kasus dashboard</a>
                         @elseif ($id_role == 3)
                             <a href="{{ route('pejabatKasus.index') }}">go to kasus role pejabat dashboard</a>
+                        @elseif ($id_role == 5)
+                            <a href="{{ route('kasus.index') }}">go to kasus role pembuat tim dashboard</a>
                         @endif
 
                     </div>

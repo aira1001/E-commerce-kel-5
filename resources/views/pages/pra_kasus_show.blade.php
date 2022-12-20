@@ -6,7 +6,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    {{-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet"> --}}
+    {{--
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet"> --}}
 </head>
 
 @section('content')
@@ -40,11 +41,27 @@
                     <div class="card-header ">
                         <a href="{{ route('pra_kasus.index') }}" class="btn btn-primary mr-2">Kembali</a>
                         <h1 class="display-4 mb-1">Detail Kasus </h1>
-                        <div class="stats">
+                        {{-- @if (Auth::user()->id_role == 5)
+                            @if ($pra_kasus->kasus->anggotaTim()->count() == null)
+                                <a href="{{ route('team.create', ['pra_kasus' => $pra_kasus->id_pra_kasus]) }}"
+                                    class="btn btn-success">Buat Tim</a>
+                            @endif
+                        @endif --}}
+
+                        <div class="status">
                             <i class="fa fa-history"></i> Last Updated
                             {{ date('Y-m-d H:i:s', strtotime($pra_kasus->updated_at)) }}
                         </div>
                     </div>
+                    <p class="p-1 my-2 mx-2 text-white rounded" style="background: rgb(195, 164, 218)">
+                        Tim Kasus:
+                        @foreach ($pra_kasus->kasus->anggotaTim as $key => $pegawai)
+                            @if ($key != 0)
+                                <span>, </span>
+                            @endif
+                            <span>{{ $pegawai->nama }}</span>
+                        @endforeach
+                    </p>
                     <div class="card-body ">
                         <div class="list-group list-group-flush">
                             <div class="list-group-item flex-column align-items-start">
@@ -128,9 +145,9 @@
                                 @endforeach
                             </div>
                             {{-- <li class="list-group-item">Dapibus ac facilisis in</li>
-                            <li class="list-group-item">Morbi leo risus</li>
-                            <li class="list-group-item">Porta ac consectetur ac</li>
-                            <li class="list-group-item">Vestibulum at eros</li> --}}
+                                <li class="list-group-item">Morbi leo risus</li>
+                                <li class="list-group-item">Porta ac consectetur ac</li>
+                                <li class="list-group-item">Vestibulum at eros</li> --}}
                         </div>
                     </div>
                     <div class="card-footer ">
@@ -141,11 +158,12 @@
                         </div>
                         <hr>
                         {{-- <div class="stats">
-                            <i class="fa fa-history"></i> {{ __('Updated 3 minutes ago') }}
-                        </div> --}}
+                                <i class="fa fa-history"></i> {{ __('Updated 3 minutes ago') }}
+                            </div> --}}
                     </div>
                 </div>
-                {{-- </div> --}}
+                {{--
+                </div> --}}
             </div>
             {{-- <div class="row">
                 <div class="col-md-6">
@@ -188,7 +206,8 @@
                                                     </label>
                                                 </div>
                                             </td>
-                                            <td>{{ __('Sign contract for "What are conference organizers afraid of?"') }}
+                                            <td>{{ __('Sign contract for "What are conference organizers afraid of?"')
+                                                }}
                                             </td>
                                             <td class="td-actions text-right">
                                                 <button type="button" rel="tooltip" title="Edit Task"
@@ -211,7 +230,8 @@
                                                     </label>
                                                 </div>
                                             </td>
-                                            <td>{{ __('Lines From Great Russian Literature? Or E-mails From My Boss?') }}
+                                            <td>{{ __('Lines From Great Russian Literature? Or E-mails From My Boss?')
+                                                }}
                                             </td>
                                             <td class="td-actions text-right">
                                                 <button type="button" rel="tooltip" title="Edit Task"
@@ -234,7 +254,8 @@
                                                     </label>
                                                 </div>
                                             </td>
-                                            <td>{{ __('Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit') }}
+                                            <td>{{ __('Flooded: One year later, assessing what was lost and what was
+                                                found when a ravaging rain swept through metro Detroit') }}
                                             </td>
                                             <td class="td-actions text-right">
                                                 <button type="button" rel="tooltip" title="Edit Task"
@@ -256,7 +277,8 @@
                                                     </label>
                                                 </div>
                                             </td>
-                                            <td>{{ __('Create 4 Invisible User Experiences you Never Knew About') }}</td>
+                                            <td>{{ __('Create 4 Invisible User Experiences you Never Knew About') }}
+                                            </td>
                                             <td class="td-actions text-right">
                                                 <button type="button" rel="tooltip" title="Edit Task"
                                                     class="btn btn-info btn-simple btn-link">

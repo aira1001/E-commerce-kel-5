@@ -5,7 +5,8 @@
     <meta charset="utf-8" />
     <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
     <link rel="icon" type="image/png" href="../assets/img/favicon.ico">
-    {{-- <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /> --}}
+    {{--
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /> --}}
     <title>Light Bootstrap Dashboard - Free Bootstrap 4 Admin Dashboard by Creative Tim</title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
         name='viewport' />
@@ -15,18 +16,19 @@
     <!-- CSS Files -->
     <link href={{ asset('/assets/css/bootstrap.min.css') }} rel="stylesheet" />
     <link href={{ asset('/assets/css/light-bootstrap-dashboard.css?v=2.0.0 ') }} rel="stylesheet" />
-    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <!-- CSS Just for demo purpose, don' t include it in your project -->
     <link href={{ asset('/assets/css/demo.css') }} rel="stylesheet" />
-    {{-- <link href={{ asset('/assets/css/bootstrap5.min.css') }} rel="stylesheet" > --}}
 
-    {{-- jquery --}}
-    <script src={{ asset('/assets/js/core/jquery.3.2.1.min.js') }} type="text/javascript"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
+    {{--
+    <link href={{ asset('/assets/css/bootstrap5.min.css') }} rel="stylesheet"> --}}
 
 </head>
 
 <body>
     <div class="wrapper">
-        <div class="sidebar" data-image={{ asset('/assets/img/sidebar-6.png') }} data-color="purple">
+        <div class="sidebar" data-image={{ asset('/assets/img/sidebar-5.jpg') }}>
             <!--
         Tip 1: You can change the color of the sidebar using: data-color="purple | blue | green | orange | red"
 
@@ -34,67 +36,36 @@
     -->
             <div class="sidebar-wrapper">
                 <div class="logo">
-
                     <a href="javascript:;" class="simple-text">
-                        SIPTIHAT POLRI
+                        Your Logo
                     </a>
                 </div>
                 <ul class="nav">
-                    @if (Auth::user()->id_role == 2 || Auth::user()->id_role == 5 )
-                        <li class="nav-item"{{request()->is('/disporsisi') ? 'active' : ''}}>
-                            <a class="nav-link" href="{{ url('/daftar_disporsisi') }}">
-                                <i class="nc-icon nc-icon nc-paper-2"></i>
-                                <p>Disporsisi</p>
-                            </a>
-                        </li>
-                        <li class="nav-item{{request()->is('/kasus') ? 'active' : ''}}">
-                            <a class="nav-link" href="{{ url('/kasus') }}">
-                                <i class="nc-icon nc-icon nc-paper-2"></i>
-                                <p>Kasus</p>
-                            </a>
-                        </li>
-                    @elseif (Auth::user()->id_role == 1)
-                        <li class="nav-item{{request()->is('/pra_kasus') ? 'active' : ''}}">
-                            <a class="nav-link" href="{{ route('pra_kasus.index') }}">
-                                <i class="nc-icon nc-icon nc-paper-2"></i>
-                                <p>Pra Kasus</p>
-                            </a>
-                        </li>
-                    @elseif (Auth::user()->id_role == 4)
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('pelaporanKasus.index') }}">
-                                <i class="nc-icon nc-icon nc-paper-2"></i>
-                                <p>Pelaporan Kasus</p>
-                            </a>
-                        </li>
-                    @elseif (Auth::user()->id_role == 3)
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('pejabatKasus.index') }}">
-                                <i class="nc-icon nc-icon nc-paper-2"></i>
-                                <p>Lembaga Kepolisian</p>
-                            </a>
-                        </li>
-                        <!-- <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/daftar_disporsisi') }}">
-                                <i class="nc-icon nc-icon nc-paper-2"></i>
-                                <p>Disporsisi</p>
-                            </a>
-                        </li> -->
-                    @endif
-
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('pra_kasus.index')}}">
+                            <i class="nc-icon nc-icon nc-paper-2"></i>
+                            <p>Pra Kasus</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url('/daftar_disporsisi')}}">
+                            <i class="nc-icon nc-icon nc-paper-2"></i>
+                            <p>Disporsisi</p>
+                        </a>
+                    </li>
                     <li>
                         <a class="nav-link" href="/kasus">
                             <i class="nc-icon nc-bell-55"></i>
-                            <p>User</p>
+                            <p>user</p>
                         </a>
                     </li>
 
-                    {{-- <li class="nav-item active active-pro">
+                    <li class="nav-item active active-pro">
                         <a class="nav-link active" href="javascript:;">
                             <i class="nc-icon nc-alien-33"></i>
                             <p>Upgrade plan</p>
                         </a>
-                    </li> --}}
+                    </li>
                 </ul>
             </div>
         </div>
@@ -102,10 +73,9 @@
             <!-- Navbar -->
             <nav class="navbar navbar-expand-lg " color-on-scroll="500">
                 <div class="container-fluid">
-                    {{-- <a class="navbar-brand" href="#pablo">Template</a> --}}
-                    <button href="" class="navbar-toggler navbar-toggler-right" type="button"
-                        data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false"
-                        aria-label="Toggle navigation">
+                    <a class="navbar-brand" href="#pablo">Template</a>
+                    <button href="" class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                        aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-bar burger-lines"></span>
                         <span class="navbar-toggler-bar burger-lines"></span>
                         <span class="navbar-toggler-bar burger-lines"></span>
@@ -162,19 +132,16 @@
                             </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" id="navbarDropdown"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                                    role="button">
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
                                     {{ Auth::user()->name }}
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenu">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                        onclick="event.preventDefault();
+                                    <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                  document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                        class="d-none">
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
                                 </div>
@@ -183,7 +150,7 @@
                     </div>
                 </div>
             </nav>
-            @yield('content')
+            {{ $slot }}
             {{-- <footer class="footer">
                 <div class="container-fluid">
                     <nav>
@@ -303,7 +270,7 @@
 </body>
 
 <!--   Core JS Files   -->
-
+<script src={{ asset('/assets/js/core/jquery.3.2.1.min.js') }} type="text/javascript"></script>
 <script src={{ asset('/assets/js/core/popper.min.js') }} type="text/javascript"></script>
 <script src={{ asset('/assets/js/core/bootstrap.min.js') }} type="text/javascript"></script>
 <!--  Plugin for Switches, full documentation here: http://www.jque.re/plugins/version3/bootstrap.switch/ -->
@@ -316,5 +283,7 @@
 <script src={{ asset('/assets/js/light-bootstrap-dashboard.js?v=2.0.0') }} type="text/javascript"></script>
 <!-- Light Bootstrap Dashboard DEMO methods, don't include it in your project! -->
 <script src={{ asset('/assets/js/demo.js') }}></script>
+
+
 
 </html>
